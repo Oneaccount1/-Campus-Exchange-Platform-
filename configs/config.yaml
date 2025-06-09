@@ -1,0 +1,23 @@
+server:
+  port: 8080
+  mode: debug
+
+database:
+  driver: mysql
+  host: localhost
+  port: 3306
+  username: root
+  password: password
+  dbname: campus_exchange
+  charset: utf8mb4
+  max_idle_conns: 10
+  max_open_conns: 100
+
+jwt:
+  secret: your_jwt_secret_key
+  expiration: 24 # in hours
+
+upload:
+  save_path: ./uploads
+  allowed_types: jpg,jpeg,png,gif
+  max_size: 5 # in MB

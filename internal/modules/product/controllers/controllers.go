@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"campus/internal/models"
 	"campus/internal/modules/product/services"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -30,9 +31,17 @@ func (c *ProductController) ListProducts(ctx *gin.Context) {
 
 // CreateProduct 创建新商品
 func (c *ProductController) CreateProduct(ctx *gin.Context) {
-	// 这里需要解析请求体
-	// 示例代码，实际需要根据模型实现
-	ctx.JSON(http.StatusCreated, gin.H{"message": "Product created"})
+	var newProduct models.Product
+	if err := ctx.ShouldBindJSON(&newProduct); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	product, err := c.service.CreateProduct(newProduct)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusCreated, product)
 }
 
 // GetProductByID 根据ID获取商品
@@ -48,10 +57,18 @@ func (c *ProductController) GetProductByID(ctx *gin.Context) {
 
 // UpdateProduct 更新商品信息
 func (c *ProductController) UpdateProduct(ctx *gin.Context) {
-	//id := ctx.Param("id")
-	// 这里需要解析请求体
-	// 示例代码，实际需要根据模型实现
-	ctx.JSON(http.StatusOK, gin.H{"message": "Product updated"})
+	id := ctx.Param("id")
+	var updatedProduct models.Product
+	if err := ctx.ShouldBindJSON(&updatedProduct); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	product, err := c.service.UpdateProduct(id, updatedProduct)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, product)
 }
 
 // DeleteProduct 删除商品
@@ -63,4 +80,15 @@ func (c *ProductController) DeleteProduct(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusNoContent, nil)
+}
+
+// SearchProductsByKeyword 通过商品名称模糊查询商品
+func (c *ProductController) SearchProductsByKeyword(ctx *gin.Context) {
+	keyword := ctx.Query("keyword")
+	products, err := c.service.SearchProductsByKeyword(keyword)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, products)
 }

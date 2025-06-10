@@ -1,12 +1,13 @@
 package services
 
 import (
+	"campus/internal/models"
+	"campus/internal/modules/user/api"
+	"campus/internal/modules/user/repositories"
+	"campus/internal/utils/config"
+	"campus/internal/utils/errors"
 	"github.com/golang-jwt/jwt/v5"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/User/api"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/User/repositories"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/models"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/utils/config"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/utils/errors"
+
 	"golang.org/x/crypto/bcrypt"
 	"time"
 )

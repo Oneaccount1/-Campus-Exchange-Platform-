@@ -4,8 +4,8 @@ import (
 	"errors" // 标准库errors包
 	"net/http"
 
+	appErrors "campus/internal/utils/errors" // 自定义errors包，使用别名
 	"github.com/gin-gonic/gin"
-	appErrors "github/oneaccount1/-Campus-Exchange-Platform-/internal/utils/errors" // 自定义errors包，使用别名
 )
 
 // Response 统一响应结构体

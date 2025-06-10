@@ -1,11 +1,12 @@
 package middleware
 
 import (
+	"campus/internal/utils/config"
+	"campus/internal/utils/errors"
+	"campus/internal/utils/response"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/utils/config"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/utils/errors"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/utils/response"
+
 	"strings"
 )
 

@@ -1,11 +1,12 @@
 package controllers
 
 import (
+	"campus/internal/modules/user/api"
+	"campus/internal/modules/user/services"
+	"campus/internal/utils/errors"
+	"campus/internal/utils/response"
 	"github.com/gin-gonic/gin"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/User/api"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/User/services"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/utils/errors"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/utils/response"
+
 	"strconv"
 )
 

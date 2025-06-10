@@ -1,8 +1,8 @@
 package router
 
 import (
+	User "campus/internal/modules/user"
 	"github.com/gin-gonic/gin"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/User"
 )
 
 // 所有模块路由在这里注册

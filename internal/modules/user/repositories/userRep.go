@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/database"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/models"
+	"campus/internal/database"
+	"campus/internal/models"
 	"gorm.io/gorm"
 )
 

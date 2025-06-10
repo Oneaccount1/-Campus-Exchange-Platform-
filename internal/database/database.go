@@ -1,8 +1,9 @@
 package database
 
 import (
+	"campus/internal/utils/config"
 	"fmt"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/utils/config"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

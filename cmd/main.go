@@ -1,12 +1,13 @@
 package main
 
 import (
+	"campus/internal/database"
+	"campus/internal/models"
+	"campus/internal/router"
+	"campus/internal/utils/config"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/database"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/models"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/router"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/utils/config"
+
 	"log"
 	"os"
 	"path/filepath"

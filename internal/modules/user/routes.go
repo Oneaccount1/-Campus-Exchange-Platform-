@@ -1,9 +1,9 @@
 package User
 
 import (
+	"campus/internal/middleware"
+	"campus/internal/modules/user/controllers"
 	"github.com/gin-gonic/gin"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/User/controllers"
-	"github/oneaccount1/-Campus-Exchange-Platform-/internal/middleware"
 )
 
 // RegisterRoutes 注册User模块的所有路由

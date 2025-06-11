@@ -1,6 +1,9 @@
 server:
   port: 8080
+  # 可选值: debug, test, production
   mode: debug
+  # 是否强制初始化权限（设为true会覆盖数据库中的权限设置）
+  init_permissions: false
 
 database:
   driver: mysql
@@ -12,6 +15,7 @@ database:
   charset: utf8mb4
   max_idle_conns: 10
   max_open_conns: 100
+  conn_max_lifetime: 3600 # 连接最大生命周期(秒)
 
 jwt:
   secret: your_jwt_secret_key

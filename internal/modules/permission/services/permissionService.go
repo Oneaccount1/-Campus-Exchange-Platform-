@@ -1,7 +1,7 @@
 package services
 
 import (
-	"campus/internal/auth/casbin"
+	"campus/internal/bootstrap"
 	"campus/internal/modules/permission/api"
 	"campus/internal/utils/errors"
 	"fmt"
@@ -34,7 +34,7 @@ func NewPermissionService() PermissionService {
 
 // AddRoleForUser 为用户添加角色
 func (s *permissionService) AddRoleForUser(userID uint, role string) error {
-	enforcer := casbin.GetEnforcer()
+	enforcer := bootstrap.GetEnforcer()
 	sub := fmt.Sprintf("%d", userID)
 	_, err := enforcer.AddRoleForUser(sub, role)
 	if err != nil {
@@ -45,7 +45,7 @@ func (s *permissionService) AddRoleForUser(userID uint, role string) error {
 
 // DeleteRoleForUser 删除用户的角色
 func (s *permissionService) DeleteRoleForUser(userID uint, role string) error {
-	enforcer := casbin.GetEnforcer()
+	enforcer := bootstrap.GetEnforcer()
 	sub := fmt.Sprintf("%d", userID)
 	_, err := enforcer.DeleteRoleForUser(sub, role)
 	if err != nil {
@@ -56,7 +56,7 @@ func (s *permissionService) DeleteRoleForUser(userID uint, role string) error {
 
 // GetRolesForUser 获取用户的所有角色
 func (s *permissionService) GetRolesForUser(userID uint) ([]string, error) {
-	enforcer := casbin.GetEnforcer()
+	enforcer := bootstrap.GetEnforcer()
 	sub := fmt.Sprintf("%d", userID)
 	roles, err := enforcer.GetRolesForUser(sub)
 	if err != nil {
@@ -67,7 +67,7 @@ func (s *permissionService) GetRolesForUser(userID uint) ([]string, error) {
 
 // AddPermissionForRole 为角色添加权限
 func (s *permissionService) AddPermissionForRole(role string, obj string, act string) error {
-	enforcer := casbin.GetEnforcer()
+	enforcer := bootstrap.GetEnforcer()
 	_, err := enforcer.AddPolicy(role, obj, act)
 	if err != nil {
 		return errors.NewInternalServerError("添加权限失败", err)
@@ -77,7 +77,7 @@ func (s *permissionService) AddPermissionForRole(role string, obj string, act st
 
 // DeletePermissionForRole 删除角色的权限
 func (s *permissionService) DeletePermissionForRole(role string, obj string, act string) error {
-	enforcer := casbin.GetEnforcer()
+	enforcer := bootstrap.GetEnforcer()
 	_, err := enforcer.RemovePolicy(role, obj, act)
 	if err != nil {
 		return errors.NewInternalServerError("删除权限失败", err)
@@ -87,14 +87,14 @@ func (s *permissionService) DeletePermissionForRole(role string, obj string, act
 
 // CheckPermission 检查用户是否有权限
 func (s *permissionService) CheckPermission(userID uint, obj string, act string) (bool, error) {
-	enforcer := casbin.GetEnforcer()
+	enforcer := bootstrap.GetEnforcer()
 	sub := fmt.Sprintf("%d", userID)
 	return enforcer.Enforce(sub, obj, act)
 }
 
 // GetUserPermissions 获取用户的所有权限
 func (s *permissionService) GetUserPermissions(userID uint) (*api.PermissionListResponse, error) {
-	enforcer := casbin.GetEnforcer()
+	enforcer := bootstrap.GetEnforcer()
 	sub := fmt.Sprintf("%d", userID)
 
 	// 获取用户的所有角色

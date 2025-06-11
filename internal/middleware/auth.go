@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"campus/internal/utils/config"
+	"campus/internal/bootstrap"
 	"campus/internal/utils/errors"
 	"campus/internal/utils/response"
 	"github.com/gin-gonic/gin"
@@ -40,7 +40,7 @@ func JWTAuth() gin.HandlerFunc {
 			}
 
 			// 返回签名密钥
-			return []byte(config.GetJWTConfig().Secret), nil
+			return []byte(bootstrap.GetConfig().JWT.Secret), nil
 		})
 
 		if err != nil {
@@ -66,23 +66,5 @@ func JWTAuth() gin.HandlerFunc {
 
 // AdminAuth 管理员认证中间件
 func AdminAuth() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		// 先进行JWT认证
-		JWTAuth()(c)
-
-		// 如果认证失败，中间件链会中断，不会执行后续代码
-		if c.IsAborted() {
-			return
-		}
-
-		// 检查用户角色
-		role, exists := c.Get("role")
-		if !exists || role.(string) != "admin" {
-			response.HandleError(c, errors.NewForbiddenError("需要管理员权限", nil))
-			c.Abort()
-			return
-		}
-
-		c.Next()
-	}
+	return AuthorizeByRole("admin")
 }

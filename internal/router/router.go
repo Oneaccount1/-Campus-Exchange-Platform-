@@ -1,11 +1,11 @@
 package router
 
 import (
+	Permission "campus/internal/modules/permission"
+	Product "campus/internal/modules/product"
 	User "campus/internal/modules/user"
 	"github.com/gin-gonic/gin"
 )
-
-// 所有模块路由在这里注册
 
 // RegisterRoutes 注册所有路由
 func RegisterRoutes(r *gin.Engine) {
@@ -21,4 +21,9 @@ func registerModuleRoutes(r *gin.Engine, api *gin.RouterGroup) {
 	// 用户模块路由
 	User.RegisterRoutes(r, api)
 
+	// 权限模块路由
+	Permission.RegisterRoutes(r, api)
+
+	// 商品模块路由
+	Product.RegisterRoutes(r, api)
 }

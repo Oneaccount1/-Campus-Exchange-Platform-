@@ -1,11 +1,12 @@
 package services
 
 import (
+	"campus/internal/bootstrap"
 	"campus/internal/models"
 	"campus/internal/modules/user/api"
 	"campus/internal/modules/user/repositories"
-	"campus/internal/utils/config"
 	"campus/internal/utils/errors"
+	"fmt"
 	"github.com/golang-jwt/jwt/v5"
 
 	"golang.org/x/crypto/bcrypt"
@@ -67,6 +68,18 @@ func (u *userService) Register(data *api.UserRegister) (*api.UserResponse, error
 	if err = u.userRep.Create(user); err != nil {
 		return nil, errors.NewInternalServerError("创建用户失败", err)
 	}
+
+	// 为新用户分配"user"角色
+	enforcer := bootstrap.GetEnforcer()
+	if enforcer != nil {
+		userID := fmt.Sprintf("%d", user.ID)
+		_, err = enforcer.AddRoleForUser(userID, "user")
+		if err != nil {
+			// 记录错误但不影响注册流程
+			fmt.Printf("为用户分配角色失败: %v\n", err)
+		}
+	}
+
 	return convertToUserResponse(user), nil
 }
 
@@ -81,7 +94,7 @@ func (u *userService) Login(data *api.UserLogin) (*api.JWTResponse, error) {
 	}
 
 	// 获取JWT配置
-	jwtConfig := config.GetJWTConfig()
+	jwtConfig := bootstrap.GetConfig().JWT
 
 	// 生成JWT
 	expireTime := time.Now().Add(jwtConfig.Expiration)

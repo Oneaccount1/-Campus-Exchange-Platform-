@@ -21,7 +21,8 @@ func RegisterRoutes(r *gin.Engine, api *gin.RouterGroup) {
 
 	// 管理员路由 - 需要管理员权限
 	adminGroup := api.Group("/admin/users")
-	adminGroup.Use(middleware.AdminAuth())
+	adminGroup.Use(middleware.JWTAuth())
+	adminGroup.Use(middleware.AuthorizeByRole("admin"))
 	registerAdminRoutes(adminGroup, userController)
 }
 

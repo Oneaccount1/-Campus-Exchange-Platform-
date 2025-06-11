@@ -33,7 +33,8 @@ type JWTResponse struct {
 	ExpiresAt time.Time `json:"expires_at"`
 	UserID    uint      `json:"user_id"`
 	Username  string    `json:"username"`
-	Role      string    `json:"role"`
+	Role      string    `json:"role"`      // 主要角色（向后兼容）
+	RoleList  []string  `json:"role_list"` // 用户所有角色列表
 }
 
 // PasswordUpdate 密码更新请求对象

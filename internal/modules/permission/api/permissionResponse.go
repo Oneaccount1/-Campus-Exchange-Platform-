@@ -9,8 +9,6 @@ type Permission struct {
 
 // PermissionListResponse 用户权限列表响应
 type PermissionListResponse struct {
-	UserID      uint         `json:"user_id"`
-	Roles       []string     `json:"roles"`
 	Permissions []Permission `json:"permissions"`
 }
 

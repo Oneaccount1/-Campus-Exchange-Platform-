@@ -34,13 +34,21 @@ func registerPublicRoutes(router *gin.RouterGroup, controller *controllers.UserC
 
 // registerAuthRoutes 注册需要认证的路由
 func registerAuthRoutes(router *gin.RouterGroup, controller *controllers.UserController) {
-	router.GET("/profile", controller.GetProfile)
-	router.PUT("/profile", controller.UpdateProfile)
-	router.POST("/change-password", controller.ChangePassword)
-	router.GET("/:id", controller.GetUserByID)
+	// 个人资料 - 使用基于特定权限的中间件
+	profileGroup := router.Group("/profile")
+	profileGroup.GET("", middleware.AuthorizePermission("/api/v1/user/profile", "GET"), controller.GetProfile)
+	profileGroup.PUT("", middleware.AuthorizePermission("/api/v1/user/profile", "PUT"), controller.UpdateProfile)
+
+	// 修改密码 - 使用基于特定权限的中间件
+	router.POST("/change-password", middleware.AuthorizePermission("/api/v1/user/change-password", "POST"), controller.ChangePassword)
+
+	// 查看用户信息 - 使用基于特定权限的中间件
+	router.GET("/:id", middleware.AuthorizePermission("/api/v1/user/:id", "GET"), controller.GetUserByID)
 }
 
 // registerAdminRoutes 注册需要管理员权限的路由
 func registerAdminRoutes(router *gin.RouterGroup, controller *controllers.UserController) {
-	router.GET("", controller.ListUsers)
+	// 已经在adminGroup中添加了基于角色的权限验证中间件，这里不需要重复添加
+	// 但可以添加更具体的权限检查
+	router.GET("", middleware.AuthorizePermission("/api/v1/admin/users", "GET"), controller.ListUsers)
 }

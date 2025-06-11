@@ -171,5 +171,13 @@ func (c *PermissionController) GetUserPermissions(ctx *gin.Context) {
 		return
 	}
 
-	response.Success(ctx, permissions)
+	// 添加用户ID到响应中
+	response.Success(ctx, gin.H{
+		"user_id":     id,
+		"permissions": permissions.Permissions,
+		"roles": func() []string {
+			roles, _ := c.permissionService.GetRolesForUser(uint(id))
+			return roles
+		}(),
+	})
 }

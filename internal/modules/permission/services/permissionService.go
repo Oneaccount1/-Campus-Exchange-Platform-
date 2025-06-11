@@ -1,13 +1,14 @@
 package services
 
 import (
-	"campus/internal/bootstrap"
 	"campus/internal/modules/permission/api"
+	"campus/internal/modules/permission/repositories"
 	"campus/internal/utils/errors"
 	"fmt"
+	"strconv"
 )
 
-// PermissionService 权限管理服务接口
+// PermissionService 权限服务接口
 type PermissionService interface {
 	// 角色管理
 	AddRoleForUser(userID uint, role string) error
@@ -15,50 +16,75 @@ type PermissionService interface {
 	GetRolesForUser(userID uint) ([]string, error)
 
 	// 权限管理
-	AddPermissionForRole(role string, obj string, act string) error
-	DeletePermissionForRole(role string, obj string, act string) error
+	AddPermissionForRole(role, obj, act string) error
+	DeletePermissionForRole(role, obj, act string) error
 
 	// 权限检查
-	CheckPermission(userID uint, obj string, act string) (bool, error)
+	CheckPermission(userID uint, obj, act string) (bool, error)
 
 	// 获取用户权限列表
 	GetUserPermissions(userID uint) (*api.PermissionListResponse, error)
 }
 
-type permissionService struct{}
+// permissionService 权限服务实现
+type permissionService struct {
+	repo repositories.PermissionRepository
+}
 
 // NewPermissionService 创建权限服务实例
 func NewPermissionService() PermissionService {
-	return &permissionService{}
+	return &permissionService{
+		repo: repositories.NewPermissionRepository(),
+	}
 }
 
 // AddRoleForUser 为用户添加角色
 func (s *permissionService) AddRoleForUser(userID uint, role string) error {
-	enforcer := bootstrap.GetEnforcer()
-	sub := fmt.Sprintf("%d", userID)
-	_, err := enforcer.AddRoleForUser(sub, role)
+	// 转换用户ID为字符串
+	userIDStr := strconv.FormatUint(uint64(userID), 10)
+
+	// 使用仓库添加用户角色
+	err := s.repo.AddRoleForUser(userIDStr, role)
 	if err != nil {
 		return errors.NewInternalServerError("添加角色失败", err)
 	}
-	return nil
-}
 
-// DeleteRoleForUser 删除用户的角色
-func (s *permissionService) DeleteRoleForUser(userID uint, role string) error {
-	enforcer := bootstrap.GetEnforcer()
-	sub := fmt.Sprintf("%d", userID)
-	_, err := enforcer.DeleteRoleForUser(sub, role)
+	// 保存策略到数据库
+	err = s.repo.SavePolicy()
 	if err != nil {
-		return errors.NewInternalServerError("删除角色失败", err)
+		return errors.NewInternalServerError("保存权限策略失败", err)
 	}
+
 	return nil
 }
 
-// GetRolesForUser 获取用户的所有角色
+// DeleteRoleForUser 删除用户角色
+func (s *permissionService) DeleteRoleForUser(userID uint, role string) error {
+	// 转换用户ID为字符串
+	userIDStr := strconv.FormatUint(uint64(userID), 10)
+
+	// 使用仓库移除用户角色
+	err := s.repo.DeleteRoleForUser(userIDStr, role)
+	if err != nil {
+		return errors.NewInternalServerError("移除角色失败", err)
+	}
+
+	// 保存策略到数据库
+	err = s.repo.SavePolicy()
+	if err != nil {
+		return errors.NewInternalServerError("保存权限策略失败", err)
+	}
+
+	return nil
+}
+
+// GetRolesForUser 获取用户角色
 func (s *permissionService) GetRolesForUser(userID uint) ([]string, error) {
-	enforcer := bootstrap.GetEnforcer()
-	sub := fmt.Sprintf("%d", userID)
-	roles, err := enforcer.GetRolesForUser(sub)
+	// 转换用户ID为字符串
+	userIDStr := strconv.FormatUint(uint64(userID), 10)
+
+	// 使用仓库获取用户角色
+	roles, err := s.repo.GetRolesForUser(userIDStr)
 	if err != nil {
 		return nil, errors.NewInternalServerError("获取角色失败", err)
 	}
@@ -66,86 +92,98 @@ func (s *permissionService) GetRolesForUser(userID uint) ([]string, error) {
 }
 
 // AddPermissionForRole 为角色添加权限
-func (s *permissionService) AddPermissionForRole(role string, obj string, act string) error {
-	enforcer := bootstrap.GetEnforcer()
-	_, err := enforcer.AddPolicy(role, obj, act)
+func (s *permissionService) AddPermissionForRole(role, obj, act string) error {
+	// 使用仓库添加权限策略
+	err := s.repo.AddPolicy(role, obj, act)
 	if err != nil {
 		return errors.NewInternalServerError("添加权限失败", err)
 	}
+
+	// 保存策略到数据库
+	err = s.repo.SavePolicy()
+	if err != nil {
+		return errors.NewInternalServerError("保存权限策略失败", err)
+	}
+
 	return nil
 }
 
-// DeletePermissionForRole 删除角色的权限
-func (s *permissionService) DeletePermissionForRole(role string, obj string, act string) error {
-	enforcer := bootstrap.GetEnforcer()
-	_, err := enforcer.RemovePolicy(role, obj, act)
+// DeletePermissionForRole 删除角色权限
+func (s *permissionService) DeletePermissionForRole(role, obj, act string) error {
+	// 使用仓库移除权限策略
+	err := s.repo.RemovePolicy(role, obj, act)
 	if err != nil {
-		return errors.NewInternalServerError("删除权限失败", err)
+		return errors.NewInternalServerError("移除权限失败", err)
 	}
+
+	// 保存策略到数据库
+	err = s.repo.SavePolicy()
+	if err != nil {
+		return errors.NewInternalServerError("保存权限策略失败", err)
+	}
+
 	return nil
 }
 
 // CheckPermission 检查用户是否有权限
-func (s *permissionService) CheckPermission(userID uint, obj string, act string) (bool, error) {
-	enforcer := bootstrap.GetEnforcer()
-	sub := fmt.Sprintf("%d", userID)
-	return enforcer.Enforce(sub, obj, act)
+func (s *permissionService) CheckPermission(userID uint, obj, act string) (bool, error) {
+	// 转换用户ID为字符串
+	userIDStr := strconv.FormatUint(uint64(userID), 10)
+
+	// 使用仓库检查权限
+	hasPermission, err := s.repo.Enforce(userIDStr, obj, act)
+	if err != nil {
+		return false, errors.NewInternalServerError("权限检查失败", err)
+	}
+	return hasPermission, nil
 }
 
-// GetUserPermissions 获取用户的所有权限
+// GetUserPermissions 获取用户所有权限
 func (s *permissionService) GetUserPermissions(userID uint) (*api.PermissionListResponse, error) {
-	enforcer := bootstrap.GetEnforcer()
-	sub := fmt.Sprintf("%d", userID)
-
-	// 获取用户的所有角色
-	roles, err := enforcer.GetRolesForUser(sub)
+	// 获取用户角色
+	roles, err := s.GetRolesForUser(userID)
 	if err != nil {
-		return nil, errors.NewInternalServerError("获取角色失败", err)
+		return nil, err
 	}
 
-	// 用户的权限列表
-	var permissions []api.Permission
+	// 获取所有权限策略
+	allPermissions := make([]api.Permission, 0)
 
-	// 直接获取每个角色的权限，而不是获取所有策略再筛选
+	// 遍历每个角色，获取其权限
 	for _, role := range roles {
-		// 获取特定角色的权限策略
-		rolePolicies, err := enforcer.GetFilteredPolicy(0, role)
+		permissions, err := s.repo.GetPermissionsForRole(role)
 		if err != nil {
 			return nil, errors.NewInternalServerError("获取角色权限失败", err)
 		}
 
-		// 添加到权限列表
-		for _, policy := range rolePolicies {
-			if len(policy) >= 3 {
-				permissions = append(permissions, api.Permission{
-					Role:   role,
-					Object: policy[1],
-					Action: policy[2],
+		// 转换为API响应格式
+		for _, p := range permissions {
+			if len(p) >= 3 {
+				allPermissions = append(allPermissions, api.Permission{
+					Role:   p[0],
+					Object: p[1],
+					Action: p[2],
 				})
 			}
 		}
 	}
 
-	// 获取用户直接分配的权限（不通过角色）
-	userPolicies, err := enforcer.GetFilteredPolicy(0, sub)
+	// 添加用户直接拥有的权限（如果有）
+	userIDStr := fmt.Sprintf("%d", userID)
+	userPermissions, err := s.repo.GetPermissionsForUser(userIDStr)
 	if err != nil {
 		return nil, errors.NewInternalServerError("获取用户权限失败", err)
 	}
 
-	// 添加用户直接分配的权限
-	for _, policy := range userPolicies {
-		if len(policy) >= 3 {
-			permissions = append(permissions, api.Permission{
-				Role:   "direct", // 标记为直接分配的权限
-				Object: policy[1],
-				Action: policy[2],
+	for _, p := range userPermissions {
+		if len(p) >= 3 {
+			allPermissions = append(allPermissions, api.Permission{
+				Role:   "direct",
+				Object: p[1],
+				Action: p[2],
 			})
 		}
 	}
 
-	return &api.PermissionListResponse{
-		UserID:      userID,
-		Roles:       roles,
-		Permissions: permissions,
-	}, nil
+	return &api.PermissionListResponse{Permissions: allPermissions}, nil
 }

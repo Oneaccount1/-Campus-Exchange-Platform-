@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"campus/internal/bootstrap"
+	"campus/internal/modules/permission/repositories"
 	"campus/internal/utils/errors"
 	"campus/internal/utils/response"
 	"fmt"
@@ -26,9 +26,11 @@ func Authorize() gin.HandlerFunc {
 		// 将userID转换为字符串
 		sub := fmt.Sprintf("%d", userID.(uint))
 
+		// 创建权限仓库
+		permissionRepo := repositories.NewPermissionRepository()
+
 		// 检查权限
-		enforcer := bootstrap.GetEnforcer()
-		ok, err := enforcer.Enforce(sub, obj, act)
+		ok, err := permissionRepo.Enforce(sub, obj, act)
 		if err != nil {
 			response.HandleError(c, errors.NewInternalServerError("权限检查失败", err))
 			c.Abort()
@@ -59,9 +61,11 @@ func AuthorizeByRole(role string) gin.HandlerFunc {
 		// 将userID转换为字符串
 		sub := fmt.Sprintf("%d", userID.(uint))
 
+		// 创建权限仓库
+		permissionRepo := repositories.NewPermissionRepository()
+
 		// 检查用户是否有指定角色
-		enforcer := bootstrap.GetEnforcer()
-		ok, err := enforcer.HasRoleForUser(sub, role)
+		ok, err := permissionRepo.HasRoleForUser(sub, role)
 		if err != nil {
 			response.HandleError(c, errors.NewInternalServerError("角色检查失败", err))
 			c.Abort()
@@ -92,9 +96,11 @@ func AuthorizePermission(obj string, act string) gin.HandlerFunc {
 		// 将userID转换为字符串
 		sub := fmt.Sprintf("%d", userID.(uint))
 
+		// 创建权限仓库
+		permissionRepo := repositories.NewPermissionRepository()
+
 		// 检查权限
-		enforcer := bootstrap.GetEnforcer()
-		ok, err := enforcer.Enforce(sub, obj, act)
+		ok, err := permissionRepo.Enforce(sub, obj, act)
 		if err != nil {
 			response.HandleError(c, errors.NewInternalServerError("权限检查失败", err))
 			c.Abort()

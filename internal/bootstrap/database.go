@@ -36,6 +36,10 @@ func AutoMigrateModels() error {
 	return database.AutoMigrate(
 		GetDB(),
 		&models.User{},
+		&models.Role{},
+		&models.Permission{},
+		&models.UserRole{},
+		&models.RolePermission{},
 		&models.Product{},
 		&models.Order{},
 		&models.Review{},

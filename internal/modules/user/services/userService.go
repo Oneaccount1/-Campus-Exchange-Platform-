@@ -61,6 +61,7 @@ func (u *userService) Register(data *api.UserRegister) (*api.UserResponse, error
 		Username:    data.Username,
 		Password:    string(password),
 		Email:       data.Email,
+		Nickname:    data.Nickname,
 		Phone:       data.Phone,
 		Role:        "user",
 		Description: data.Description,

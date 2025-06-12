@@ -12,6 +12,7 @@ type ProductService interface {
 	CreateProduct(product models.Product) (*models.Product, error)
 	UpdateProduct(id string, product models.Product) (*models.Product, error)
 	DeleteProduct(id string) error
+	SearchProductsByKeyword(keyword string) ([]models.Product, error)
 }
 
 // ProductServiceImpl 商品服务实现结构体
@@ -49,4 +50,9 @@ func (s *ProductServiceImpl) UpdateProduct(id string, product models.Product) (*
 // DeleteProduct 删除商品
 func (s *ProductServiceImpl) DeleteProduct(id string) error {
 	return s.repository.Delete(id)
+}
+
+// SearchProductsByKeyword 通过商品名称模糊查询商品
+func (s *ProductServiceImpl) SearchProductsByKeyword(keyword string) ([]models.Product, error) {
+	return s.repository.SearchProductsByKeyword(keyword)
 }

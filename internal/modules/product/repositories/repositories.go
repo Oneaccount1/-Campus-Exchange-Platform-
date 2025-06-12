@@ -3,6 +3,7 @@ package repositories
 import (
 	"campus/internal/bootstrap"
 	"campus/internal/models"
+	"errors"
 	"gorm.io/gorm"
 )
 
@@ -13,6 +14,7 @@ type ProductRepository interface {
 	Create(product models.Product) (*models.Product, error)
 	Update(id string, product models.Product) (*models.Product, error)
 	Delete(id string) error
+	SearchProductsByKeyword(keyword string) ([]models.Product, error)
 }
 
 // ProductRepositoryImpl 商品数据访问实现结构体
@@ -39,7 +41,7 @@ func (r *ProductRepositoryImpl) GetByID(id string) (*models.Product, error) {
 	var product models.Product
 	err := r.db.First(&product, "id = ?", id).Error
 	if err != nil {
-		if err == gorm.ErrRecordNotFound {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, nil
 		}
 		return nil, err
@@ -76,4 +78,15 @@ func (r *ProductRepositoryImpl) Update(id string, product models.Product) (*mode
 func (r *ProductRepositoryImpl) Delete(id string) error {
 	err := r.db.Delete(&models.Product{}, "id = ?", id).Error
 	return err
+}
+
+// SearchProductsByKeyword 通过商品名称模糊查询商品
+func (r *ProductRepositoryImpl) SearchProductsByKeyword(keyword string) ([]models.Product, error) {
+	var products []models.Product
+	query := "%" + keyword + "%"
+	err := r.db.Where("title LIKE ?", query).Find(&products).Error
+	if err != nil {
+		return nil, err
+	}
+	return products, nil
 }

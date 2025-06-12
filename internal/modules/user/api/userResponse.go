@@ -10,8 +10,7 @@ type UserResponse struct {
 	Email       string    `json:"email"`
 	Phone       string    `json:"phone"`
 	Avatar      string    `json:"avatar"`
-	Role        string    `json:"role"`      // 主要角色（向后兼容）
-	RoleList    []string  `json:"role_list"` // 用户所有角色列表
+	Roles       []string  `json:"roles"` // 用户所有角色
 	Description string    `json:"description"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`

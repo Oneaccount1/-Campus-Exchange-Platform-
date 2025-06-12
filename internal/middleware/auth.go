@@ -54,7 +54,20 @@ func JWTAuth() gin.HandlerFunc {
 			// 将用户信息保存到上下文
 			c.Set("user_id", uint(claims["user_id"].(float64)))
 			c.Set("username", claims["username"].(string))
-			c.Set("role", claims["role"].(string))
+
+			// 处理角色列表
+			if rolesRaw, ok := claims["roles"]; ok {
+				if rolesArray, ok := rolesRaw.([]interface{}); ok {
+					roles := make([]string, len(rolesArray))
+					for i, r := range rolesArray {
+						if roleStr, ok := r.(string); ok {
+							roles[i] = roleStr
+						}
+					}
+					c.Set("roles", roles)
+				}
+			}
+
 			c.Next()
 		} else {
 			response.HandleError(c, errors.NewUnauthorizedError("无效的令牌", nil))

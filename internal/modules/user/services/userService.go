@@ -10,6 +10,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 	"time"
 )
 
@@ -27,6 +28,14 @@ type userService struct {
 
 // convertToUserResponse 将User模型转换为UserResponse
 func convertToUserResponse(user *models.User) *api.UserResponse {
+	// 获取用户角色列表
+	roleList := make([]string, 0)
+	if len(user.Roles) > 0 {
+		for _, role := range user.Roles {
+			roleList = append(roleList, role.Name)
+		}
+	}
+
 	return &api.UserResponse{
 		ID:          user.ID,
 		Username:    user.Username,
@@ -34,7 +43,7 @@ func convertToUserResponse(user *models.User) *api.UserResponse {
 		Email:       user.Email,
 		Phone:       user.Phone,
 		Avatar:      user.Avatar,
-		Role:        user.Role,
+		Roles:       roleList,
 		Description: user.Description,
 		CreatedAt:   user.CreatedAt,
 		UpdatedAt:   user.UpdatedAt,
@@ -56,6 +65,13 @@ func (u *userService) Register(data *api.UserRegister) (*api.UserResponse, error
 	if err != nil {
 		return nil, errors.NewInternalServerError("密码加密失败", err)
 	}
+
+	// 开启事务
+	tx := bootstrap.GetDB().Begin()
+	if tx.Error != nil {
+		return nil, errors.NewInternalServerError("开启事务失败", tx.Error)
+	}
+
 	// 创建用户
 	user := &models.User{
 		Username:    data.Username,
@@ -63,22 +79,48 @@ func (u *userService) Register(data *api.UserRegister) (*api.UserResponse, error
 		Email:       data.Email,
 		Nickname:    data.Nickname,
 		Phone:       data.Phone,
-		Role:        "user",
 		Description: data.Description,
 	}
-	if err = u.userRep.Create(user); err != nil {
+
+	if err = tx.Create(user).Error; err != nil {
+		tx.Rollback()
 		return nil, errors.NewInternalServerError("创建用户失败", err)
 	}
 
-	// 为新用户分配"user"角色
-	enforcer := bootstrap.GetEnforcer()
-	if enforcer != nil {
-		userID := fmt.Sprintf("%d", user.ID)
-		_, err = enforcer.AddRoleForUser(userID, "user")
-		if err != nil {
-			// 记录错误但不影响注册流程
-			fmt.Printf("为用户分配角色失败: %v\n", err)
+	// 查找默认用户角色
+	var userRole models.Role
+	if err = tx.Where("name = ?", "user").First(&userRole).Error; err != nil {
+		// 如果角色不存在，创建默认角色
+		if err == gorm.ErrRecordNotFound {
+			userRole = models.Role{
+				Name:        "user",
+				Description: "普通用户",
+			}
+			if err = tx.Create(&userRole).Error; err != nil {
+				tx.Rollback()
+				return nil, errors.NewInternalServerError("创建角色失败", err)
+			}
+		} else {
+			tx.Rollback()
+			return nil, errors.NewInternalServerError("查找角色失败", err)
 		}
+	}
+
+	// 关联用户和角色
+	if err = tx.Model(user).Association("Roles").Append(&userRole); err != nil {
+		tx.Rollback()
+		return nil, errors.NewInternalServerError("关联角色失败", err)
+	}
+
+	// 提交事务
+	if err = tx.Commit().Error; err != nil {
+		tx.Rollback()
+		return nil, errors.NewInternalServerError("提交事务失败", err)
+	}
+
+	// 加载用户角色关系
+	if err = bootstrap.GetDB().Model(user).Association("Roles").Find(&user.Roles); err != nil {
+		fmt.Printf("加载用户角色关系失败: %v\n", err)
 	}
 
 	return convertToUserResponse(user), nil
@@ -97,12 +139,29 @@ func (u *userService) Login(data *api.UserLogin) (*api.JWTResponse, error) {
 	// 获取JWT配置
 	jwtConfig := bootstrap.GetConfig().JWT
 
+	// 加载用户角色
+	if err := bootstrap.GetDB().Model(user).Association("Roles").Find(&user.Roles); err != nil {
+		// 记录错误但不影响登录流程
+		fmt.Printf("加载用户角色关系失败: %v\n", err)
+	}
+
+	// 获取用户角色列表
+	roleList := make([]string, 0)
+	if len(user.Roles) > 0 {
+		for _, role := range user.Roles {
+			roleList = append(roleList, role.Name)
+		}
+	} else {
+		// 如果没有关联角色，使用默认角色
+		roleList = append(roleList, "user")
+	}
+
 	// 生成JWT
 	expireTime := time.Now().Add(jwtConfig.Expiration)
 	claims := jwt.MapClaims{
 		"user_id":  user.ID,
 		"username": user.Username,
-		"role":     user.Role,
+		"roles":    roleList,
 		"exp":      expireTime.Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -118,7 +177,7 @@ func (u *userService) Login(data *api.UserLogin) (*api.JWTResponse, error) {
 		ExpiresAt: expireTime,
 		UserID:    user.ID,
 		Username:  user.Username,
-		Role:      user.Role,
+		Roles:     roleList,
 	}, nil
 }
 
@@ -127,6 +186,12 @@ func (u *userService) GetByID(id uint) (*api.UserResponse, error) {
 	if err != nil {
 		return nil, errors.NewNotFoundError("用户", err)
 	}
+
+	// 加载用户角色
+	if err := bootstrap.GetDB().Model(user).Association("Roles").Find(&user.Roles); err != nil {
+		fmt.Printf("加载用户角色关系失败: %v\n", err)
+	}
+
 	return convertToUserResponse(user), nil
 }
 
@@ -159,6 +224,12 @@ func (u *userService) UpdateUser(id uint, data api.UserUpdate) (*api.UserRespons
 	if err = u.userRep.Update(user); err != nil {
 		return nil, errors.NewInternalServerError("更新用户信息失败", err)
 	}
+
+	// 加载用户角色
+	if err := bootstrap.GetDB().Model(user).Association("Roles").Find(&user.Roles); err != nil {
+		fmt.Printf("加载用户角色关系失败: %v\n", err)
+	}
+
 	return convertToUserResponse(user), nil
 }
 
@@ -188,6 +259,13 @@ func (u *userService) List(page, pageSize int) (*api.UserListResponse, error) {
 	users, total, err := u.userRep.List(page, pageSize)
 	if err != nil {
 		return nil, errors.NewInternalServerError("获取用户列表失败", err)
+	}
+
+	// 加载所有用户的角色
+	for i := range users {
+		if err := bootstrap.GetDB().Model(users[i]).Association("Roles").Find(&users[i].Roles); err != nil {
+			fmt.Printf("加载用户角色关系失败: %v\n", err)
+		}
 	}
 
 	userResponses := make([]api.UserResponse, 0, len(users))

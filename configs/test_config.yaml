@@ -1,0 +1,27 @@
+server:
+  port: 8080
+  # 测试模式
+  mode: test
+  init_permissions: false
+
+database:
+  driver: mysql
+  host: localhost
+  port: 3306
+  username: root
+  password: hzm132372
+  # 使用专门的测试数据库，避免影响生产数据
+  dbname: campus_test
+  charset: utf8mb4
+  max_idle_conns: 5
+  max_open_conns: 10
+  conn_max_lifetime: 3600 # 连接最大生命周期(秒)
+
+jwt:
+  secret: test_jwt_secret_key
+  expiration: 24 # in hours
+
+upload:
+  save_path: ./test_uploads
+  allowed_types: jpg,jpeg,png,gif
+  max_size: 5 # in MB 

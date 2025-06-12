@@ -58,6 +58,19 @@ func AuthorizeByRole(role string) gin.HandlerFunc {
 			return
 		}
 
+		// 首先检查上下文中的角色列表
+		if roleList, exists := c.Get("roles"); exists {
+			if roles, ok := roleList.([]string); ok {
+				for _, r := range roles {
+					if r == role {
+						// 找到匹配的角色，允许访问
+						c.Next()
+						return
+					}
+				}
+			}
+		}
+
 		// 将userID转换为字符串
 		sub := fmt.Sprintf("%d", userID.(uint))
 
@@ -108,6 +121,19 @@ func AuthorizePermission(obj string, act string) gin.HandlerFunc {
 		}
 
 		if !ok {
+			// 检查用户角色列表中是否有admin角色，admin拥有所有权限
+			if roleList, exists := c.Get("roles"); exists {
+				if roles, ok := roleList.([]string); ok {
+					for _, r := range roles {
+						if r == "admin" {
+							// 管理员拥有所有权限
+							c.Next()
+							return
+						}
+					}
+				}
+			}
+
 			response.HandleError(c, errors.NewForbiddenError("没有操作权限", nil))
 			c.Abort()
 			return

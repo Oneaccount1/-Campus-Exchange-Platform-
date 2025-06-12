@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"campus/internal/bootstrap"
+	"campus/internal/models"
 	"campus/internal/modules/permission/api"
 	"campus/internal/modules/permission/services"
 	"campus/internal/utils/errors"
@@ -38,10 +40,58 @@ func (c *PermissionController) AssignRole(ctx *gin.Context) {
 		return
 	}
 
-	// 分配角色
+	// 开启事务
+	tx := bootstrap.GetDB().Begin()
+	if tx.Error != nil {
+		response.HandleError(ctx, errors.NewInternalServerError("开启事务失败", tx.Error))
+		return
+	}
+
+	// 查找用户
+	var user models.User
+	if err := tx.First(&user, id).Error; err != nil {
+		tx.Rollback()
+		response.HandleError(ctx, errors.NewNotFoundError("用户", err))
+		return
+	}
+
+	// 查找角色
+	var role models.Role
+	if err := tx.Where("name = ?", req.Role).First(&role).Error; err != nil {
+		tx.Rollback()
+		response.HandleError(ctx, errors.NewNotFoundError("角色", err))
+		return
+	}
+
+	// 检查是否已经有该角色
+	var count int64
+	if err := tx.Model(&models.UserRole{}).Where("user_id = ? AND role_id = ?", user.ID, role.ID).Count(&count).Error; err != nil {
+		tx.Rollback()
+		response.HandleError(ctx, errors.NewInternalServerError("检查角色关联失败", err))
+		return
+	}
+
+	if count == 0 {
+		// 添加角色关联
+		if err := tx.Model(&user).Association("Roles").Append(&role); err != nil {
+			tx.Rollback()
+			response.HandleError(ctx, errors.NewInternalServerError("关联角色失败", err))
+			return
+		}
+	}
+
+	// 分配角色到Casbin
 	err = c.permissionService.AddRoleForUser(uint(id), req.Role)
 	if err != nil {
+		tx.Rollback()
 		response.HandleError(ctx, err)
+		return
+	}
+
+	// 提交事务
+	if err := tx.Commit().Error; err != nil {
+		tx.Rollback()
+		response.HandleError(ctx, errors.NewInternalServerError("提交事务失败", err))
 		return
 	}
 
@@ -65,10 +115,48 @@ func (c *PermissionController) RemoveRole(ctx *gin.Context) {
 		return
 	}
 
-	// 移除角色
+	// 开启事务
+	tx := bootstrap.GetDB().Begin()
+	if tx.Error != nil {
+		response.HandleError(ctx, errors.NewInternalServerError("开启事务失败", tx.Error))
+		return
+	}
+
+	// 查找用户
+	var user models.User
+	if err := tx.First(&user, id).Error; err != nil {
+		tx.Rollback()
+		response.HandleError(ctx, errors.NewNotFoundError("用户", err))
+		return
+	}
+
+	// 查找角色
+	var role models.Role
+	if err := tx.Where("name = ?", req.Role).First(&role).Error; err != nil {
+		tx.Rollback()
+		response.HandleError(ctx, errors.NewNotFoundError("角色", err))
+		return
+	}
+
+	// 移除角色关联
+	if err := tx.Model(&user).Association("Roles").Delete(&role); err != nil {
+		tx.Rollback()
+		response.HandleError(ctx, errors.NewInternalServerError("移除角色关联失败", err))
+		return
+	}
+
+	// 从Casbin移除角色
 	err = c.permissionService.DeleteRoleForUser(uint(id), req.Role)
 	if err != nil {
+		tx.Rollback()
 		response.HandleError(ctx, err)
+		return
+	}
+
+	// 提交事务
+	if err := tx.Commit().Error; err != nil {
+		tx.Rollback()
+		response.HandleError(ctx, errors.NewInternalServerError("提交事务失败", err))
 		return
 	}
 

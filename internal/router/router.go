@@ -1,6 +1,8 @@
 package router
 
 import (
+	Order "campus/internal/modules/order"
+	Product "campus/internal/modules/product"
 	User "campus/internal/modules/user"
 	"github.com/gin-gonic/gin"
 )
@@ -20,5 +22,11 @@ func RegisterRoutes(r *gin.Engine) {
 func registerModuleRoutes(r *gin.Engine, api *gin.RouterGroup) {
 	// 用户模块路由
 	User.RegisterRoutes(r, api)
+
+	// 订单模块路由
+	Order.RegisterRoutes(r, api)
+
+	// 商品模块路由
+	Product.RegisterRoutes(r, api)
 
 }

@@ -43,6 +43,12 @@ func Bootstrap(configPath string) error {
 		// 但我们应该记录错误
 	}
 
+	// 初始化消息系统
+	if err := InitMessaging(); err != nil {
+		log.Printf("消息系统初始化失败: %v", err)
+		return err
+	}
+
 	log.Println("应用初始化完成")
 	return nil
 }

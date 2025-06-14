@@ -50,7 +50,8 @@ func NewDatabase(dbConfig config.DatabaseConfig, serverMode string) (*gorm.DB, e
 	)
 
 	gormConfig := &gorm.Config{
-		Logger: newLogger,
+		Logger:                                   newLogger,
+		DisableForeignKeyConstraintWhenMigrating: true,
 	}
 
 	db, err := gorm.Open(mysql.Open(dsn), gormConfig)

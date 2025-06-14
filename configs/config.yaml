@@ -7,10 +7,10 @@ server:
 
 database:
   driver: mysql
-  host: localhost
+  host: 8.218.231.227
   port: 3306
-  username: root
-  password: hzm132372
+  username: gorse
+  password: gorse_pass
   dbname: campus
   charset: utf8mb4
   max_idle_conns: 10
@@ -25,3 +25,11 @@ upload:
   save_path: ./uploads
   allowed_types: jpg,jpeg,png,gif
   max_size: 5 # in MB
+
+# RabbitMQ配置
+rabbitmq:
+  url: amqp://guest:HZMhzm@030614@8.218.231.227:5672/ # 可以直接用URL，或者用下面的参数构建URL
+  host: localhost # 如果未提供URL，使用host、port、username和password
+  port: 5672
+  username: guest
+  password: guest

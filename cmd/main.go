@@ -1,10 +1,9 @@
 package main
 
 import (
-	"campus/internal/database"
-	"campus/internal/models"
+	"campus/internal/bootstrap"
+	"campus/internal/middleware"
 	"campus/internal/router"
-	"campus/internal/utils/config"
 	"fmt"
 	"github.com/gin-gonic/gin"
 
@@ -21,35 +20,26 @@ func main() {
 		log.Fatalf("获取工作目录失败: %v", err)
 	}
 
-	// 加载配置
+	// 配置文件路径
 	configPath := filepath.Join(workDir, "configs", "config.yaml")
-	if err := config.Init(configPath); err != nil {
-		log.Fatalf("加载配置失败: %v", err)
+
+	// 初始化应用
+	if err := bootstrap.Bootstrap(configPath); err != nil {
+		log.Fatalf("应用初始化失败: %v", err)
 	}
 
-	// 初始化数据库
-	if err := database.Init(); err != nil {
-		log.Fatalf("初始化数据库失败: %v", err)
-	}
-	defer database.Close()
-
-	// 自动迁移数据库表结构
-	if err := database.AutoMigrate(
-		&models.User{},
-		&models.Product{},
-		&models.Order{},
-		&models.Review{},
-		&models.Message{},
-	); err != nil {
-		log.Fatalf("数据库迁移失败: %v", err)
-	}
+	// 确保应用优雅关闭
+	defer bootstrap.Shutdown()
 
 	// 设置Gin模式
-	serverConfig := config.GetServerConfig()
+	serverConfig := bootstrap.GetConfig().Server
 	gin.SetMode(serverConfig.Mode)
 
 	// 创建Gin引擎
 	r := gin.Default()
+
+	// 应用CORS中间件
+	r.Use(middleware.CORS())
 
 	// 注册路由
 	router.RegisterRoutes(r)

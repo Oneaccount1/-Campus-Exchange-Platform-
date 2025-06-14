@@ -11,6 +11,6 @@ type User struct {
 	Email       string `gorm:"size:100;uniqueIndex" json:"email"`
 	Phone       string `gorm:"size:20" json:"phone"`
 	Avatar      string `gorm:"size:255" json:"avatar"`
-	Role        string `gorm:"size:20;default:user" json:"role"` // user, admin
+	Roles       []Role `gorm:"many2many:user_roles" json:"roles,omitempty"` // 用户拥有的所有角色
 	Description string `gorm:"size:500" json:"description"`
 }

@@ -1,7 +1,6 @@
 package repositories
 
 import (
-	"campus/internal/database"
 	"campus/internal/models"
 	"gorm.io/gorm"
 )
@@ -18,9 +17,9 @@ type OrderRepositoryImpl struct {
 	db *gorm.DB
 }
 
-func NewOrderRepository() OrderRepository {
+func NewOrderRepository(db *gorm.DB) OrderRepository {
 	return &OrderRepositoryImpl{
-		db: database.GetDB(),
+		db: db,
 	}
 }
 

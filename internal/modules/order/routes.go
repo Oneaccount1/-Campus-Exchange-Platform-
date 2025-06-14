@@ -1,14 +1,17 @@
 package order
 
 import (
+	"campus/internal/bootstrap"
 	"campus/internal/middleware"
 	"campus/internal/modules/order/controllers"
+	"campus/internal/modules/order/repositories"
+	"campus/internal/modules/order/services"
 	"github.com/gin-gonic/gin"
 )
 
 // RegisterRoutes 注册order模块的所有路由
 func RegisterRoutes(r *gin.Engine, api *gin.RouterGroup) {
-	orderController := controllers.NewOrderController()
+	orderController := controllers.NewOrderController(services.NewOrderService(repositories.NewOrderRepository(bootstrap.GetDB())))
 
 	// 订单路由 - 需要认证
 	orderGroup := api.Group("/order")

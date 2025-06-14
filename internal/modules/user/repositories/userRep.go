@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"campus/internal/database"
+	"campus/internal/bootstrap"
 	"campus/internal/models"
 	"gorm.io/gorm"
 )
@@ -71,6 +71,6 @@ func (u *userRepository) List(page, pageSize int) ([]*models.User, int64, error)
 
 func NewUserRepository() UserRepository {
 	return &userRepository{
-		db: database.GetDB(),
+		db: bootstrap.GetDB(),
 	}
 }

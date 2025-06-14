@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"campus/internal/database"
+	"campus/internal/bootstrap"
 	"campus/internal/models"
 	"errors"
 	"gorm.io/gorm"
@@ -25,7 +25,7 @@ type ProductRepositoryImpl struct {
 // NewProductRepository 创建新的商品数据访问实例
 func NewProductRepository() ProductRepository {
 	return &ProductRepositoryImpl{
-		db: database.GetDB(),
+		db: bootstrap.GetDB(),
 	}
 }
 

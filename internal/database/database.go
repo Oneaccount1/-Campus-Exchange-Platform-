@@ -1,41 +1,19 @@
 package database
 
 import (
-	"campus/internal/utils/config"
+	"campus/internal/config"
 	"fmt"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"log"
-	"sync"
+	"os"
 	"time"
 )
 
-// Database 数据库实例结构体
-type Database struct {
-	DB *gorm.DB
-}
-
-// 全局数据库实例
-var (
-	instance *Database
-	once     sync.Once
-	mu       sync.RWMutex
-)
-
-// Init 初始化数据库连接
-func Init() error {
-	var err error
-	once.Do(func() {
-		dbConfig := config.GetDatabaseConfig()
-		instance, err = connect(dbConfig)
-	})
-	return err
-}
-
-// connect 连接数据库（内部函数）
-func connect(dbConfig config.DatabaseConfig) (*Database, error) {
+// NewDatabase 创建数据库连接
+func NewDatabase(dbConfig config.DatabaseConfig, serverMode string) (*gorm.DB, error) {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=True&loc=Local",
 		dbConfig.Username,
 		dbConfig.Password,
@@ -45,14 +23,34 @@ func connect(dbConfig config.DatabaseConfig) (*Database, error) {
 		dbConfig.Charset,
 	)
 
-	// 设置日志级别
-	logMode := logger.Error
-	if config.GetServerConfig().Mode == "debug" {
+	// 根据服务器模式设置日志级别
+	logMode := logger.Error // 默认使用Error级别
+
+	switch serverMode {
+	case "debug":
+		// 调试模式：显示所有SQL
 		logMode = logger.Info
+	case "test":
+		// 测试模式：显示慢查询和错误
+		logMode = logger.Warn
+	case "production":
+		// 生产模式：只显示错误
+		logMode = logger.Error
 	}
 
+	// 创建自定义日志配置
+	newLogger := logger.New(
+		log.New(os.Stdout, "\r\n[GORM] ", log.LstdFlags), // io writer
+		logger.Config{
+			SlowThreshold:             time.Second, // 慢查询阈值
+			LogLevel:                  logMode,     // 日志级别
+			IgnoreRecordNotFoundError: true,        // 忽略记录未找到错误
+			Colorful:                  true,        // 彩色打印
+		},
+	)
+
 	gormConfig := &gorm.Config{
-		Logger: logger.Default.LogMode(logMode),
+		Logger: newLogger,
 	}
 
 	db, err := gorm.Open(mysql.Open(dsn), gormConfig)
@@ -68,63 +66,26 @@ func connect(dbConfig config.DatabaseConfig) (*Database, error) {
 
 	sqlDB.SetMaxIdleConns(dbConfig.MaxIdleConn)
 	sqlDB.SetMaxOpenConns(dbConfig.MaxOpenConn)
-	sqlDB.SetConnMaxLifetime(time.Hour) // 连接生命周期固定为1小时
+	sqlDB.SetConnMaxLifetime(dbConfig.ConnMaxLifetime) // 使用配置的连接生命周期
 
-	log.Println("数据库连接成功")
-	return &Database{DB: db}, nil
+	log.Printf("数据库连接成功，日志级别: %v", logMode)
+	return db, nil
 }
 
-// GetDB 获取数据库实例
-func GetDB() *gorm.DB {
-	mu.RLock()
-	defer mu.RUnlock()
-
-	if instance == nil {
-		log.Panic("数据库未初始化，请先调用 Init")
-	}
-	return instance.DB
-}
-
-// Close 关闭数据库连接
-func Close() error {
-	if instance == nil {
+// CloseDB 关闭数据库连接
+func CloseDB(db *gorm.DB) error {
+	if db == nil {
 		return nil
 	}
 
-	mu.Lock()
-	defer mu.Unlock()
-
-	sqlDB, err := instance.DB.DB()
+	sqlDB, err := db.DB()
 	if err != nil {
 		return err
 	}
 	return sqlDB.Close()
 }
 
-// Transaction 执行事务
-func Transaction(fn func(tx *gorm.DB) error) error {
-	return GetDB().Transaction(fn)
-}
-
 // AutoMigrate 自动迁移数据库表结构
-func AutoMigrate(models ...interface{}) error {
-	return GetDB().AutoMigrate(models...)
-}
-
-// Ping 检查数据库连接是否正常
-func Ping() error {
-	sqlDB, err := GetDB().DB()
-	if err != nil {
-		return err
-	}
-	return sqlDB.Ping()
-}
-
-// Stats 获取数据库连接池统计信息
-func Stats() interface{} {
-	sqlDB, err := GetDB().DB()
-	if err != nil {
-		return nil
-	}
-	return sqlDB.Stats()
+func AutoMigrate(db *gorm.DB, models ...interface{}) error {
+	return db.AutoMigrate(models...)
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"campus/internal/bootstrap"
+	"campus/internal/middleware"
 	"campus/internal/router"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -36,6 +37,9 @@ func main() {
 
 	// 创建Gin引擎
 	r := gin.Default()
+
+	// 应用CORS中间件
+	r.Use(middleware.CORS())
 
 	// 注册路由
 	router.RegisterRoutes(r)

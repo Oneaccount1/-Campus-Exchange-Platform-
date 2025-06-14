@@ -2,57 +2,150 @@ package services
 
 import (
 	"campus/internal/models"
+	"campus/internal/modules/product/api"
 	"campus/internal/modules/product/repositories"
+	"campus/internal/utils/errors"
+	"strconv"
 )
 
-// ProductService 商品服务接口
 type ProductService interface {
-	GetAllProducts() ([]models.Product, error)
-	GetProductByID(id string) (*models.Product, error)
-	CreateProduct(product models.Product) (*models.Product, error)
-	UpdateProduct(id string, product models.Product) (*models.Product, error)
+	GetAllProducts(page, size uint) (*api.ProductListResponse, error)
+	GetProductByID(id string) (*api.ProductResponse, error)
+	CreateProduct(data *api.CreateProductRequest) (*api.ProductResponse, error)
+	UpdateProduct(id string, data *api.UpdateProductRequest) (*api.ProductResponse, error)
 	DeleteProduct(id string) error
-	SearchProductsByKeyword(keyword string) ([]models.Product, error)
+	SearchProductsByKeyword(keyword string, page, size uint) (*api.ProductListResponse, error)
 }
 
-// ProductServiceImpl 商品服务实现结构体
 type ProductServiceImpl struct {
-	repository repositories.ProductRepository
+	productRep repositories.ProductRepository
+	imageRep   repositories.ProductImageRepository
 }
 
-// NewProductService 创建新的商品服务实例
 func NewProductService() ProductService {
 	return &ProductServiceImpl{
-		repository: repositories.NewProductRepository(),
+		productRep: repositories.NewProductRepository(),
+		imageRep:   repositories.NewProductImageRepository(),
 	}
 }
 
-// GetAllProducts 获取所有商品
-func (s *ProductServiceImpl) GetAllProducts() ([]models.Product, error) {
-	return s.repository.GetAll()
+func (s *ProductServiceImpl) GetAllProducts(page, size uint) (*api.ProductListResponse, error) {
+	products, total, err := s.productRep.GetAll(page, size)
+	if err != nil {
+		return nil, errors.NewInternalServerError("查询商品列表失败", err)
+	}
+
+	return api.ConvertToProductListResponse(products, uint(total), page, size), nil
 }
 
-// GetProductByID 根据ID获取商品
-func (s *ProductServiceImpl) GetProductByID(id string) (*models.Product, error) {
-	return s.repository.GetByID(id)
+func (s *ProductServiceImpl) GetProductByID(id string) (*api.ProductResponse, error) {
+	product, err := s.productRep.GetByID(id)
+	if err != nil {
+		return nil, errors.NewNotFoundError("商品", err)
+	}
+
+	return api.ConvertToProductResponse(product), nil
 }
 
-// CreateProduct 创建新商品
-func (s *ProductServiceImpl) CreateProduct(product models.Product) (*models.Product, error) {
-	return s.repository.Create(product)
+func (s *ProductServiceImpl) CreateProduct(data *api.CreateProductRequest) (*api.ProductResponse, error) {
+	product := &models.Product{
+		Title:       data.Title,
+		Description: data.Description,
+		Price:       data.Price,
+		Category:    data.Category,
+		Condition:   data.Condition,
+		UserID:      data.UserID,
+		Status:      data.Status,
+		SoldAt:      data.SoldAt,
+	}
+
+	productID, err := s.productRep.Create(product)
+	if err != nil {
+		return nil, errors.NewInternalServerError("创建商品失败", err)
+	}
+
+	// 添加对应的图片
+	var images []*models.ProductImage
+	for _, imageURL := range data.Images {
+		image := &models.ProductImage{
+			ProductID: productID,
+			ImageURL:  imageURL,
+		}
+		images = append(images, image)
+	}
+
+	err = s.imageRep.CreateImages(images)
+	if err != nil {
+		return nil, err
+	}
+
+	return api.ConvertToProductResponse(product), nil
 }
 
-// UpdateProduct 更新商品信息
-func (s *ProductServiceImpl) UpdateProduct(id string, product models.Product) (*models.Product, error) {
-	return s.repository.Update(id, product)
+func (s *ProductServiceImpl) UpdateProduct(id string, data *api.UpdateProductRequest) (*api.ProductResponse, error) {
+	_, err := s.productRep.GetByID(id)
+	if err != nil {
+		return nil, errors.NewNotFoundError("商品", err)
+	}
+
+	updatedProduct := &models.Product{
+		Title:       data.Title,
+		Description: data.Description,
+		Price:       data.Price,
+		Category:    data.Category,
+		Condition:   data.Condition,
+		Status:      data.Status,
+		SoldAt:      data.SoldAt,
+	}
+
+	if err := s.productRep.Update(id, updatedProduct); err != nil {
+		return nil, errors.NewInternalServerError("更新商品失败", err)
+	}
+
+	/*
+		更新图片
+	*/
+
+	// 删除旧图片
+	if err := s.imageRep.DeleteImagesByProductID(id); err != nil {
+		return nil, errors.NewInternalServerError("删除旧图片失败", err)
+	}
+
+	// 添加新图片
+	var images []*models.ProductImage
+	pid, err := strconv.Atoi(id)
+	for _, imageURL := range data.Images {
+		image := &models.ProductImage{
+			ProductID: uint(pid),
+			ImageURL:  imageURL,
+		}
+		images = append(images, image)
+	}
+
+	if err := s.imageRep.CreateImages(images); err != nil {
+		return nil, errors.NewInternalServerError("添加新图片失败", err)
+	}
+
+	updated, err := s.productRep.GetByID(id)
+	if err != nil {
+		return nil, errors.NewNotFoundError("商品", err)
+	}
+
+	return api.ConvertToProductResponse(updated), nil
 }
 
-// DeleteProduct 删除商品
 func (s *ProductServiceImpl) DeleteProduct(id string) error {
-	return s.repository.Delete(id)
+	if err := s.productRep.Delete(id); err != nil {
+		return errors.NewInternalServerError("删除商品失败", err)
+	}
+	return nil
 }
 
-// SearchProductsByKeyword 通过商品名称模糊查询商品
-func (s *ProductServiceImpl) SearchProductsByKeyword(keyword string) ([]models.Product, error) {
-	return s.repository.SearchProductsByKeyword(keyword)
+func (s *ProductServiceImpl) SearchProductsByKeyword(keyword string, page, size uint) (*api.ProductListResponse, error) {
+	products, total, err := s.productRep.SearchProductsByKeyword(keyword, page, size)
+	if err != nil {
+		return nil, errors.NewInternalServerError("搜索商品失败", err)
+	}
+
+	return api.ConvertToProductListResponse(products, uint(total), page, size), nil
 }

@@ -1,94 +1,106 @@
 package controllers
 
 import (
-	"campus/internal/models"
+	"campus/internal/modules/product/api"
 	"campus/internal/modules/product/services"
+	"campus/internal/utils/errors"
+	"campus/internal/utils/response"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
-// ProductController 商品控制器结构体
 type ProductController struct {
 	service services.ProductService
 }
 
-// NewProductController 创建新的商品控制器实例
 func NewProductController() *ProductController {
 	return &ProductController{
 		service: services.NewProductService(),
 	}
 }
 
-// ListProducts 获取商品列表
 func (c *ProductController) ListProducts(ctx *gin.Context) {
-	products, err := c.service.GetAllProducts()
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	var req api.GetProductsRequest
+	if err := ctx.ShouldBindQuery(&req); err != nil {
+		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
 		return
 	}
-	ctx.JSON(http.StatusOK, products)
+
+	products, err := c.service.GetAllProducts(req.Page, req.Size)
+	if err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+
+	response.Success(ctx, products)
 }
 
-// CreateProduct 创建新商品
-func (c *ProductController) CreateProduct(ctx *gin.Context) {
-	var newProduct models.Product
-	if err := ctx.ShouldBindJSON(&newProduct); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	product, err := c.service.CreateProduct(newProduct)
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	ctx.JSON(http.StatusCreated, product)
-}
-
-// GetProductByID 根据ID获取商品
 func (c *ProductController) GetProductByID(ctx *gin.Context) {
 	id := ctx.Param("id")
 	product, err := c.service.GetProductByID(id)
 	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		response.HandleError(ctx, err)
 		return
 	}
-	ctx.JSON(http.StatusOK, product)
+
+	response.Success(ctx, product)
 }
 
-// UpdateProduct 更新商品信息
+func (c *ProductController) CreateProduct(ctx *gin.Context) {
+	var req api.CreateProductRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
+		return
+	}
+
+	product, err := c.service.CreateProduct(&req)
+	if err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+
+	response.SuccessWithMessage(ctx, "商品创建成功", product)
+}
+
 func (c *ProductController) UpdateProduct(ctx *gin.Context) {
 	id := ctx.Param("id")
-	var updatedProduct models.Product
-	if err := ctx.ShouldBindJSON(&updatedProduct); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	var req api.UpdateProductRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
 		return
 	}
-	product, err := c.service.UpdateProduct(id, updatedProduct)
+
+	product, err := c.service.UpdateProduct(id, &req)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		response.HandleError(ctx, err)
 		return
 	}
-	ctx.JSON(http.StatusOK, product)
+
+	response.SuccessWithMessage(ctx, "商品更新成功", product)
 }
 
-// DeleteProduct 删除商品
 func (c *ProductController) DeleteProduct(ctx *gin.Context) {
 	id := ctx.Param("id")
-	err := c.service.DeleteProduct(id)
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	if err := c.service.DeleteProduct(id); err != nil {
+		response.HandleError(ctx, err)
 		return
 	}
-	ctx.JSON(http.StatusNoContent, nil)
+
+	response.SuccessWithMessage(ctx, "商品删除成功", nil)
 }
 
-// SearchProductsByKeyword 通过商品名称模糊查询商品
 func (c *ProductController) SearchProductsByKeyword(ctx *gin.Context) {
 	keyword := ctx.Query("keyword")
-	products, err := c.service.SearchProductsByKeyword(keyword)
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	var req api.GetProductsRequest
+	if err := ctx.ShouldBindQuery(&req); err != nil {
+		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
 		return
 	}
-	ctx.JSON(http.StatusOK, products)
+
+	products, err := c.service.SearchProductsByKeyword(keyword, req.Page, req.Size)
+	if err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+
+	response.Success(ctx, products)
 }

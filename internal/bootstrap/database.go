@@ -44,6 +44,7 @@ func AutoMigrateModels() error {
 		&models.Order{},
 		&models.Review{},
 		&models.Message{},
+		&models.ProductImage{},
 	)
 }
 

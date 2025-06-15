@@ -19,9 +19,9 @@ type OrderServiceImpl struct {
 	repository repositories.OrderRepository
 }
 
-func NewOrderService() OrderService {
+func NewOrderService(orderRep repositories.OrderRepository) OrderService {
 	return &OrderServiceImpl{
-		repository: repositories.NewOrderRepository(),
+		repository: orderRep,
 	}
 }
 

@@ -13,6 +13,7 @@ type ProductRepository interface {
 	Update(id string, product *models.Product) error
 	Delete(id string) error
 	SearchProductsByKeyword(keyword string, page, size uint) ([]*models.Product, int64, error)
+	GetProductsByUserID(userID uint, page, size uint) ([]*models.Product, int64, error)
 }
 
 type ProductRepositoryImpl struct {
@@ -36,14 +37,14 @@ func (r *ProductRepositoryImpl) GetAll(page, size uint) ([]*models.Product, int6
 
 	offset := (page - 1) * size
 	// 使用 Preload 预加载图片
-	err = r.db.Preload("Images").Offset(int(offset)).Limit(int(size)).Find(&products).Error
+	err = r.db.Preload("ProductImages").Offset(int(offset)).Limit(int(size)).Find(&products).Error
 	return products, total, err
 }
 
 func (r *ProductRepositoryImpl) GetByID(id string) (*models.Product, error) {
 	var product models.Product
 	// 使用 Preload 预加载图片
-	err := r.db.Preload("Images").First(&product, "id = ?", id).Error
+	err := r.db.Preload("ProductImages").First(&product, "id = ?", id).Error
 	return &product, err
 }
 
@@ -72,5 +73,25 @@ func (r *ProductRepositoryImpl) SearchProductsByKeyword(keyword string, page, si
 
 	offset := (page - 1) * size
 	err = r.db.Where("title LIKE ?", query).Offset(int(offset)).Limit(int(size)).Find(&products).Error
+	return products, total, err
+}
+
+// GetProductsByUserID 根据用户ID获取该用户发布的商品
+func (r *ProductRepositoryImpl) GetProductsByUserID(userID uint, page, size uint) ([]*models.Product, int64, error) {
+	var products []*models.Product
+	var total int64
+
+	err := r.db.Model(&models.Product{}).Where("user_id = ?", userID).Count(&total).Error
+	if err != nil {
+		return nil, 0, err
+	}
+
+	offset := (page - 1) * size
+	err = r.db.Where("user_id = ?", userID).
+		Preload("ProductImages").
+		Offset(int(offset)).
+		Limit(int(size)).
+		Find(&products).Error
+
 	return products, total, err
 }

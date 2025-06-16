@@ -9,6 +9,7 @@ import (
 // RegisterRoutes 注册User模块的所有路由
 func RegisterRoutes(r *gin.Engine, api *gin.RouterGroup) {
 	userController := controllers.NewUserController()
+	favoriteController := controllers.NewFavoriteController()
 
 	// 公开路由 - 不需要认证
 	publicGroup := api.Group("/auth")
@@ -18,6 +19,16 @@ func RegisterRoutes(r *gin.Engine, api *gin.RouterGroup) {
 	userGroup := api.Group("/user")
 	userGroup.Use(middleware.JWTAuth())
 	registerAuthRoutes(userGroup, userController)
+
+	// 收藏路由 - 需要认证
+	favoriteGroup := api.Group("/user/favorites")
+	favoriteGroup.Use(middleware.JWTAuth())
+	registerFavoriteRoutes(favoriteGroup, favoriteController)
+
+	// 用户商品路由 - 需要认证
+	productGroup := api.Group("/user/products")
+	productGroup.Use(middleware.JWTAuth())
+	registerProductRoutes(productGroup, favoriteController)
 
 	// 管理员路由 - 需要管理员权限
 	adminGroup := api.Group("/admin/users")
@@ -44,6 +55,19 @@ func registerAuthRoutes(router *gin.RouterGroup, controller *controllers.UserCon
 
 	// 查看用户信息 - 使用基于特定权限的中间件
 	router.GET("/:id", middleware.AuthorizePermission("/api/v1/user/:id", "GET"), controller.GetUserByID)
+}
+
+// registerFavoriteRoutes 注册收藏相关的路由
+func registerFavoriteRoutes(router *gin.RouterGroup, controller *controllers.FavoriteController) {
+	router.POST("", controller.AddFavorite)                   // 添加收藏
+	router.DELETE("/:productID", controller.RemoveFavorite)   // 取消收藏
+	router.GET("", controller.ListFavorites)                  // 获取收藏列表
+	router.GET("/check/:productID", controller.CheckFavorite) // 检查是否已收藏
+}
+
+// registerProductRoutes 注册用户商品相关的路由
+func registerProductRoutes(router *gin.RouterGroup, controller *controllers.FavoriteController) {
+	router.GET("", controller.ListUserProducts) // 获取用户发布的商品列表
 }
 
 // registerAdminRoutes 注册需要管理员权限的路由

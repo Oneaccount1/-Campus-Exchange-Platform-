@@ -52,7 +52,7 @@ func ToMessageResponse(msg *models.Message) MessageResponse {
 	}
 }
 
-// 将消息模型列表转换为响应
+// ToMessageResponseList 将消息模型列表转换为响应
 func ToMessageResponseList(messages []models.Message) []MessageResponse {
 	result := make([]MessageResponse, len(messages))
 	for i, msg := range messages {

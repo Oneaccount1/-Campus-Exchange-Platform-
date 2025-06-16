@@ -6,6 +6,7 @@ import (
 	"campus/internal/modules/product/repositories"
 	"campus/internal/utils/errors"
 	"strconv"
+	"time"
 )
 
 type ProductService interface {
@@ -56,7 +57,7 @@ func (s *ProductServiceImpl) CreateProduct(data *api.CreateProductRequest) (*api
 		Condition:   data.Condition,
 		UserID:      data.UserID,
 		Status:      data.Status,
-		SoldAt:      data.SoldAt,
+		SoldAt:      time.Now(),
 	}
 
 	productID, err := s.productRep.Create(product)
@@ -65,19 +66,20 @@ func (s *ProductServiceImpl) CreateProduct(data *api.CreateProductRequest) (*api
 	}
 
 	// 添加对应的图片
-	var images []*models.ProductImage
+	var images []models.ProductImage
 	for _, imageURL := range data.Images {
 		image := &models.ProductImage{
 			ProductID: productID,
 			ImageURL:  imageURL,
 		}
-		images = append(images, image)
+		images = append(images, *image)
 	}
 
 	err = s.imageRep.CreateImages(images)
 	if err != nil {
 		return nil, err
 	}
+	product.ProductImages = images
 
 	return api.ConvertToProductResponse(product), nil
 }
@@ -95,7 +97,7 @@ func (s *ProductServiceImpl) UpdateProduct(id string, data *api.UpdateProductReq
 		Category:    data.Category,
 		Condition:   data.Condition,
 		Status:      data.Status,
-		SoldAt:      data.SoldAt,
+		SoldAt:      time.Now(),
 	}
 
 	if err := s.productRep.Update(id, updatedProduct); err != nil {
@@ -112,14 +114,14 @@ func (s *ProductServiceImpl) UpdateProduct(id string, data *api.UpdateProductReq
 	}
 
 	// 添加新图片
-	var images []*models.ProductImage
+	var images []models.ProductImage
 	pid, err := strconv.Atoi(id)
 	for _, imageURL := range data.Images {
 		image := &models.ProductImage{
 			ProductID: uint(pid),
 			ImageURL:  imageURL,
 		}
-		images = append(images, image)
+		images = append(images, *image)
 	}
 
 	if err := s.imageRep.CreateImages(images); err != nil {

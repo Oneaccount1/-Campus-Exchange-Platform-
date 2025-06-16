@@ -30,7 +30,4 @@ func registerModuleRoutes(r *gin.Engine, api *gin.RouterGroup) {
 
 	// 权限模块路由
 	Permission.RegisterRoutes(r, api)
-
-	// 商品模块路由
-	Product.RegisterRoutes(r, api)
 }

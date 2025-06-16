@@ -36,14 +36,14 @@ func (r *ProductRepositoryImpl) GetAll(page, size uint) ([]*models.Product, int6
 
 	offset := (page - 1) * size
 	// 使用 Preload 预加载图片
-	err = r.db.Preload("Images").Offset(int(offset)).Limit(int(size)).Find(&products).Error
+	err = r.db.Preload("ProductImages").Offset(int(offset)).Limit(int(size)).Find(&products).Error
 	return products, total, err
 }
 
 func (r *ProductRepositoryImpl) GetByID(id string) (*models.Product, error) {
 	var product models.Product
 	// 使用 Preload 预加载图片
-	err := r.db.Preload("Images").First(&product, "id = ?", id).Error
+	err := r.db.Preload("ProductImages").First(&product, "id = ?", id).Error
 	return &product, err
 }
 

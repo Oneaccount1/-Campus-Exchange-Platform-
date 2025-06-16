@@ -3,11 +3,11 @@ server:
   # 可选值: debug, test, production
   mode: test
   # 是否强制初始化权限（设为true会覆盖数据库中的权限设置）
-  init_permissions: true
+  init_permissions: false
 
 database:
   driver: mysql
-  host: 8.218.231.227
+  host: 47.238.124.43
   port: 3306
   username: gorse
   password: gorse_pass
@@ -28,7 +28,7 @@ upload:
 
 # RabbitMQ配置
 rabbitmq:
-  url: amqp://guest:HZMhzm@030614@8.218.231.227:5672/ # 可以直接用URL，或者用下面的参数构建URL
+  url: amqp://guest:HZMhzm@030614@47.238.124.43:5672/ # 可以直接用URL，或者用下面的参数构建URL
   host: localhost # 如果未提供URL，使用host、port、username和password
   port: 5672
   username: guest

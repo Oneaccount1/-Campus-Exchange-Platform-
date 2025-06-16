@@ -32,16 +32,16 @@ func Bootstrap(configPath string) error {
 	}
 
 	// 初始化Casbin
-	if err := InitCasbin(); err != nil {
-		return err
-	}
+	//if err := InitCasbin(); err != nil {
+	//	return err
+	//}
 
 	// 初始化权限
-	if err := InitPermissions(); err != nil {
-		log.Printf("权限初始化失败: %v", err)
-		// 权限初始化失败不应该阻止应用启动
-		// 但我们应该记录错误
-	}
+	//if err := InitPermissions(); err != nil {
+	//	log.Printf("权限初始化失败: %v", err)
+	//	// 权限初始化失败不应该阻止应用启动
+	//	// 但我们应该记录错误
+	//}
 
 	// 初始化消息系统
 	if err := InitMessaging(); err != nil {

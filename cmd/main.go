@@ -41,6 +41,9 @@ func main() {
 	// 应用CORS中间件
 	r.Use(middleware.CORS())
 
+	// 全局panic捕获
+	r.Use(gin.Recovery())
+
 	// 注册路由
 	router.RegisterRoutes(r)
 

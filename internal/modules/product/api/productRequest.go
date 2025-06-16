@@ -1,28 +1,24 @@
 package api
 
-import "time"
-
 type CreateProductRequest struct {
-	Title       string    `json:"title" binding:"required"`
-	Description string    `json:"description"`
-	Price       float64   `json:"price" binding:"required"`
-	Images      []string  `json:"images"`
-	Category    string    `json:"category"`
-	Condition   string    `json:"condition"`
-	UserID      uint      `json:"user_id" binding:"required"`
-	Status      string    `json:"status"`
-	SoldAt      time.Time `json:"sold_at"`
+	Title       string   `json:"title" binding:"required"`
+	Description string   `json:"description"`
+	Price       float64  `json:"price" binding:"required"`
+	Images      []string `json:"images"`
+	Category    string   `json:"category"`
+	Condition   string   `json:"condition"`
+	UserID      uint     `json:"user_id" binding:"required"`
+	Status      string   `json:"status" binding:"required,oneof=售卖中 已下架"`
 }
 
 type UpdateProductRequest struct {
-	Title       string    `json:"title"`
-	Description string    `json:"description"`
-	Price       float64   `json:"price"`
-	Images      []string  `json:"images"`
-	Category    string    `json:"category"`
-	Condition   string    `json:"condition"`
-	Status      string    `json:"status"`
-	SoldAt      time.Time `json:"sold_at"`
+	Title       string   `json:"title"`
+	Description string   `json:"description"`
+	Price       float64  `json:"price"`
+	Images      []string `json:"images"`
+	Category    string   `json:"category"`
+	Condition   string   `json:"condition"`
+	Status      string   `json:"status" binding:"required,oneof=售卖中 已下架"`
 }
 
 type GetProductsRequest struct {

@@ -1,10 +1,10 @@
 package api
 
 type CreateOrderRequest struct {
-	BuyerID   uint    `json:"buyer_id" binding:"required"`
-	SellerID  uint    `json:"seller_id" binding:"required"`
-	ProductID uint    `json:"product_id" binding:"required"`
-	Price     float64 `json:"price" binding:"required"`
+	BuyerID   uint `json:"buyer_id" binding:"required"`
+	SellerID  uint `json:"seller_id" binding:"required"`
+	ProductID uint `json:"product_id" binding:"required"`
+	//Price     float64 `json:"price" binding:"required"`
 }
 
 type UpdateOrderStatusRequest struct {

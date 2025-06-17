@@ -16,6 +16,7 @@ type ProductService interface {
 	UpdateProduct(id string, data *api.UpdateProductRequest) (*api.ProductResponse, error)
 	DeleteProduct(id string) error
 	SearchProductsByKeyword(keyword string, page, size uint) (*api.ProductListResponse, error)
+	GetUserProducts(userID uint, page, size uint) (*api.ProductListResponse, error)
 }
 
 type ProductServiceImpl struct {
@@ -147,6 +148,15 @@ func (s *ProductServiceImpl) SearchProductsByKeyword(keyword string, page, size 
 	products, total, err := s.productRep.SearchProductsByKeyword(keyword, page, size)
 	if err != nil {
 		return nil, errors.NewInternalServerError("搜索商品失败", err)
+	}
+
+	return api.ConvertToProductListResponse(products, uint(total), page, size), nil
+}
+
+func (s *ProductServiceImpl) GetUserProducts(userID uint, page, size uint) (*api.ProductListResponse, error) {
+	products, total, err := s.productRep.GetByUserID(userID, page, size)
+	if err != nil {
+		return nil, errors.NewInternalServerError("查询用户发布商品失败", err)
 	}
 
 	return api.ConvertToProductListResponse(products, uint(total), page, size), nil

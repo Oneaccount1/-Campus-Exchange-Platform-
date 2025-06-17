@@ -25,4 +25,5 @@ func registerOrderRoutes(router *gin.RouterGroup, controller *controllers.OrderC
 	router.DELETE("/:id", controller.DeleteOrder)
 	router.PUT("/:id/status", controller.UpdateOrderStatus)
 	router.GET("/:id", controller.GetOrderByID)
+	router.GET("/user", controller.GetUserOrders)
 }

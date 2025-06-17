@@ -25,3 +25,9 @@ type GetProductsRequest struct {
 	Page uint `json:"page" form:"page" binding:"required,min=1"`
 	Size uint `json:"size" form:"size" binding:"required,min=1,max=100"`
 }
+
+type GetUserProductsRequest struct {
+	UserID uint `json:"user_id" form:"user_id" binding:"required"`
+	Page   uint `json:"page" form:"page" binding:"required,min=1"`
+	Size   uint `json:"size" form:"size" binding:"required,min=1,max=100"`
+}

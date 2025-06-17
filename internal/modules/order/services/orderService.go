@@ -30,7 +30,6 @@ func (s *OrderServiceImpl) CreateOrder(data *api.CreateOrderRequest) (*api.Order
 		BuyerID:   data.BuyerID,
 		SellerID:  data.SellerID,
 		ProductID: data.ProductID,
-		Price:     data.Price,
 		Status:    "卖家未处理",
 	}
 
@@ -56,7 +55,7 @@ func (s *OrderServiceImpl) UpdateOrderStatus(id uint, data *api.UpdateOrderStatu
 	}
 
 	// 校验订单当前状态是否为未处理，只有未处理状态才能修改为已同意或已拒绝
-	if order.Status != "未处理" {
+	if order.Status != "卖家未处理" {
 		return nil, errors.NewBadRequestError("订单状态不可修改", nil)
 	}
 

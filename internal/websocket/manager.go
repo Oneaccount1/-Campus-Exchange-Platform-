@@ -143,6 +143,15 @@ func (m *Manager) HandleConnection(w http.ResponseWriter, r *http.Request, userI
 		return
 	}
 
+	// 设置连接参数
+	conn.SetReadLimit(512 * 1024)                          // 读取限制
+	conn.SetReadDeadline(time.Now().Add(60 * time.Second)) // 读取超时
+	conn.SetPongHandler(func(string) error {
+		// 收到pong响应时更新超时时间
+		conn.SetReadDeadline(time.Now().Add(60 * time.Second))
+		return nil
+	})
+
 	// 连接成功， 创建用户连接
 	client := &Connection{
 		Conn: conn,
@@ -199,7 +208,9 @@ func (m *Manager) readPump(c *Connection, userID uint) {
 }
 
 func (m *Manager) writePump(c *Connection, userID uint) {
+	ticker := time.NewTicker(30 * time.Second)
 	defer func() {
+		ticker.Stop()
 		c.Conn.Close()
 	}()
 
@@ -215,6 +226,10 @@ func (m *Manager) writePump(c *Connection, userID uint) {
 				}
 				return
 			}
+
+			// 设置写入超时
+			c.Conn.SetWriteDeadline(time.Now().Add(10 * time.Second))
+
 			// 获取 Writer
 			writer, err := c.Conn.NextWriter(websocket.TextMessage)
 			if err != nil {
@@ -237,6 +252,17 @@ func (m *Manager) writePump(c *Connection, userID uint) {
 					zap.Error(err))
 				return
 			}
+
+		case <-ticker.C:
+			// 发送心跳ping
+			c.Conn.SetWriteDeadline(time.Now().Add(10 * time.Second))
+			if err := c.Conn.WriteMessage(websocket.PingMessage, nil); err != nil {
+				logger.Warn("发送WebSocket心跳失败",
+					zap.Uint("用户ID", userID),
+					zap.Error(err))
+				return
+			}
+			logger.Debug("已发送WebSocket心跳", zap.Uint("用户ID", userID))
 		}
 	}
 }

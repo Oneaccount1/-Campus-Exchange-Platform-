@@ -13,7 +13,7 @@ type UpdateOrderStatusRequest struct {
 }
 
 type GetUserOrdersRequest struct {
-	// 这里可根据需求添加分页等参数，当前无需额外参数
-	Page uint `json:"page" binding:"required"`
-	Size uint `json:"size" binding:"required"`
+	UserID uint `json:"user_id" form:"user_id" binding:"required"`
+	Page   uint `json:"page" form:"page" binding:"required,min=1"`
+	Size   uint `json:"size" form:"size" binding:"required,min=1,max=100"`
 }

@@ -92,27 +92,13 @@ func (c *OrderController) GetOrderByID(ctx *gin.Context) {
 }
 
 func (c *OrderController) GetUserOrders(ctx *gin.Context) {
-	// 假设从 JWT 中间件中获取当前用户 ID
-	buyerID, exists := ctx.Get("userID")
-	if !exists {
-		response.HandleError(ctx, errors.NewUnauthorizedError("未获取到用户 ID", nil))
-		return
-	}
-
-	// 类型转换
-	userID, ok := buyerID.(uint)
-	if !ok {
-		response.HandleError(ctx, errors.NewInternalServerError("用户 ID 类型转换失败", nil))
-		return
-	}
-
 	var req api.GetUserOrdersRequest
 	if err := ctx.ShouldBindQuery(&req); err != nil {
 		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
 		return
 	}
 
-	orders, err := c.service.GetUserOrders(userID, req.Page, req.Size)
+	orders, err := c.service.GetUserOrders(req.UserID, req.Page, req.Size)
 	if err != nil {
 		response.HandleError(ctx, err)
 		return

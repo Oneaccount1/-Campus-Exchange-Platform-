@@ -104,3 +104,19 @@ func (c *ProductController) SearchProductsByKeyword(ctx *gin.Context) {
 
 	response.Success(ctx, products)
 }
+
+func (c *ProductController) GetUserProducts(ctx *gin.Context) {
+	var req api.GetUserProductsRequest
+	if err := ctx.ShouldBindQuery(&req); err != nil {
+		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
+		return
+	}
+
+	products, err := c.service.GetUserProducts(req.UserID, req.Page, req.Size)
+	if err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+
+	response.Success(ctx, products)
+}

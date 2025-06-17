@@ -13,6 +13,7 @@ type Config struct {
 	JWT      JWTConfig
 	Upload   UploadConfig
 	RabbitMQ *RabbitMQConfig
+	Log      LogConfig
 }
 
 // ServerConfig 服务器配置
@@ -58,6 +59,22 @@ type RabbitMQConfig struct {
 	Port     string
 }
 
+// LogConfig 日志配置
+type LogConfig struct {
+	Level  string
+	Format string
+	Output struct {
+		Console bool
+		File    struct {
+			Path       string
+			MaxSize    int
+			MaxAge     int
+			MaxBackups int
+		}
+	}
+	Modules map[string]string
+}
+
 // LoadConfig 加载配置
 func LoadConfig(configPath string) (*Config, error) {
 	v := viper.New()
@@ -95,6 +112,59 @@ func LoadConfig(configPath string) (*Config, error) {
 	config.Upload.SavePath = v.GetString("upload.save_path")
 	config.Upload.AllowedTypes = v.GetStringSlice("upload.allowed_types")
 	config.Upload.MaxSize = v.GetInt("upload.max_size")
+
+	// 日志配置
+	config.Log.Level = v.GetString("log.level")
+	if config.Log.Level == "" {
+		// 根据服务器模式设置默认日志级别
+		switch config.Server.Mode {
+		case "debug":
+			config.Log.Level = "debug"
+		case "test":
+			config.Log.Level = "info"
+		case "production":
+			config.Log.Level = "warn"
+		default:
+			config.Log.Level = "info"
+		}
+	}
+
+	config.Log.Format = v.GetString("log.format")
+	if config.Log.Format == "" {
+		config.Log.Format = "console" // 默认使用控制台格式
+	}
+
+	config.Log.Output.Console = v.GetBool("log.output.console")
+	if !v.IsSet("log.output.console") {
+		config.Log.Output.Console = true // 默认输出到控制台
+	}
+
+	config.Log.Output.File.Path = v.GetString("log.output.file.path")
+	config.Log.Output.File.MaxSize = v.GetInt("log.output.file.max_size")
+	if config.Log.Output.File.MaxSize == 0 {
+		config.Log.Output.File.MaxSize = 100 // 默认100MB
+	}
+
+	config.Log.Output.File.MaxAge = v.GetInt("log.output.file.max_age")
+	if config.Log.Output.File.MaxAge == 0 {
+		config.Log.Output.File.MaxAge = 7 // 默认7天
+	}
+
+	config.Log.Output.File.MaxBackups = v.GetInt("log.output.file.max_backups")
+	if config.Log.Output.File.MaxBackups == 0 {
+		config.Log.Output.File.MaxBackups = 10 // 默认10个备份
+	}
+
+	// 模块日志级别
+	config.Log.Modules = make(map[string]string)
+	if v.IsSet("log.modules") {
+		modulesMap := v.GetStringMap("log.modules")
+		for k, v := range modulesMap {
+			if level, ok := v.(string); ok {
+				config.Log.Modules[k] = level
+			}
+		}
+	}
 
 	// RabbitMQ配置
 	if v.IsSet("rabbitmq") {

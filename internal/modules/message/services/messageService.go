@@ -9,6 +9,7 @@ import (
 	"campus/internal/websocket"
 	"encoding/json"
 	"log"
+	"strconv"
 	"sync"
 	"time"
 )
@@ -35,6 +36,12 @@ type MessageService interface {
 
 	// Close 关闭服务
 	Close() error
+
+	// GetUnreadCount 获取未读消息数量
+	GetUnreadCount(userID uint) (int64, error)
+
+	// GetLastMessage 获取与联系人的最后一条消息
+	GetLastMessage(userID, contactID uint) (*api.MessageResponse, error)
 }
 
 // messageService 消息服务实现
@@ -44,6 +51,10 @@ type messageService struct {
 	rabbitMQURL   string                         // RabbitMQ URL
 	messageQueues map[uint]*messaging.RabbitMQ   // 用户消息队列缓存
 	mu            sync.RWMutex                   // 读写锁
+}
+
+func (s *messageService) GetUnreadCount(userID uint) (int64, error) {
+	return s.repo.GetUnreadCount(userID)
 }
 
 // NewMessageService 创建消息服务实例
@@ -84,12 +95,17 @@ func (s *messageService) SendMessage(senderID uint, req api.SendMessageRequest) 
 	// 将消息发送到WebSocket（如果接收者在线）
 	if s.wsManager.IsUserOnline(req.ReceiverID) {
 		// 尝试通过WebSocket发送
-		messageJSON, _ := json.Marshal(messageResponse)
-		sent := s.wsManager.SendMessage(req.ReceiverID, messageJSON)
-
-		if !sent {
-			// WebSocket发送失败，使用RabbitMQ
+		messageJSON, err := json.Marshal(messageResponse)
+		if err != nil {
+			log.Printf("消息序列化失败: %v", err)
+			// 序列化失败，使用RabbitMQ作为备选
 			s.sendViaRabbitMQ(req.ReceiverID, message)
+		} else {
+			sent := s.wsManager.SendMessage(req.ReceiverID, messageJSON)
+			if !sent {
+				// WebSocket发送失败，使用RabbitMQ
+				s.sendViaRabbitMQ(req.ReceiverID, message)
+			}
 		}
 	} else {
 		// 接收者离线，使用RabbitMQ
@@ -126,7 +142,7 @@ func (s *messageService) getUserMessageQueue(userID uint) (*messaging.RabbitMQ, 
 
 	// 创建新的队列连接
 	queueName := messaging.GetUserQueue(userID)
-	routingKey := "user_" + string(rune(userID))
+	routingKey := "user_" + strconv.FormatUint(uint64(userID), 10)
 
 	rmq, err := messaging.NewRabbitMQ(
 		s.rabbitMQURL,
@@ -280,4 +296,17 @@ func (s *messageService) Close() error {
 	s.messageQueues = make(map[uint]*messaging.RabbitMQ)
 
 	return nil
+}
+
+// GetLastMessage 获取与联系人的最后一条消息
+func (s *messageService) GetLastMessage(userID, contactID uint) (*api.MessageResponse, error) {
+	// 获取最后一条消息
+	message, err := s.repo.GetLastMessage(userID, contactID)
+	if err != nil {
+		return nil, errors.NewInternalServerError("获取最近消息失败", err)
+	}
+
+	// 转换为响应格式
+	messageResponse := api.ToMessageResponse(message)
+	return &messageResponse, nil
 }

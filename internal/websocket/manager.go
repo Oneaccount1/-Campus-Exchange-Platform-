@@ -2,10 +2,13 @@ package websocket
 
 import (
 	"campus/internal/models"
+	"campus/internal/utils/logger"
+	"encoding/json"
 	"github.com/gorilla/websocket"
-	"log"
+	"go.uber.org/zap"
 	"net/http"
 	"sync"
+	"time"
 )
 
 var upgrader = websocket.Upgrader{
@@ -58,19 +61,20 @@ func (m *Manager) Start() {
 			if conn, ok := m.Clients[clientReg.UserID]; ok {
 				close(conn.Send)
 				delete(m.Clients, clientReg.UserID)
+				logger.Debugf("用户 %d 的旧连接已关闭", clientReg.UserID)
 			}
 			m.Clients[clientReg.UserID] = clientReg.Conn
 			m.ClientMux.Unlock()
-			log.Printf("用户 %d 已连接WebSocket", clientReg.UserID)
-		case UnregisterUserID := <-m.Unregister:
+			logger.Info("WebSocket连接建立", zap.Uint("用户ID", clientReg.UserID))
+
+		case userID := <-m.Unregister:
 			m.ClientMux.Lock()
-			if conn, ok := m.Clients[UnregisterUserID]; ok {
+			if conn, ok := m.Clients[userID]; ok {
 				close(conn.Send)
-				delete(m.Clients, UnregisterUserID)
-				log.Printf("用户 %d 已断开WebSocket连接", UnregisterUserID)
+				delete(m.Clients, userID)
+				logger.Info("WebSocket连接断开", zap.Uint("用户ID", userID))
 			}
 			m.ClientMux.Unlock()
-
 		}
 	}
 }
@@ -97,16 +101,45 @@ func (m *Manager) SendMessage(userID uint, message []byte) bool {
 
 // SendMessageToUser 发送消息模型到指定用户
 func (m *Manager) SendMessageToUser(message *models.Message) bool {
-	// 这里应添加消息转JSON代码
-	// ...
-	return false
+	// 将消息转换为JSON格式
+	messageResponse := struct {
+		ID         uint      `json:"id"`
+		SenderID   uint      `json:"sender_id"`
+		ReceiverID uint      `json:"receiver_id"`
+		Content    string    `json:"content"`
+		IsRead     bool      `json:"is_read"`
+		CreatedAt  time.Time `json:"created_at"`
+		ProductID  uint      `json:"product_id"`
+	}{
+		ID:         message.ID,
+		SenderID:   message.SenderID,
+		ReceiverID: message.ReceiverID,
+		Content:    message.Content,
+		IsRead:     message.IsRead,
+		CreatedAt:  message.CreatedAt,
+		ProductID:  message.ProductID,
+	}
+
+	messageJSON, err := json.Marshal(messageResponse)
+	if err != nil {
+		logger.Error("消息序列化失败",
+			zap.Uint("接收者ID", message.ReceiverID),
+			zap.Error(err))
+		return false
+	}
+
+	// 发送消息到接收者
+	return m.SendMessage(message.ReceiverID, messageJSON)
 }
 
-// 处理WebSocket连接
+// HandleConnection 处理WebSocket连接
 func (m *Manager) HandleConnection(w http.ResponseWriter, r *http.Request, userID uint) {
+	// 升级HTTP连接为WebSocket
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Println("WebSocket升级失败:", err)
+		logger.Error("WebSocket连接升级失败",
+			zap.Uint("用户ID", userID),
+			zap.Error(err))
 		return
 	}
 
@@ -126,6 +159,7 @@ func (m *Manager) HandleConnection(w http.ResponseWriter, r *http.Request, userI
 	go m.readPump(client, userID)
 	go m.writePump(client, userID)
 
+	logger.Debug("WebSocket处理协程已启动", zap.Uint("用户ID", userID))
 }
 
 func (m *Manager) readPump(c *Connection, userID uint) {
@@ -140,14 +174,30 @@ func (m *Manager) readPump(c *Connection, userID uint) {
 		_, message, err := c.Conn.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-				log.Printf("WebSocket错误: %v", err)
-				break
+				logger.Warn("WebSocket意外关闭",
+					zap.Uint("用户ID", userID),
+					zap.Error(err))
 			}
+			break
 		}
-		// 处理收到的消息(后续会添加)
-		log.Printf("从用户 %d 收到WebSocket消息: %s", userID, string(message))
+
+		// 处理ping消息
+		if string(message) == "ping" {
+			if err := c.Conn.WriteMessage(websocket.TextMessage, []byte("pong")); err != nil {
+				logger.Warn("发送pong响应失败",
+					zap.Uint("用户ID", userID),
+					zap.Error(err))
+			}
+			continue
+		}
+
+		// 只在调试级别记录收到的消息
+		logger.Debug("收到WebSocket消息",
+			zap.Uint("用户ID", userID),
+			zap.String("消息", string(message)))
 	}
 }
+
 func (m *Manager) writePump(c *Connection, userID uint) {
 	defer func() {
 		c.Conn.Close()
@@ -159,25 +209,34 @@ func (m *Manager) writePump(c *Connection, userID uint) {
 			// 通道关闭
 			if !ok {
 				if err := c.Conn.WriteMessage(websocket.CloseMessage, []byte{}); err != nil {
-					log.Printf("通道关闭, err : %v", err)
-					return
+					logger.Debug("关闭WebSocket连接失败",
+						zap.Uint("用户ID", userID),
+						zap.Error(err))
 				}
+				return
 			}
 			// 获取 Writer
 			writer, err := c.Conn.NextWriter(websocket.TextMessage)
 			if err != nil {
+				logger.Warn("获取WebSocket Writer失败",
+					zap.Uint("用户ID", userID),
+					zap.Error(err))
 				return
 			}
 
 			if _, err := writer.Write(message); err != nil {
-				log.Printf("写入消息错误 userID %d, err : %v", userID, err)
-				return
-			}
-			if err := writer.Close(); err != nil {
-				log.Printf("关闭写连接失败 err : %v", err)
+				logger.Warn("WebSocket消息写入失败",
+					zap.Uint("用户ID", userID),
+					zap.Error(err))
 				return
 			}
 
+			if err := writer.Close(); err != nil {
+				logger.Debug("关闭WebSocket Writer失败",
+					zap.Uint("用户ID", userID),
+					zap.Error(err))
+				return
+			}
 		}
 	}
 }

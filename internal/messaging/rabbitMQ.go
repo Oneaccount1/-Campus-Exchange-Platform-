@@ -1,9 +1,11 @@
 package messaging
 
 import (
+	"campus/internal/utils/logger"
 	"encoding/json"
 	"github.com/streadway/amqp"
-	"log"
+	"go.uber.org/zap"
+	"strconv"
 )
 
 // RabbitMQ 连接管理器
@@ -27,12 +29,22 @@ func NewRabbitMQ(url, exchangeName, queueName, routingKey string) (*RabbitMQ, er
 	}
 	var err error
 
+	logger.Debug("开始连接RabbitMQ",
+		zap.String("url", url),
+		zap.String("exchange", exchangeName),
+		zap.String("queue", queueName))
+
 	rmq.conn, err = amqp.Dial(url)
 	if err != nil {
+		logger.Error("RabbitMQ连接失败",
+			zap.String("url", url),
+			zap.Error(err))
 		return nil, err
 	}
+
 	rmq.chanel, err = rmq.conn.Channel()
 	if err != nil {
+		logger.Error("RabbitMQ创建通道失败", zap.Error(err))
 		return nil, err
 	}
 
@@ -47,6 +59,9 @@ func NewRabbitMQ(url, exchangeName, queueName, routingKey string) (*RabbitMQ, er
 		nil,
 	)
 	if err != nil {
+		logger.Error("RabbitMQ声明交换机失败",
+			zap.String("exchange", exchangeName),
+			zap.Error(err))
 		return nil, err
 	}
 
@@ -60,6 +75,9 @@ func NewRabbitMQ(url, exchangeName, queueName, routingKey string) (*RabbitMQ, er
 		nil,
 	)
 	if err != nil {
+		logger.Error("RabbitMQ声明队列失败",
+			zap.String("queue", queueName),
+			zap.Error(err))
 		return nil, err
 	}
 
@@ -72,9 +90,16 @@ func NewRabbitMQ(url, exchangeName, queueName, routingKey string) (*RabbitMQ, er
 		nil,
 	)
 	if err != nil {
+		logger.Error("RabbitMQ绑定队列到交换机失败",
+			zap.String("queue", queueName),
+			zap.String("exchange", exchangeName),
+			zap.Error(err))
 		return nil, err
 	}
-	log.Println("RabbitMQ初始化成功")
+
+	logger.Info("RabbitMQ初始化成功",
+		zap.String("exchange", exchangeName),
+		zap.String("queue", queueName))
 	return rmq, nil
 }
 
@@ -84,6 +109,9 @@ func (r *RabbitMQ) Close() error {
 		r.chanel.Close()
 	}
 	if r.conn != nil {
+		logger.Debug("关闭RabbitMQ连接",
+			zap.String("exchange", r.exchangeName),
+			zap.String("queue", r.queueName))
 		return r.conn.Close()
 	}
 	return nil
@@ -94,10 +122,11 @@ func (r *RabbitMQ) Close() error {
 func (r *RabbitMQ) Publish(data interface{}) error {
 	body, err := json.Marshal(data)
 	if err != nil {
+		logger.Error("RabbitMQ消息序列化失败", zap.Error(err))
 		return err
 	}
 
-	return r.chanel.Publish(
+	err = r.chanel.Publish(
 		r.exchangeName,
 		r.routingKey,
 		false,
@@ -108,11 +137,25 @@ func (r *RabbitMQ) Publish(data interface{}) error {
 			DeliveryMode: amqp.Persistent,
 		},
 	)
+
+	if err != nil {
+		logger.Error("RabbitMQ发布消息失败",
+			zap.String("exchange", r.exchangeName),
+			zap.String("routingKey", r.routingKey),
+			zap.Error(err))
+	} else {
+		logger.Debug("RabbitMQ发布消息成功",
+			zap.String("exchange", r.exchangeName),
+			zap.String("routingKey", r.routingKey),
+			zap.Int("size", len(body)))
+	}
+
+	return err
 }
 
 // Consume 消费消息
 func (r *RabbitMQ) Consume() (<-chan amqp.Delivery, error) {
-	return r.chanel.Consume(
+	deliveries, err := r.chanel.Consume(
 		r.queueName,
 		"",
 		false,
@@ -121,9 +164,19 @@ func (r *RabbitMQ) Consume() (<-chan amqp.Delivery, error) {
 		false,
 		nil,
 	)
+
+	if err != nil {
+		logger.Error("RabbitMQ启动消费者失败",
+			zap.String("queue", r.queueName),
+			zap.Error(err))
+	} else {
+		logger.Info("RabbitMQ启动消费者成功", zap.String("queue", r.queueName))
+	}
+
+	return deliveries, err
 }
 
-// GetUserQueue 获取用户专属队列
+// GetUserQueue 根据用户ID获取队列名
 func GetUserQueue(userID uint) string {
-	return "user_message_" + string(rune(userID))
+	return "user_queue_" + strconv.FormatUint(uint64(userID), 10)
 }

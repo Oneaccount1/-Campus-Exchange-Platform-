@@ -8,32 +8,35 @@ import (
 
 // MessageRepository 消息仓库接口
 type MessageRepository interface {
-	// 创建消息
+	// Create 创建消息
 	Create(message *models.Message) error
 
-	// 获取消息列表
+	// GetMessages 获取消息列表
 	GetMessages(userID, contactID uint, limit, offset int) ([]models.Message, int64, error)
 
-	// 标记特定消息为已读
+	// MarkAsRead 标记特定消息为已读
 	MarkAsRead(messageIDs []uint, userID uint) error
 
-	// 标记用户与联系人间的所有消息为已读
+	// MarkAllAsRead 标记用户与联系人间的所有消息为已读
 	MarkAllAsRead(userID, contactID uint) error
 
-	// 获取联系人列表
+	// GetContactList 获取联系人列表
 	GetContactList(userID uint) ([]models.User, []int64, []string, []int64, []uint, error)
 
-	// 获取未读消息数
+	// GetUnreadCount 获取未读消息数
 	GetUnreadCount(userID uint) (int64, error)
 
-	// 删除消息（软删除）
+	// Delete 删除消息（软删除）
 	Delete(messageID, userID uint) error
 
-	// 撤回消息
+	// Withdraw 撤回消息
 	Withdraw(messageID, userID uint) error
 
-	// 获取单个消息
+	// GetByID 获取单个消息
 	GetByID(messageID uint) (*models.Message, error)
+
+	// GetLastMessage 获取最后一条消息
+	GetLastMessage(userID, contactID uint) (*models.Message, error)
 }
 
 // messageRepository 消息仓库实现
@@ -187,5 +190,19 @@ func (r *messageRepository) Withdraw(messageID, userID uint) error {
 func (r *messageRepository) GetByID(messageID uint) (*models.Message, error) {
 	var message models.Message
 	err := r.db.First(&message, messageID).Error
+	return &message, err
+}
+
+// GetLastMessage 获取最后一条消息
+func (r *messageRepository) GetLastMessage(userID, contactID uint) (*models.Message, error) {
+	var message models.Message
+
+	// 查询用户和联系人之间的最后一条消息
+	// 这里的查询条件确保了只获取用户和联系人之间的消息，不管是谁发给谁的
+	err := r.db.Where(
+		"(sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)",
+		userID, contactID, contactID, userID,
+	).Order("created_at DESC").First(&message).Error
+
 	return &message, err
 }

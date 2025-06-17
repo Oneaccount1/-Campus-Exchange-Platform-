@@ -39,6 +39,13 @@ type ContactListResponse struct {
 	Contacts []ContactResponse `json:"contacts"` // 联系人列表
 }
 
+// ConversationResponse 会话响应
+type ConversationResponse struct {
+	ID       uint   `json:"id"`       // 联系人ID
+	Username string `json:"username"` // 联系人用户名
+	Avatar   string `json:"avatar"`   // 联系人头像
+}
+
 // ToMessageResponse 将Message模型转换为响应
 func ToMessageResponse(msg *models.Message) MessageResponse {
 	return MessageResponse{

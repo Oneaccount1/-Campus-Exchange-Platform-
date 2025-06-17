@@ -24,3 +24,9 @@ type MessageQueryParams struct {
 type WebSocketAuthRequest struct {
 	Token string `json:"token" binding:"required"` // 认证token
 }
+
+// CreateConversationRequest 创建会话请求
+type CreateConversationRequest struct {
+	UserID    uint `json:"user_id" binding:"required"` // 联系人ID
+	ProductID uint `json:"product_id"`                 // 商品ID（可选）
+}

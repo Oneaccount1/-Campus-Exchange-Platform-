@@ -3,14 +3,14 @@ server:
   # 可选值: debug, test, production
   mode: test
   # 是否强制初始化权限（设为true会覆盖数据库中的权限设置）
-  init_permissions: true
+  init_permissions: false
 
 database:
   driver: mysql
-  host: localhost
+  host: 47.238.124.43
   port: 3306
-  username: root
-  password: hzm132372
+  username: gorse
+  password: gorse_pass
   dbname: campus
   charset: utf8mb4
   max_idle_conns: 10
@@ -19,9 +19,33 @@ database:
 
 jwt:
   secret: your_jwt_secret_key
-  expiration: 24 # in hours
+  expiration: 144 # in hours
 
 upload:
   save_path: ./uploads
   allowed_types: jpg,jpeg,png,gif
   max_size: 5 # in MB
+
+# 日志配置
+log:
+  level: info           # 全局日志级别: debug, info, warn, error
+  format: console       # 日志格式: console, json
+  output:
+    console: true       # 是否输出到控制台
+    file:
+      path: ./logs/app.log  # 日志文件路径
+      max_size: 100     # 日志文件最大大小(MB)
+      max_age: 7        # 日志文件保留天数
+      max_backups: 10   # 保留的旧日志文件数量
+  modules:              # 模块级别的日志配置
+    database: info
+    websocket: warn     # 将websocket的日志级别调高，减少不必要日志
+    message: info
+
+# RabbitMQ配置
+rabbitmq:
+  url: amqp://guest:HZMhzm@030614@47.238.124.43:5672/ # 可以直接用URL，或者用下面的参数构建URL
+  host: localhost # 如果未提供URL，使用host、port、username和password
+  port: 5672
+  username: guest
+  password: guest

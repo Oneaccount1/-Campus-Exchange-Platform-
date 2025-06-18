@@ -26,4 +26,5 @@ func registerProductRoutes(router *gin.RouterGroup, controller *controllers.Prod
 	router.GET("/search", controller.SearchProductsByKeyword)
 	router.GET("/user", controller.GetUserProducts)
 	router.GET("/solving", controller.ListSolvingProducts)
+
 }

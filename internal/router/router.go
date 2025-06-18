@@ -1,6 +1,8 @@
 package router
 
 import (
+	"campus/internal/bootstrap"
+	Message "campus/internal/modules/message"
 	Order "campus/internal/modules/order"
 	Permission "campus/internal/modules/permission"
 	Product "campus/internal/modules/product"
@@ -19,6 +21,10 @@ func RegisterRoutes(r *gin.Engine) {
 
 // registerModuleRoutes 注册各个模块的路由
 func registerModuleRoutes(r *gin.Engine, api *gin.RouterGroup) {
+	// 获取配置和WebSocket管理器
+	config := bootstrap.GetConfig()
+	wsManager := bootstrap.GetWebSocketManager()
+
 	// 用户模块路由
 	User.RegisterRoutes(r, api)
 
@@ -30,4 +36,7 @@ func registerModuleRoutes(r *gin.Engine, api *gin.RouterGroup) {
 
 	// 权限模块路由
 	Permission.RegisterRoutes(r, api)
+
+	// 消息模块路由
+	Message.RegisterRoutes(r, api, wsManager, config.RabbitMQ.URL)
 }

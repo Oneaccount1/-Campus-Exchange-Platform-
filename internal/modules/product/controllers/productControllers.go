@@ -107,7 +107,7 @@ func (c *ProductController) DeleteProduct(ctx *gin.Context) {
 func (c *ProductController) SearchProductsByKeyword(ctx *gin.Context) {
 	keyword := ctx.Query("keyword")
 	var req api.GetProductsRequest
-	if err := ctx.ShouldBindJSON(&req); err != nil {
+	if err := ctx.ShouldBindQuery(&req); err != nil {
 		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
 		return
 	}

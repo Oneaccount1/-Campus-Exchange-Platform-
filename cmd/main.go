@@ -4,10 +4,10 @@ import (
 	"campus/internal/bootstrap"
 	"campus/internal/middleware"
 	"campus/internal/router"
+	"campus/internal/utils/logger"
 	"fmt"
 	"github.com/gin-gonic/gin"
-
-	"log"
+	"go.uber.org/zap"
 	"os"
 	"path/filepath"
 )
@@ -17,7 +17,9 @@ func main() {
 	workDir, err := os.Getwd()
 
 	if err != nil {
-		log.Fatalf("获取工作目录失败: %v", err)
+		// 还没有初始化日志系统，使用标准日志
+		fmt.Printf("获取工作目录失败: %v\n", err)
+		os.Exit(1)
 	}
 
 	// 配置文件路径
@@ -25,7 +27,8 @@ func main() {
 
 	// 初始化应用
 	if err := bootstrap.Bootstrap(configPath); err != nil {
-		log.Fatalf("应用初始化失败: %v", err)
+		// bootstrap过程中如果出错，可能已经初始化了日志系统
+		logger.Fatalf("应用初始化失败: %v", err)
 	}
 
 	// 确保应用优雅关闭
@@ -49,8 +52,8 @@ func main() {
 
 	// 启动服务器
 	addr := fmt.Sprintf(":%d", serverConfig.Port)
-	log.Printf("服务器启动在 %s", addr)
+	logger.Info("服务器启动", zap.String("地址", addr))
 	if err := r.Run(addr); err != nil {
-		log.Fatalf("服务器启动失败: %v", err)
+		logger.Fatalf("服务器启动失败: %v", err)
 	}
 }

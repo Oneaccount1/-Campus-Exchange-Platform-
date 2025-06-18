@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	"campus/internal/bootstrap"
 	"campus/internal/models"
+	"fmt"
 	"gorm.io/gorm"
 )
 
@@ -21,7 +21,7 @@ type MessageRepository interface {
 	MarkAllAsRead(userID, contactID uint) error
 
 	// GetContactList 获取联系人列表
-	GetContactList(userID uint) ([]models.User, []int64, []string, []int64, []uint, error)
+	GetContactList(userID uint) ([]models.User, []int64, []string, []float64, []uint, error)
 
 	// GetUnreadCount 获取未读消息数
 	GetUnreadCount(userID uint) (int64, error)
@@ -45,9 +45,9 @@ type messageRepository struct {
 }
 
 // NewMessageRepository 创建消息仓库实例
-func NewMessageRepository() MessageRepository {
+func NewMessageRepository(db *gorm.DB) MessageRepository {
 	return &messageRepository{
-		db: bootstrap.GetDB(),
+		db: db,
 	}
 }
 
@@ -104,59 +104,54 @@ func (r *messageRepository) MarkAllAsRead(userID, contactID uint) error {
 }
 
 // GetContactList 获取联系人列表（返回原始数据，由服务层组装）
-func (r *messageRepository) GetContactList(userID uint) ([]models.User, []int64, []string, []int64, []uint, error) {
-	// 查找有过通信的所有用户
-	var contactIds []uint
+func (r *messageRepository) GetContactList(userID uint) ([]models.User, []int64, []string, []float64, []uint, error) {
 
-	// 查询与用户有过通信的用户ID
-	if err := r.db.Model(&models.Message{}).
-		Select("DISTINCT CASE WHEN sender_id = ? THEN receiver_id ELSE sender_id END AS contact_id", userID).
-		Where("(sender_id = ? OR receiver_id = ?)", userID, userID).
-		Where("sender_id != receiver_id"). // 排除自己发给自己的消息
-		Pluck("contact_id", &contactIds).Error; err != nil {
+	// Subquery to find the latest message ID for each conversation
+	latestMessagesSubquery := r.db.Model(&models.Message{}).
+		Select("MAX(id) as id").
+		Where("sender_id = ? OR receiver_id = ?", userID, userID).
+		Group(fmt.Sprintf("CASE WHEN sender_id = %d THEN receiver_id ELSE sender_id END", userID))
+
+	// Main query to get contact list information
+	var results []struct {
+		models.User
+		LastMessage string
+		LastTime    float64
+		Unread      int64
+		ProductID   uint
+	}
+
+	err := r.db.Table("users").
+		Select("users.*, m.content as last_message, UNIX_TIMESTAMP(m.created_at) as last_time, m.product_id, unread.count as unread").
+		Joins("JOIN messages m ON m.id IN (?)", latestMessagesSubquery).
+		Joins("JOIN (?) AS latest_msgs ON latest_msgs.id = m.id", latestMessagesSubquery).
+		Joins("LEFT JOIN (?) AS unread ON unread.sender_id = users.id",
+			r.db.Model(&models.Message{}).
+				Select("sender_id, count(*) as count").
+				Where("receiver_id = ? AND is_read = false", userID).
+				Group("sender_id"),
+		).
+		Where("users.id != ? AND (m.sender_id = ? OR m.receiver_id = ?) AND users.id = (CASE WHEN m.sender_id = ? THEN m.receiver_id ELSE m.sender_id END)",
+			userID, userID, userID, userID).
+		Scan(&results).Error
+
+	if err != nil {
 		return nil, nil, nil, nil, nil, err
 	}
 
-	// 如果没有联系人，返回空结果
-	if len(contactIds) == 0 {
-		return []models.User{}, []int64{}, []string{}, []int64{}, []uint{}, nil
-	}
+	// Process results
+	users := make([]models.User, len(results))
+	unreadCounts := make([]int64, len(results))
+	lastMessages := make([]string, len(results))
+	lastTimes := make([]float64, len(results))
+	productIDs := make([]uint, len(results))
 
-	// 获取所有联系人的用户信息
-	var users []models.User
-	if err := r.db.Where("id IN ?", contactIds).Find(&users).Error; err != nil {
-		return nil, nil, nil, nil, nil, err
-	}
-
-	// 为每个联系人查询最后一条消息
-	var lastMessages []string
-	var lastTimes []int64
-	var unreadCounts []int64
-	var productIDs []uint
-
-	for _, contactID := range contactIds {
-		// 最后一条消息
-		var lastMsg models.Message
-		if err := r.db.Where(
-			"(sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)",
-			userID, contactID, contactID, userID,
-		).Order("created_at DESC").First(&lastMsg).Error; err == nil {
-			lastMessages = append(lastMessages, lastMsg.Content)
-			lastTimes = append(lastTimes, lastMsg.CreatedAt.Unix())
-			productIDs = append(productIDs, lastMsg.ProductID)
-		} else {
-			lastMessages = append(lastMessages, "")
-			lastTimes = append(lastTimes, 0)
-			productIDs = append(productIDs, 0)
-		}
-
-		// 未读消息数
-		var unread int64
-		r.db.Model(&models.Message{}).
-			Where("sender_id = ? AND receiver_id = ? AND is_read = ?",
-				contactID, userID, false).
-			Count(&unread)
-		unreadCounts = append(unreadCounts, unread)
+	for i, result := range results {
+		users[i] = result.User
+		unreadCounts[i] = result.Unread
+		lastMessages[i] = result.LastMessage
+		lastTimes[i] = result.LastTime
+		productIDs[i] = result.ProductID
 	}
 
 	return users, unreadCounts, lastMessages, lastTimes, productIDs, nil

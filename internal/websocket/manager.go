@@ -190,16 +190,7 @@ func (m *Manager) readPump(c *Connection, userID uint) {
 			break
 		}
 
-		// 处理ping消息
-		if string(message) == "ping" {
-			if err := c.Conn.WriteMessage(websocket.TextMessage, []byte("pong")); err != nil {
-				logger.Warn("发送pong响应失败",
-					zap.Uint("用户ID", userID),
-					zap.Error(err))
-			}
-			continue
-		}
-
+		// 已通过 SetPongHandler 处理协议层的 Pong，无需 JSON ping
 		// 只在调试级别记录收到的消息
 		logger.Debug("收到WebSocket消息",
 			zap.Uint("用户ID", userID),
@@ -254,15 +245,16 @@ func (m *Manager) writePump(c *Connection, userID uint) {
 			}
 
 		case <-ticker.C:
-			// 发送心跳ping
+			// 发送标准 WebSocket ping 控制帧
 			c.Conn.SetWriteDeadline(time.Now().Add(10 * time.Second))
 			if err := c.Conn.WriteMessage(websocket.PingMessage, nil); err != nil {
-				logger.Warn("发送WebSocket心跳失败",
+				logger.Warn("发送WebSocket ping帧失败",
 					zap.Uint("用户ID", userID),
 					zap.Error(err))
 				return
 			}
-			logger.Debug("已发送WebSocket心跳", zap.Uint("用户ID", userID))
+
+			logger.Debug("已发送WebSocket协议层Ping心跳", zap.Uint("用户ID", userID))
 		}
 	}
 }

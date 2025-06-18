@@ -61,7 +61,7 @@ func (f *FavoriteController) ListFavorites(ctx *gin.Context) {
 	}
 
 	var req api.QueryPageRequest
-	if err := ctx.ShouldBindJSON(&req); err != nil {
+	if err := ctx.ShouldBindQuery(&req); err != nil {
 		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
 		return
 	}

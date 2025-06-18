@@ -86,7 +86,7 @@ func (f *favoriteService) CheckIsFavorite(userID uint, productID uint) (bool, er
 }
 
 func (f *favoriteService) GetUserProducts(userID uint, page, size uint) (*api2.ProductListResponse, error) {
-	products, tot, err := f.productRepo.GetProductsByUserID(userID, page, size)
+	products, tot, err := f.productRepo.GetByUserID(userID, page, size)
 	if err != nil {
 		return nil, errors.NewInternalServerError("获取用户发布的商品失败", err)
 	}

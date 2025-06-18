@@ -1,10 +1,10 @@
 package services
 
 import (
-	"campus/internal/messaging"
 	"campus/internal/models"
 	"campus/internal/modules/message/api"
 	"campus/internal/modules/message/repositories"
+	"campus/internal/rabbitMQ"
 	"campus/internal/websocket"
 	"sync"
 	"testing"
@@ -40,9 +40,9 @@ func (m *MockMessageRepository) MarkAllAsRead(userID, contactID uint) error {
 	return args.Error(0)
 }
 
-func (m *MockMessageRepository) GetContactList(userID uint) ([]models.User, []int64, []string, []int64, []uint, error) {
+func (m *MockMessageRepository) GetContactList(userID uint) ([]models.User, []int64, []string, []float64, []uint, error) {
 	args := m.Called(userID)
-	return args.Get(0).([]models.User), args.Get(1).([]int64), args.Get(2).([]string), args.Get(3).([]int64), args.Get(4).([]uint), args.Error(5)
+	return args.Get(0).([]models.User), args.Get(1).([]int64), args.Get(2).([]string), args.Get(3).([]float64), args.Get(4).([]uint), args.Error(5)
 }
 
 func (m *MockMessageRepository) GetUnreadCount(userID uint) (int64, error) {
@@ -100,7 +100,7 @@ func TestSendMessage(t *testing.T) {
 		repo:          mockRepo,
 		wsManager:     mockWsManager,
 		rabbitMQURL:   "",
-		messageQueues: make(map[uint]*messaging.RabbitMQ),
+		messageQueues: make(map[uint]*rabbitMQ.RabbitMQ),
 		mu:            sync.RWMutex{},
 	}
 
@@ -161,7 +161,7 @@ func TestGetLastMessage(t *testing.T) {
 		repo:          mockRepo,
 		wsManager:     mockWsManager,
 		rabbitMQURL:   "",
-		messageQueues: make(map[uint]*messaging.RabbitMQ),
+		messageQueues: make(map[uint]*rabbitMQ.RabbitMQ),
 		mu:            sync.RWMutex{},
 	}
 

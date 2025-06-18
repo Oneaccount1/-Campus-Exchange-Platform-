@@ -25,11 +25,6 @@ func RegisterRoutes(r *gin.Engine, api *gin.RouterGroup) {
 	favoriteGroup.Use(middleware.JWTAuth())
 	registerFavoriteRoutes(favoriteGroup, favoriteController)
 
-	// 用户商品路由 - 需要认证
-	productGroup := api.Group("/user/products")
-	productGroup.Use(middleware.JWTAuth())
-	registerProductRoutes(productGroup, favoriteController)
-
 	// 管理员路由 - 需要管理员权限
 	adminGroup := api.Group("/admin/users")
 	adminGroup.Use(middleware.JWTAuth())
@@ -47,14 +42,18 @@ func registerPublicRoutes(router *gin.RouterGroup, controller *controllers.UserC
 func registerAuthRoutes(router *gin.RouterGroup, controller *controllers.UserController) {
 	// 个人资料 - 使用基于特定权限的中间件
 	profileGroup := router.Group("/profile")
-	profileGroup.GET("", middleware.AuthorizePermission("/api/v1/user/profile", "GET"), controller.GetProfile)
-	profileGroup.PUT("", middleware.AuthorizePermission("/api/v1/user/profile", "PUT"), controller.UpdateProfile)
+	//profileGroup.GET("", middleware.AuthorizePermission("/api/v1/user/profile", "GET"), controller.GetProfile)
+	//profileGroup.PUT("", middleware.AuthorizePermission("/api/v1/user/profile", "PUT"), controller.UpdateProfile)
+	profileGroup.GET("", controller.GetProfile)
+	profileGroup.PUT("", controller.UpdateProfile)
 
 	// 修改密码 - 使用基于特定权限的中间件
-	router.POST("/change-password", middleware.AuthorizePermission("/api/v1/user/change-password", "POST"), controller.ChangePassword)
+	//router.POST("/change-password", middleware.AuthorizePermission("/api/v1/user/change-password", "POST"), controller.ChangePassword)
+	router.POST("/change-password", controller.ChangePassword)
 
 	// 查看用户信息 - 使用基于特定权限的中间件
-	router.GET("/:id", middleware.AuthorizePermission("/api/v1/user/:id", "GET"), controller.GetUserByID)
+	//router.GET("/:id", middleware.AuthorizePermission("/api/v1/user/:id", "GET"), controller.GetUserByID)
+	router.GET("/:id", controller.GetUserByID)
 }
 
 // registerFavoriteRoutes 注册收藏相关的路由
@@ -63,11 +62,6 @@ func registerFavoriteRoutes(router *gin.RouterGroup, controller *controllers.Fav
 	router.DELETE("/:productID", controller.RemoveFavorite)   // 取消收藏
 	router.GET("", controller.ListFavorites)                  // 获取收藏列表
 	router.GET("/check/:productID", controller.CheckFavorite) // 检查是否已收藏
-}
-
-// registerProductRoutes 注册用户商品相关的路由
-func registerProductRoutes(router *gin.RouterGroup, controller *controllers.FavoriteController) {
-	router.GET("", controller.ListUserProducts) // 获取用户发布的商品列表
 }
 
 // registerAdminRoutes 注册需要管理员权限的路由

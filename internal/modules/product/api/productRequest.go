@@ -8,7 +8,7 @@ type CreateProductRequest struct {
 	Category    string   `json:"category"`
 	Condition   string   `json:"condition"`
 	UserID      uint     `json:"user_id" binding:"required"`
-	Status      string   `json:"status" binding:"required,oneof=售卖中 已下架"`
+	Status      string   `json:"status" binding:"required,oneof=售卖中 已下架 审核中"`
 }
 
 type UpdateProductRequest struct {
@@ -18,7 +18,7 @@ type UpdateProductRequest struct {
 	Images      []string `json:"images"`
 	Category    string   `json:"category"`
 	Condition   string   `json:"condition"`
-	Status      string   `json:"status" binding:"required,oneof=售卖中 已下架"`
+	Status      string   `json:"status" binding:"required,oneof=售卖中 已下架 审核中"`
 }
 
 type GetProductsRequest struct {

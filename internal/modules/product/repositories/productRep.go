@@ -14,6 +14,7 @@ type ProductRepository interface {
 	Delete(id string) error
 	SearchProductsByKeyword(keyword string, page, size uint) ([]*models.Product, int64, error)
 	GetByUserID(userID uint, page, size uint) ([]*models.Product, int64, error)
+	GetSolvingProducts(page, size uint) ([]*models.Product, int64, error)
 }
 
 type ProductRepositoryImpl struct {
@@ -38,6 +39,21 @@ func (r *ProductRepositoryImpl) GetAll(page, size uint) ([]*models.Product, int6
 	offset := (page - 1) * size
 	// 使用 Preload 预加载图片
 	err = r.db.Preload("ProductImages").Offset(int(offset)).Limit(int(size)).Find(&products).Error
+	return products, total, err
+}
+
+func (r *ProductRepositoryImpl) GetSolvingProducts(page, size uint) ([]*models.Product, int64, error) {
+	var products []*models.Product
+	var total int64
+
+	err := r.db.Model(&models.Product{}).Where("status = ?", "售卖中").Count(&total).Error
+	if err != nil {
+		return nil, 0, err
+	}
+
+	offset := (page - 1) * size
+	// 使用 Preload 预加载图片
+	err = r.db.Preload("ProductImages").Where("status = ?", "售卖中").Offset(int(offset)).Limit(int(size)).Find(&products).Error
 	return products, total, err
 }
 

@@ -9,6 +9,12 @@ import (
 	"time"
 )
 
+const (
+	ProductStatusAvailable = "售卖中"
+	ProductStatusSold      = "已下架"
+	ProductStatusReviewing = "审核中"
+)
+
 type ProductService interface {
 	GetAllProducts(page, size uint) (*api.ProductListResponse, error)
 	GetProductByID(id string) (*api.ProductResponse, error)
@@ -17,6 +23,7 @@ type ProductService interface {
 	DeleteProduct(id string) error
 	SearchProductsByKeyword(keyword string, page, size uint) (*api.ProductListResponse, error)
 	GetUserProducts(userID uint, page, size uint) (*api.ProductListResponse, error)
+	GetSolvingProducts(page, size uint) (*api.ProductListResponse, error)
 }
 
 type ProductServiceImpl struct {
@@ -33,6 +40,15 @@ func NewProductService() ProductService {
 
 func (s *ProductServiceImpl) GetAllProducts(page, size uint) (*api.ProductListResponse, error) {
 	products, total, err := s.productRep.GetAll(page, size)
+	if err != nil {
+		return nil, errors.NewInternalServerError("查询商品列表失败", err)
+	}
+
+	return api.ConvertToProductListResponse(products, uint(total), page, size), nil
+}
+
+func (s *ProductServiceImpl) GetSolvingProducts(page, size uint) (*api.ProductListResponse, error) {
+	products, total, err := s.productRep.GetSolvingProducts(page, size)
 	if err != nil {
 		return nil, errors.NewInternalServerError("查询商品列表失败", err)
 	}
@@ -57,7 +73,7 @@ func (s *ProductServiceImpl) CreateProduct(data *api.CreateProductRequest) (*api
 		Category:    data.Category,
 		Condition:   data.Condition,
 		UserID:      data.UserID,
-		Status:      data.Status,
+		Status:      ProductStatusReviewing,
 		SoldAt:      time.Now(),
 	}
 

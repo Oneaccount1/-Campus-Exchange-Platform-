@@ -25,4 +25,5 @@ func registerProductRoutes(router *gin.RouterGroup, controller *controllers.Prod
 	router.DELETE("/:id", controller.DeleteProduct)
 	router.GET("/search", controller.SearchProductsByKeyword)
 	router.GET("/user", controller.GetUserProducts)
+	router.GET("/solving", controller.ListSolvingProducts)
 }

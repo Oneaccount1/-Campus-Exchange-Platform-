@@ -3,7 +3,7 @@ package bootstrap
 import (
 	"campus/internal/database"
 	"campus/internal/models"
-	"log"
+	"campus/internal/utils/logger"
 )
 
 // InitDatabase 初始化数据库
@@ -14,20 +14,20 @@ func InitDatabase() error {
 	// 初始化数据库连接，传递服务器模式
 	db, err := database.NewDatabase(config.Database, config.Server.Mode)
 	if err != nil {
-		log.Printf("数据库连接初始化失败: %v", err)
+		logger.Errorf("数据库连接初始化失败: %v", err)
 		return err
 	}
 
 	// 设置全局数据库连接
 	SetDB(db)
 
-	// 自动迁移数据库表结构
+	////自动迁移数据库表结构
 	//if err := AutoMigrateModels(); err != nil {
-	//	log.Printf("数据库迁移失败: %v", err)
+	//	logger.Errorf("数据库迁移失败: %v", err)
 	//	return err
 	//}
 
-	log.Println("数据库初始化成功")
+	logger.Info("数据库初始化成功")
 	return nil
 }
 
@@ -45,6 +45,7 @@ func AutoMigrateModels() error {
 		&models.Review{},
 		&models.Message{},
 		&models.ProductImage{},
+		&models.Favorite{},
 	)
 }
 

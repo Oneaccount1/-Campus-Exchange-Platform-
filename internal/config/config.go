@@ -46,7 +46,7 @@ type JWTConfig struct {
 // UploadConfig 文件上传配置
 type UploadConfig struct {
 	SavePath     string
-	AllowedTypes []string
+	AllowedTypes string
 	MaxSize      int
 }
 
@@ -110,7 +110,7 @@ func LoadConfig(configPath string) (*Config, error) {
 
 	// 上传配置
 	config.Upload.SavePath = v.GetString("upload.save_path")
-	config.Upload.AllowedTypes = v.GetStringSlice("upload.allowed_types")
+	config.Upload.AllowedTypes = v.GetString("upload.allowed_types")
 	config.Upload.MaxSize = v.GetInt("upload.max_size")
 
 	// 日志配置

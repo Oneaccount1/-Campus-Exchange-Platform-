@@ -27,6 +27,18 @@ type ProductListResponse struct {
 	Size     uint               `json:"size"`
 }
 
+// LatestProductItem 最新商品项
+type LatestProductItem struct {
+	ID         uint      `json:"id"`         // 商品ID
+	Title      string    `json:"title"`      // 商品标题
+	Price      float64   `json:"price"`      // 商品价格
+	Category   string    `json:"category"`   // 商品分类
+	Seller     string    `json:"seller"`     // 卖家名称
+	CreateTime time.Time `json:"createTime"` // 创建时间
+	Image      string    `json:"image"`      // 商品图片
+	Status     string    `json:"status"`     // 商品状态
+}
+
 func ConvertToProductResponse(product *models.Product) *ProductResponse {
 	return &ProductResponse{
 		ID:          product.ID,

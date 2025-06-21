@@ -54,24 +54,38 @@ func RegisterRoutes(r *gin.Engine, api *gin.RouterGroup, wsManager *websocket.Ma
 	wsRoute := api.Group("/messages")
 	wsRoute.Use(middleware.WSAuth())
 	{
-		wsRoute.GET("/ws", func(ctx *gin.Context) {
-			userID, exists := ctx.Get("user_id")
+		// WebSocket endpoint for real-time messaging
+		wsRoute.GET("/ws", func(c *gin.Context) {
+			// Extract user ID from the context (set by the WSAuth middleware)
+			userID, exists := c.Get("user_id")
 			if !exists {
-				logger.Warn("WebSocket连接失败, 用户ID不存在")
-				response.HandleError(ctx, errors.ErrUnauthorized)
+				response.HandleError(c, errors.ErrUnauthorized)
 				return
 			}
 
-			userIDUint := userID.(uint)
-			logger.Info("处理websocket连接请求", zap.Uint("UserID", userIDUint))
-
-			// The WebSocket handler's responsibility is now only to manage the connection.
-			// All message processing logic (offline, online push) is handled by the
-			// backend consumer listening to RabbitMQ.
-			wsManager.HandleConnection(ctx.Writer, ctx.Request, userIDUint)
-
-			// The complex and inefficient polling goroutine has been removed.
-			// The client is now expected to fetch message history via a separate HTTP request.
+			// Upgrade the HTTP connection to a WebSocket connection
+			wsManager.HandleConnection(c.Writer, c.Request, userID.(uint))
 		})
+	}
+	
+	// 管理员消息路由 - 需要管理员权限
+	adminMessageGroup := api.Group("/admin/messages")
+	adminMessageGroup.Use(middleware.JWTAuth())
+	adminMessageGroup.Use(middleware.AuthorizeByRole("admin"))
+	{
+		// 获取消息列表
+		adminMessageGroup.GET("", middleware.AuthorizePermission("/api/v1/admin/messages", "GET"), controller.GetAdminMessageList)
+		
+		// 获取会话列表
+		adminMessageGroup.GET("/conversations", middleware.AuthorizePermission("/api/v1/admin/messages/conversations", "GET"), controller.GetAdminConversationList)
+		
+		// 获取会话消息历史
+		adminMessageGroup.GET("/history", middleware.AuthorizePermission("/api/v1/admin/messages/history", "GET"), controller.GetAdminMessageHistory)
+		
+		// 发送系统消息
+		adminMessageGroup.POST("/system", middleware.AuthorizePermission("/api/v1/admin/messages/system", "POST"), controller.SendSystemMessage)
+		
+		// 删除消息
+		adminMessageGroup.DELETE("/:messageId", middleware.AuthorizePermission("/api/v1/admin/messages/:messageId", "DELETE"), controller.DeleteMessage)
 	}
 }

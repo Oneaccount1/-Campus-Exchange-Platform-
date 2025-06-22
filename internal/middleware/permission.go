@@ -62,6 +62,7 @@ func AuthorizeByRole(role string) gin.HandlerFunc {
 		if roleList, exists := c.Get("roles"); exists {
 			if roles, ok := roleList.([]string); ok {
 				for _, r := range roles {
+					fmt.Println(r)
 					if r == role {
 						// 找到匹配的角色，允许访问
 						c.Next()

@@ -16,6 +16,6 @@ type Product struct {
 	Condition     string         `gorm:"size:20" json:"condition"` // new, like_new, good, fair, poor
 	UserID        uint           `gorm:"not null;index" json:"user_id"`
 	User          User           `gorm:"foreignKey:UserID" json:"user"`
-	Status        string         `gorm:"size:20;default:available" json:"status"` // available, sold, reserved
+	Status        string         `gorm:"size:20;default:available" json:"status"` // 售卖中, 已下架, 审核中
 	SoldAt        time.Time      `json:"sold_at"`
 }

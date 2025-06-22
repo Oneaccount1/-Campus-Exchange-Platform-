@@ -41,3 +41,18 @@ type PasswordUpdate struct {
 	OldPassword string `json:"old_password" binding:"required"`
 	NewPassword string `json:"new_password" binding:"required,min=6,max=50"`
 }
+
+// AdminUserListQuery 管理员用户列表查询参数
+type AdminUserListQuery struct {
+	Page      int    `form:"page" json:"page"`            // 页码
+	Size      int    `form:"size" json:"pageSize"`        // 每页数量
+	Search    string `form:"search" json:"search"`        // 搜索关键词
+	Status    string `form:"status" json:"status"`        // 状态筛选
+	StartDate string `form:"start_date" json:"start_ate"` // 开始日期
+	EndDate   string `form:"end_date" json:"end_ate"`     // 结束日期
+}
+
+// UserStatusUpdate 用户状态更新请求
+type UserStatusUpdate struct {
+	Status string `json:"status" binding:"required"` // 用户状态：正常、禁用
+}

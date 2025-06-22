@@ -21,11 +21,11 @@ func InitDatabase() error {
 	// 设置全局数据库连接
 	SetDB(db)
 
-	////自动迁移数据库表结构
-	//if err := AutoMigrateModels(); err != nil {
-	//	logger.Errorf("数据库迁移失败: %v", err)
-	//	return err
-	//}
+	//自动迁移数据库表结构
+	if err := AutoMigrateModels(); err != nil {
+		logger.Errorf("数据库迁移失败: %v", err)
+		return err
+	}
 
 	logger.Info("数据库初始化成功")
 	return nil
@@ -33,7 +33,8 @@ func InitDatabase() error {
 
 // AutoMigrateModels 自动迁移数据库表结构
 func AutoMigrateModels() error {
-	return database.AutoMigrate(
+	// 迁移表结构
+	if err := database.AutoMigrate(
 		GetDB(),
 		&models.User{},
 		&models.Role{},
@@ -46,7 +47,18 @@ func AutoMigrateModels() error {
 		&models.Message{},
 		&models.ProductImage{},
 		&models.Favorite{},
-	)
+	); err != nil {
+		return err
+	}
+
+	// 初始化系统默认账号和商品
+	if err := database.InitSystemDefaults(GetDB()); err != nil {
+		logger.Errorf("初始化系统默认账号和商品失败: %v", err)
+		return err
+	}
+
+	logger.Info("数据库迁移和系统默认数据初始化成功")
+	return nil
 }
 
 // CloseDatabase 关闭数据库连接

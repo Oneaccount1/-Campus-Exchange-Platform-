@@ -2,10 +2,12 @@ package router
 
 import (
 	"campus/internal/bootstrap"
+	Dashboard "campus/internal/modules/dashboard"
 	Message "campus/internal/modules/message"
 	Order "campus/internal/modules/order"
 	Permission "campus/internal/modules/permission"
 	Product "campus/internal/modules/product"
+	Upload "campus/internal/modules/upload"
 	User "campus/internal/modules/user"
 	"github.com/gin-gonic/gin"
 )
@@ -39,4 +41,10 @@ func registerModuleRoutes(r *gin.Engine, api *gin.RouterGroup) {
 
 	// 消息模块路由
 	Message.RegisterRoutes(r, api, wsManager, config.RabbitMQ.URL)
+	
+	// 仪表盘模块路由
+	Dashboard.RegisterRoutes(r, api)
+	
+	// 上传模块路由
+	Upload.RegisterRoutes(r, api)
 }

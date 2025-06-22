@@ -1,0 +1,10 @@
+2025-06-19T11:47:40+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-19T11:47:40+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-19T11:47:40+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-19T11:47:41+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-19T11:47:41+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-19T11:47:41+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-19T11:47:41+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-19T11:47:41+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-19T11:47:41+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
+2025-06-19T11:47:41+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.

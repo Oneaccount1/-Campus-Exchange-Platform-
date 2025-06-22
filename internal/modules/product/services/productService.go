@@ -24,11 +24,22 @@ type ProductService interface {
 	SearchProductsByKeyword(keyword string, page, size uint) (*api.ProductListResponse, error)
 	GetUserProducts(userID uint, page, size uint) (*api.ProductListResponse, error)
 	GetSolvingProducts(page, size uint) (*api.ProductListResponse, error)
+	FilterProducts(filter *api.FilterProductsRequest) (*api.ProductListResponse, error)
+	GetLatestProducts(limit uint) (*api.ProductListResponse, error)
 }
 
 type ProductServiceImpl struct {
 	productRep repositories.ProductRepository
 	imageRep   repositories.ProductImageRepository
+}
+
+func (s *ProductServiceImpl) FilterProducts(filter *api.FilterProductsRequest) (*api.ProductListResponse, error) {
+	products, tot, err := s.productRep.FilterProducts(filter)
+	if err != nil {
+		return nil, errors.NewInternalServerError("赛选商品失败", err)
+	}
+	return api.ConvertToProductListResponse(products, uint(tot), filter.Page, filter.Size), nil
+
 }
 
 func NewProductService() ProductService {
@@ -176,4 +187,18 @@ func (s *ProductServiceImpl) GetUserProducts(userID uint, page, size uint) (*api
 	}
 
 	return api.ConvertToProductListResponse(products, uint(total), page, size), nil
+}
+
+// GetLatestProducts 获取最新商品
+func (s *ProductServiceImpl) GetLatestProducts(limit uint) (*api.ProductListResponse, error) {
+	if limit == 0 {
+		limit = 8 // 默认获取8条
+	}
+
+	products, total, err := s.productRep.GetLatest(limit)
+	if err != nil {
+		return nil, errors.NewInternalServerError("获取最新商品失败", err)
+	}
+
+	return api.ConvertToProductListResponse(products, uint(total), 1, limit), nil
 }

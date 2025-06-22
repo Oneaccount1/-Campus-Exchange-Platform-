@@ -34,14 +34,39 @@ func (Message) TableName() string {
 	return "messages"
 }
 
-// Contact 联系人模型（视图模型，不直接映射到数据库）
+// Contact 联系人模型（非数据库表，用于API响应）
 type Contact struct {
-	UserID       uint      `json:"id"`             // 用户ID
-	Username     string    `json:"username"`       // 用户名
-	Avatar       string    `json:"avatar"`         // 头像
-	LastMessage  string    `json:"last_message"`   // 最后一条消息
-	LastTime     time.Time `json:"last_time"`      // 最后消息时间
-	UnreadCount  int       `json:"unread"`         // 未读消息数量
-	ProductID    uint      `json:"product_id"`     // 相关商品ID
-	LastSenderID uint      `json:"last_sender_id"` // 最后发送消息的用户ID
+	UserID       uint      `json:"user_id"`
+	Username     string    `json:"username"`
+	Avatar       string    `json:"avatar"`
+	LastMessage  string    `json:"last_message"`
+	LastTime     time.Time `json:"last_time"`
+	UnreadCount  int       `json:"unread_count"`
+	ProductCount int       `json:"product_count"`
+}
+
+// Conversation 会话模型（用于管理员API）
+type Conversation struct {
+	ID          uint      `json:"id"`
+	User1ID     uint      `json:"user1_id"`
+	User1Name   string    `json:"user1_name"`
+	User1Avatar string    `json:"user1_avatar"`
+	User2ID     uint      `json:"user2_id"`
+	User2Name   string    `json:"user2_name"`
+	User2Avatar string    `json:"user2_avatar"`
+	LastMessage string    `json:"last_message"`
+	LastTime    time.Time `json:"last_time"`
+	UnreadCount int64     `json:"unread_count"`
+}
+
+// MessageLog 系统消息日志
+type MessageLog struct {
+	ID         uint      `gorm:"primaryKey" json:"id"`
+	SenderID   uint      `gorm:"not null" json:"sender_id"`
+	ReceiverID uint      `gorm:"not null" json:"receiver_id"`
+	Content    string    `gorm:"type:text" json:"content"`
+	Title      string    `gorm:"size:100" json:"title"`
+	IsSystem   bool      `gorm:"default:false" json:"is_system"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
 }

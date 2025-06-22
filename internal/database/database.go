@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"go.uber.org/zap"
 
+	"campus/internal/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	gormlogger "gorm.io/gorm/logger"
@@ -168,6 +169,80 @@ func AutoMigrate(db *gorm.DB, models ...interface{}) error {
 		return fmt.Errorf("自动迁移数据库表结构失败: %w", err)
 	}
 	return nil
+}
+
+// InitSystemDefaults 创建系统默认账号和商品
+func InitSystemDefaults(db *gorm.DB) error {
+	// 创建系统默认账号（ID为0）
+	var userCount int64
+	tx := db.Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	// 检查系统账号是否已存在
+	if err := tx.Model(&models.User{}).Where("id = ?", 0).Count(&userCount).Error; err != nil {
+		tx.Rollback()
+		return fmt.Errorf("检查系统账号失败: %w", err)
+	}
+
+	// 如果不存在，则创建系统账号
+	if userCount == 0 {
+		systemUser := models.User{
+			Model: gorm.Model{
+				ID: 0,
+			},
+			Username:    "system",
+			Password:    "$2a$10$jvVkPf39oK2rgGCGrB5HSe3RMyN0hq6qY9rQmTbv0VyYsEyGrh8Ae", // 加密后的密码
+			Nickname:    "系统账号",
+			Email:       "system@campus.com",
+			Status:      "系统",
+			Description: "系统默认账号，用于系统内部功能",
+		}
+
+		if err := tx.Create(&systemUser).Error; err != nil {
+			tx.Rollback()
+			return fmt.Errorf("创建系统账号失败: %w", err)
+		}
+		logger.Info("系统默认账号(ID=0)创建成功")
+	}
+
+	// 检查系统商品是否已存在
+	var productCount int64
+	if err := tx.Model(&models.Product{}).Where("id = ?", 0).Count(&productCount).Error; err != nil {
+		tx.Rollback()
+		return fmt.Errorf("检查系统商品失败: %w", err)
+	}
+
+	// 如果不存在，则创建系统商品
+	if productCount == 0 {
+		// 使用当前时间作为默认值
+		currentTime := time.Now()
+
+		systemProduct := models.Product{
+			Model: gorm.Model{
+				ID: 0,
+			},
+			Title:       "系统商品",
+			Description: "系统默认商品，用于特殊场景",
+			Price:       0,
+			Category:    "系统",
+			Condition:   "新品",
+			UserID:      0,
+			Status:      "系统",
+			SoldAt:      currentTime, // 使用当前时间作为默认值
+		}
+
+		if err := tx.Create(&systemProduct).Error; err != nil {
+			tx.Rollback()
+			return fmt.Errorf("创建系统商品失败: %w", err)
+		}
+		logger.Info("系统默认商品(ID=0)创建成功")
+	}
+
+	return tx.Commit().Error
 }
 
 // CloseDB 关闭数据库连接

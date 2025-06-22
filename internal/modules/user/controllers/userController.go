@@ -44,13 +44,33 @@ func (c *UserController) Login(ctx *gin.Context) {
 		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
 		return
 	}
-	// 返回token 和 err
-	token, err := c.userService.Login(&req)
+	// 普通用户登录，不需要验证特定角色
+	token, err := c.userService.Login(&req, "")
 	if err != nil {
 		response.HandleError(ctx, err)
 		return
 	}
-	// 成功者返回token
+	// 成功返回token
+	response.Success(ctx, token)
+}
+
+// AdminLogin 管理员登录
+func (c *UserController) AdminLogin(ctx *gin.Context) {
+	// 从请求中获取用户名和密码
+	var req api.UserLogin
+
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
+		return
+	}
+	// 调用登录服务，验证管理员角色
+	token, err := c.userService.Login(&req, "admin")
+	if err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+
+	// 成功返回token
 	response.Success(ctx, token)
 }
 
@@ -135,23 +155,135 @@ func (c *UserController) GetUserByID(ctx *gin.Context) {
 
 // ListUsers 获取用户列表（管理员功能）
 func (c *UserController) ListUsers(ctx *gin.Context) {
-	// 查询URL中page参数如果没值就使用默认 1
-	pageStr := ctx.DefaultQuery("page", "1")
-	pageSizeStr := ctx.DefaultQuery("page_size", "10")
+	// 解析所有查询参数
+	var query api.AdminUserListQuery
 
-	page, err := strconv.Atoi(pageStr)
-	if err != nil || page < 1 {
-		page = 1
-	}
-	pageSize, err := strconv.Atoi(pageSizeStr)
-	if err != nil || pageSize < 1 {
-		pageSize = 10
+	// 绑定查询参数
+	if err := ctx.ShouldBindQuery(&query); err != nil {
+		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
+		return
 	}
 
-	result, err := c.userService.List(page, pageSize)
+	// 如果没有使用高级查询参数，使用基本列表功能
+	if query.Search == "" && query.Status == "" && query.StartDate == "" && query.EndDate == "" {
+		// 设置默认值
+		if query.Page <= 0 {
+			query.Page = 1
+		}
+		if query.Size <= 0 {
+			query.Size = 10
+		}
+
+		result, err := c.userService.List(query.Page, query.Size)
+		if err != nil {
+			response.HandleError(ctx, err)
+			return
+		}
+		response.Success(ctx, result)
+		return
+	}
+
+	// 使用高级查询
+	result, err := c.userService.AdminList(&query)
 	if err != nil {
 		response.HandleError(ctx, err)
 		return
 	}
+
 	response.Success(ctx, result)
+}
+
+// AdminListUsers 管理员高级用户列表查询
+func (c *UserController) AdminListUsers(ctx *gin.Context) {
+	var query api.AdminUserListQuery
+
+	// 绑定查询参数
+	if err := ctx.ShouldBindQuery(&query); err != nil {
+		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
+		return
+	}
+
+	// 设置默认值
+	if query.Page <= 0 {
+		query.Page = 1
+	}
+	if query.Size <= 0 {
+		query.Size = 10
+	}
+
+	// 调用服务层方法
+	result, err := c.userService.AdminList(&query)
+	if err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+
+	response.SuccessWithMessage(ctx, "获取成功", result)
+}
+
+// UpdateUserStatus 更新用户状态
+func (c *UserController) UpdateUserStatus(ctx *gin.Context) {
+	// 获取用户ID
+	idStr := ctx.Param("id")
+	id, err := strconv.ParseUint(idStr, 10, 32)
+	if err != nil {
+		response.HandleError(ctx, errors.NewBadRequestError("无效用户ID", err))
+		return
+	}
+
+	// 绑定请求参数
+	var req api.UserStatusUpdate
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
+		return
+	}
+
+	// 调用服务层方法
+	err = c.userService.UpdateStatus(uint(id), req.Status)
+	if err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+
+	response.SuccessWithMessage(ctx, "状态更新成功", nil)
+}
+
+// ResetUserPassword 重置用户密码
+func (c *UserController) ResetUserPassword(ctx *gin.Context) {
+	// 获取用户ID
+	idStr := ctx.Param("id")
+	id, err := strconv.ParseUint(idStr, 10, 32)
+	if err != nil {
+		response.HandleError(ctx, errors.NewBadRequestError("无效用户ID", err))
+		return
+	}
+
+	// 调用服务层方法
+	result, err := c.userService.ResetPassword(uint(id))
+	if err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+
+	response.SuccessWithMessage(ctx, "密码已重置", result)
+}
+
+// GetUserDetail 获取用户详情
+func (c *UserController) GetUserDetail(ctx *gin.Context) {
+	// 获取用户ID
+	idStr := ctx.Param("id")
+	id, err := strconv.ParseUint(idStr, 10, 32)
+	if err != nil {
+		response.HandleError(ctx, errors.NewBadRequestError("无效用户ID", err))
+		return
+	}
+
+	// 调用服务层方法
+	detail, err := c.userService.GetUserDetail(uint(id))
+	if err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+
+	response.SuccessWithMessage(ctx, "获取成功", detail)
 }

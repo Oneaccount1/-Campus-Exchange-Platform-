@@ -23,7 +23,6 @@ func ConvertToOrderResponse(order *models.Order) *OrderResponse {
 		SellerID:  order.SellerID,
 		ProductID: order.ProductID,
 		Status:    order.Status,
-		Price:     order.Price,
 		CreatedAt: order.CreatedAt,
 		UpdatedAt: order.UpdatedAt,
 	}
@@ -47,4 +46,55 @@ func ConvertToOrderListResponse(orders []*models.Order, total, page, size uint) 
 		Page:   page,
 		Size:   size,
 	}
+}
+
+// AdminOrderItem 管理员订单列表项
+type AdminOrderItem struct {
+	ID           string    `json:"id"`
+	ProductTitle string    `json:"productTitle"`
+	ProductImage string    `json:"productImage"`
+	Price        float64   `json:"price"`
+	Buyer        string    `json:"buyer"`
+	Seller       string    `json:"seller"`
+	Status       string    `json:"status"`
+	CreateTime   time.Time `json:"createTime"`
+	PayTime      time.Time `json:"payTime,omitempty"`
+	CompleteTime time.Time `json:"completeTime,omitempty"`
+}
+
+// AdminOrderListResponse 管理员订单列表响应
+type AdminOrderListResponse struct {
+	Total int64            `json:"total"`
+	List  []AdminOrderItem `json:"list"`
+}
+
+// OrderLogItem 订单日志项
+type OrderLogItem struct {
+	Action   string    `json:"action"`
+	Time     time.Time `json:"time"`
+	Operator string    `json:"operator"`
+	Remark   string    `json:"remark,omitempty"`
+}
+
+// AdminOrderDetailResponse 管理员订单详情响应
+type AdminOrderDetailResponse struct {
+	ID           string         `json:"id"`
+	ProductID    uint           `json:"productId"`
+	ProductTitle string         `json:"productTitle"`
+	ProductImage string         `json:"productImage"`
+	Price        float64        `json:"price"`
+	BuyerID      uint           `json:"buyerId"`
+	Buyer        string         `json:"buyer"`
+	BuyerPhone   string         `json:"buyerPhone"`
+	BuyerAddress string         `json:"buyerAddress"`
+	SellerID     uint           `json:"sellerId"`
+	Seller       string         `json:"seller"`
+	SellerPhone  string         `json:"sellerPhone"`
+	Status       string         `json:"status"`
+	CreateTime   time.Time      `json:"createTime"`
+	PayTime      time.Time      `json:"payTime,omitempty"`
+	DeliveryTime time.Time      `json:"deliveryTime,omitempty"`
+	CompleteTime time.Time      `json:"completeTime,omitempty"`
+	Remark       string         `json:"remark,omitempty"`
+	Logs         []OrderLogItem `json:"logs"`
 }

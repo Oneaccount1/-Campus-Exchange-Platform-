@@ -12,7 +12,7 @@ func RegisterRoutes(r *gin.Engine, api *gin.RouterGroup) {
 	favoriteController := controllers.NewFavoriteController()
 
 	// 公开路由 - 不需要认证
-	publicGroup := api.Group("/auth")
+	publicGroup := api.Group("/")
 	registerPublicRoutes(publicGroup, userController)
 
 	// 用户路由 - 需要认证
@@ -26,7 +26,7 @@ func RegisterRoutes(r *gin.Engine, api *gin.RouterGroup) {
 	registerFavoriteRoutes(favoriteGroup, favoriteController)
 
 	// 管理员路由 - 需要管理员权限
-	adminGroup := api.Group("/admin/users")
+	adminGroup := api.Group("/admin")
 	adminGroup.Use(middleware.JWTAuth())
 	adminGroup.Use(middleware.AuthorizeByRole("admin"))
 	registerAdminRoutes(adminGroup, userController)
@@ -36,6 +36,8 @@ func RegisterRoutes(r *gin.Engine, api *gin.RouterGroup) {
 func registerPublicRoutes(router *gin.RouterGroup, controller *controllers.UserController) {
 	router.POST("/register", controller.Register)
 	router.POST("/login", controller.Login)
+	router.POST("/admin/login", controller.AdminLogin)
+
 }
 
 // registerAuthRoutes 注册需要认证的路由
@@ -66,7 +68,15 @@ func registerFavoriteRoutes(router *gin.RouterGroup, controller *controllers.Fav
 
 // registerAdminRoutes 注册需要管理员权限的路由
 func registerAdminRoutes(router *gin.RouterGroup, controller *controllers.UserController) {
-	// 已经在adminGroup中添加了基于角色的权限验证中间件，这里不需要重复添加
-	// 但可以添加更具体的权限检查
-	router.GET("", middleware.AuthorizePermission("/api/v1/admin/users", "GET"), controller.ListUsers)
+	// 用户列表接口（支持基本和高级查询）
+	router.GET("/users", middleware.AuthorizePermission("/api/v1/admin/users", "GET"), controller.ListUsers)
+
+	// 获取用户详情
+	router.GET("/users/:id", middleware.AuthorizePermission("/api/v1/admin/users/:id", "GET"), controller.GetUserDetail)
+
+	// 更新用户状态
+	router.PUT("/users/:id/status", middleware.AuthorizePermission("/api/v1/admin/users/:id/status", "PUT"), controller.UpdateUserStatus)
+
+	// 重置用户密码
+	router.POST("/users/:id/reset-password", middleware.AuthorizePermission("/api/v1/admin/users/:id/reset-password", "POST"), controller.ResetUserPassword)
 }

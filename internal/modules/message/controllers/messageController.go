@@ -218,3 +218,93 @@ func (c *MessageController) GetLastMessage(ctx *gin.Context) {
 
 	response.Success(ctx, message)
 }
+
+// GetAdminMessageList 管理员获取消息列表
+func (c *MessageController) GetAdminMessageList(ctx *gin.Context) {
+	var req api.AdminMessageListRequest
+	if err := ctx.ShouldBindQuery(&req); err != nil {
+		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
+		return
+	}
+	
+	// 获取消息列表
+	result, err := c.service.GetMessagesForAdmin(&req)
+	if err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+	
+	response.SuccessWithMessage(ctx, "获取成功", result)
+}
+
+// GetAdminConversationList 管理员获取会话列表
+func (c *MessageController) GetAdminConversationList(ctx *gin.Context) {
+	var req api.AdminConversationListRequest
+	if err := ctx.ShouldBindQuery(&req); err != nil {
+		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
+		return
+	}
+	
+	// 获取会话列表
+	result, err := c.service.GetConversationsForAdmin(&req)
+	if err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+	
+	response.SuccessWithMessage(ctx, "获取成功", result)
+}
+
+// GetAdminMessageHistory 管理员获取会话消息历史
+func (c *MessageController) GetAdminMessageHistory(ctx *gin.Context) {
+	var req api.AdminMessageHistoryRequest
+	if err := ctx.ShouldBindQuery(&req); err != nil {
+		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
+		return
+	}
+	
+	// 获取消息历史
+	result, err := c.service.GetMessageHistoryForAdmin(&req)
+	if err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+	
+	response.SuccessWithMessage(ctx, "获取成功", result)
+}
+
+// SendSystemMessage 管理员发送系统消息
+func (c *MessageController) SendSystemMessage(ctx *gin.Context) {
+	var req api.AdminSendSystemMessageRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
+		return
+	}
+	
+	// 发送系统消息
+	if err := c.service.SendSystemMessage(&req); err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+	
+	response.SuccessWithMessage(ctx, "发送成功", nil)
+}
+
+// DeleteMessage 管理员删除消息
+func (c *MessageController) DeleteMessage(ctx *gin.Context) {
+	// 获取消息ID
+	messageIDStr := ctx.Param("messageId")
+	messageID, err := strconv.ParseUint(messageIDStr, 10, 32)
+	if err != nil {
+		response.HandleError(ctx, errors.NewBadRequestError("无效的消息ID", err))
+		return
+	}
+	
+	// 删除消息
+	if err := c.service.DeleteMessage(uint(messageID)); err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+	
+	response.SuccessWithMessage(ctx, "删除成功", nil)
+}

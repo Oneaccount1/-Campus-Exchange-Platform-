@@ -6,6 +6,7 @@ import (
 	"campus/internal/utils/errors"
 	"campus/internal/utils/response"
 	"github.com/gin-gonic/gin"
+	"strconv"
 )
 
 type ProductController struct {
@@ -121,6 +122,24 @@ func (c *ProductController) SearchProductsByKeyword(ctx *gin.Context) {
 	response.Success(ctx, products)
 }
 
+// BatchUpdateStatus 批量更新商品状态
+//func (c *ProductController) BatchUpdateStatus(ctx *gin.Context) {
+//	var req api.BatchUpdateStatusRequest
+//	if err := ctx.ShouldBindJSON(&req); err != nil {
+//		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
+//		return
+//	}
+//
+//	// 调用服务层方法
+//	err := c.service.BatchUpdateStatus(req.ProductIDs, req.Status)
+//	if err != nil {
+//		response.HandleError(ctx, err)
+//		return
+//	}
+//
+//	response.SuccessWithMessage(ctx, "批量更新成功", nil)
+//}
+
 func (c *ProductController) GetUserProducts(ctx *gin.Context) {
 	var req api.GetUserProductsRequest
 	if err := ctx.ShouldBindQuery(&req); err != nil {
@@ -135,4 +154,40 @@ func (c *ProductController) GetUserProducts(ctx *gin.Context) {
 	}
 
 	response.Success(ctx, products)
+}
+
+func (c *ProductController) AdminListProducts(ctx *gin.Context) {
+	var req api.FilterProductsRequest
+	if err := ctx.ShouldBindQuery(&req); err != nil {
+		response.HandleError(ctx, errors.NewValidationError("请求参数错误", err))
+		return
+	}
+	products, err := c.service.FilterProducts(&req)
+	if err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+
+	response.Success(ctx, products)
+}
+
+// GetLatestProducts 获取最新商品
+func (c *ProductController) GetLatestProducts(ctx *gin.Context) {
+	// 获取参数limit，默认为8
+	limitStr := ctx.Query("limit")
+	limit := uint(8)
+	if limitStr != "" {
+		limitInt, err := strconv.Atoi(limitStr)
+		if err == nil && limitInt > 0 {
+			limit = uint(limitInt)
+		}
+	}
+
+	// 调用服务层获取最新商品
+	productsResponse, err := c.service.GetLatestProducts(limit)
+	if err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+	response.Success(ctx, productsResponse)
 }

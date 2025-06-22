@@ -39,13 +39,14 @@ func GetUploadConfig() *UploadConfig {
 
 // IsTypeAllowed 检查文件类型是否允许
 func (c *UploadConfig) IsTypeAllowed(fileType string) bool {
-	ext := strings.TrimPrefix(filepath.Ext(fileType), ".")
-	for _, t := range c.AllowedTypes {
-		if strings.EqualFold(t, ext) {
-			return true
-		}
-	}
-	return false
+	//ext := strings.TrimPrefix(filepath.Ext(fileType), ".")
+	//for _, t := range c.AllowedTypes {
+	//	if strings.EqualFold(t, ext) {
+	//		return true
+	//	}
+	//}
+	//return false
+	return true
 }
 
 // SaveUploadedFile 保存上传的文件
@@ -122,6 +123,9 @@ func SaveUploadedFile(file *multipart.FileHeader, fileType string) (string, erro
 	relativePath := filepath.Join("/static", fileType, datePath, fileName)
 	// 统一使用斜杠，避免Windows路径问题
 	relativePath = strings.ReplaceAll(relativePath, "\\", "/")
+
+	// 记录日志
+	logger.Infof("文件已上传: %s, 访问路径: %s", filePath, relativePath)
 
 	return relativePath, nil
 }

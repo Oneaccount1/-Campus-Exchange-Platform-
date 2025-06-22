@@ -31,6 +31,11 @@ type CreateConversationRequest struct {
 	ProductID uint `json:"product_id"`                 // 商品ID（可选）
 }
 
+// DeleteConversationRequest 删除会话请求
+type DeleteConversationRequest struct {
+	ContactID uint `json:"contact_id" binding:"required"` // 联系人ID
+}
+
 // AdminMessageListRequest 管理员获取消息列表请求
 type AdminMessageListRequest struct {
 	Page      uint   `json:"page" form:"page"`
@@ -50,10 +55,14 @@ type AdminConversationListRequest struct {
 
 // AdminMessageHistoryRequest 管理员获取会话消息历史请求
 type AdminMessageHistoryRequest struct {
-	User1ID uint `json:"user1Id" form:"user1Id" binding:"required"`
-	User2ID uint `json:"user2Id" form:"user2Id" binding:"required"`
-	Page    uint `json:"page" form:"page"`
-	Size    uint `json:"size" form:"size"`
+	User1ID   uint   `json:"user1_id" form:"user1_id" binding:"required"` // 用户1的ID
+	User2ID   uint   `json:"user2_id" form:"user2_id" binding:"required"` // 用户2的ID
+	Page      uint   `json:"page" form:"page"`                            // 页码
+	Size      uint   `json:"size" form:"size"`                            // 每页数量
+	StartDate string `json:"start_date" form:"start_date"`                // 开始日期
+	EndDate   string `json:"end_date" form:"end_date"`                    // 结束日期
+	Keyword   string `json:"keyword" form:"keyword"`                      // 内容关键词
+	Status    string `json:"status" form:"status"`                        // 消息状态：已读/未读
 }
 
 // AdminSendSystemMessageRequest 管理员发送系统消息请求

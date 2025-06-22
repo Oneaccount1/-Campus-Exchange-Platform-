@@ -13522,3 +13522,758 @@
 2025-06-19T20:51:15+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
 2025-06-19T20:51:15+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
 2025-06-19T20:51:18+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T14:26:42+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-21T14:26:42+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-21T14:26:42+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-21T14:26:43+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-21T14:26:43+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-21T14:26:43+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-21T14:26:43+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-21T14:26:43+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-21T14:26:43+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
+2025-06-21T14:26:44+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-21T14:27:02+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T14:28:09+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T14:36:30+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-21T14:36:30+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-21T14:36:30+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-21T14:36:31+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-21T14:36:31+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-21T14:36:31+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-21T14:36:31+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-21T14:36:32+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-21T14:36:32+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
+2025-06-21T14:36:32+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-21T14:37:02+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T14:42:32+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T14:49:37+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-21T14:49:41+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-21T14:49:41+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-21T14:49:42+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-21T14:49:42+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-21T14:49:42+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-21T14:49:42+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-21T14:49:42+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-21T14:49:42+08:00	info	bootstrap/bootstrap.go:83	应用已关闭
+2025-06-21T14:52:44+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-21T14:52:44+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-21T14:52:44+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-21T14:52:45+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-21T14:52:45+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-21T14:52:45+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-21T14:52:45+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-21T14:52:45+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-21T14:52:45+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
+2025-06-21T14:52:45+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-21T14:52:51+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T14:53:18+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1000 (normal): 用户主动断开"}
+2025-06-21T14:53:18+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T14:53:19+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T14:54:50+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-21T14:54:50+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-21T14:54:50+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-21T14:54:51+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-21T14:54:51+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-21T14:54:51+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-21T14:54:51+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-21T14:54:52+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-21T14:54:52+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
+2025-06-21T14:54:52+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-21T14:54:56+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T14:55:11+08:00	warn	gorm@v1.30.0/callbacks.go:134	慢查询 SQL: SELECT * FROM `favorites` WHERE user_id = 2 AND `favorites`.`deleted_at` IS NULL LIMIT 9	{"module": "gorm", "elapsed": 1.0915995, "rows": 2}
+2025-06-21T14:59:14+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T14:59:14+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T14:59:33+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1000 (normal): 用户主动断开"}
+2025-06-21T14:59:33+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T14:59:34+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T14:59:45+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1000 (normal): 用户主动断开"}
+2025-06-21T14:59:45+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T14:59:46+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:00:25+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:00:26+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:06:06+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-21T15:06:07+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-21T15:06:07+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-21T15:06:08+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-21T15:06:08+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-21T15:06:08+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-21T15:06:08+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-21T15:06:08+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-21T15:06:08+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
+2025-06-21T15:06:08+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-21T15:06:08+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:06:23+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:06:23+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-21T15:06:23+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:06:27+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:07:25+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:07:25+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:07:28+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:07:29+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:07:29+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:07:32+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:07:34+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:07:34+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-21T15:07:34+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:07:37+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:07:39+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:07:39+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:07:42+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:07:44+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:07:44+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-21T15:07:44+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:07:47+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:07:49+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:07:49+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-21T15:07:49+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:07:54+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:07:54+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:07:54+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-21T15:07:54+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:07:59+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:07:59+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:07:59+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:08:04+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:04+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:04+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-21T15:08:04+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:08:09+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:09+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:09+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:08:12+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:14+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:14+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:08:17+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:19+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:19+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:08:22+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:24+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:24+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-21T15:08:24+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:08:27+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:29+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:29+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-21T15:08:29+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:08:32+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:34+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:34+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:08:37+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:39+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:39+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:08:42+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:44+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:44+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:08:47+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:49+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:49+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:08:52+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:54+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:54+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:08:57+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:59+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:08:59+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:09:02+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:04+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:04+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:09:07+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:09+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:09+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-21T15:09:09+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:09:12+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:14+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:14+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:09:17+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:19+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:19+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-21T15:09:19+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:09:22+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:24+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:24+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:09:27+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:29+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:29+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:09:32+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:34+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:34+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:09:37+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:39+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:39+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-21T15:09:39+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:09:42+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:44+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:44+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:09:47+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:49+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:49+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-21T15:09:49+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:09:52+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:54+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:54+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:09:57+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:59+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:09:59+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:10:02+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:04+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:04+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-21T15:10:04+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:10:07+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:09+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:09+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-21T15:10:09+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:10:12+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:14+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:14+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:10:17+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:19+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:19+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:10:22+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:24+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:24+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:10:27+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:29+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:29+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-21T15:10:29+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:10:32+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:34+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:34+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:10:37+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:39+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:39+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:10:42+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:44+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:44+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:10:47+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:49+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:49+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-21T15:10:49+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:10:52+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:53+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:10:53+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:10:58+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:13:52+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1000 (normal): 用户主动断开"}
+2025-06-21T15:13:52+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:13:53+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:13:53+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:13:53+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:15:24+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-21T15:15:24+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-21T15:15:24+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-21T15:15:24+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-21T15:15:24+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-21T15:15:24+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-21T15:15:24+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-21T15:15:25+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-21T15:15:25+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
+2025-06-21T15:15:25+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-21T15:16:17+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:16:31+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:16:35+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T15:17:16+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T15:17:16+08:00	info	controllers/uploadController.go:33	接收到文件上传: Default.jpg, 大小: 2621283 字节
+2025-06-21T15:17:16+08:00	error	controllers/uploadController.go:47	保存文件失败: 不支持的文件类型，允许的类型：jpg, jpeg, png, gif
+2025-06-21T15:17:16+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T15:17:16+08:00	info	controllers/uploadController.go:33	接收到文件上传: Default.jpg, 大小: 2621283 字节
+2025-06-21T15:17:16+08:00	error	controllers/uploadController.go:47	保存文件失败: 不支持的文件类型，允许的类型：jpg, jpeg, png, gif
+2025-06-21T15:17:40+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T15:17:40+08:00	info	controllers/uploadController.go:33	接收到文件上传: gorseProclems.png, 大小: 164099 字节
+2025-06-21T15:17:40+08:00	error	controllers/uploadController.go:47	保存文件失败: 不支持的文件类型，允许的类型：jpg, jpeg, png, gif
+2025-06-21T15:17:40+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T15:17:40+08:00	info	controllers/uploadController.go:33	接收到文件上传: gorseProclems.png, 大小: 164099 字节
+2025-06-21T15:17:40+08:00	error	controllers/uploadController.go:47	保存文件失败: 不支持的文件类型，允许的类型：jpg, jpeg, png, gif
+2025-06-21T15:18:03+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T15:18:03+08:00	info	controllers/uploadController.go:33	接收到文件上传: 2.png, 大小: 12879 字节
+2025-06-21T15:18:03+08:00	error	controllers/uploadController.go:47	保存文件失败: 不支持的文件类型，允许的类型：jpg, jpeg, png, gif
+2025-06-21T15:18:03+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T15:18:03+08:00	info	controllers/uploadController.go:33	接收到文件上传: 2.png, 大小: 12879 字节
+2025-06-21T15:18:03+08:00	error	controllers/uploadController.go:47	保存文件失败: 不支持的文件类型，允许的类型：jpg, jpeg, png, gif
+2025-06-21T15:19:14+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-21T15:19:15+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-21T15:19:15+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-21T15:19:15+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-21T15:19:15+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-21T15:19:15+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-21T15:19:15+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-21T15:19:16+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-21T15:19:16+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
+2025-06-21T15:19:16+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-21T15:19:21+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T15:19:36+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T15:19:36+08:00	info	controllers/uploadController.go:33	接收到文件上传: Default.jpg, 大小: 2621283 字节
+2025-06-21T15:19:36+08:00	info	upload/upload.go:128	文件已上传: uploads\images\2025\06\21\1750490376826255000_AgAgWeI40w.jpg, 访问路径: /static/images/2025/06/21/1750490376826255000_AgAgWeI40w.jpg
+2025-06-21T15:19:36+08:00	info	controllers/uploadController.go:52	文件上传成功: Default.jpg -> /static/images/2025/06/21/1750490376826255000_AgAgWeI40w.jpg
+2025-06-21T15:20:10+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T15:20:10+08:00	info	controllers/uploadController.go:33	接收到文件上传: Default.jpg, 大小: 2621283 字节
+2025-06-21T15:20:10+08:00	info	upload/upload.go:128	文件已上传: uploads\images\2025\06\21\1750490410582440200_AeiWm00W06.jpg, 访问路径: /static/images/2025/06/21/1750490410582440200_AeiWm00W06.jpg
+2025-06-21T15:20:10+08:00	info	controllers/uploadController.go:52	文件上传成功: Default.jpg -> /static/images/2025/06/21/1750490410582440200_AeiWm00W06.jpg
+2025-06-21T15:24:22+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-21T15:24:22+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-21T15:24:22+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-21T15:24:23+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-21T15:24:23+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-21T15:24:23+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-21T15:24:23+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-21T15:24:23+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-21T15:24:23+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
+2025-06-21T15:24:24+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-21T15:24:24+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T15:24:37+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T15:24:38+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T15:25:05+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T15:25:05+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T15:26:46+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T15:26:48+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T15:27:12+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T15:27:13+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T15:27:49+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T15:27:49+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T15:28:33+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T15:28:33+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T15:34:52+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 1, "error": "websocket: close 1000 (normal): 用户主动断开"}
+2025-06-21T15:34:52+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T15:34:52+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T15:35:05+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T15:35:05+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T15:40:28+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:41:53+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T15:41:53+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T15:42:11+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T15:42:11+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T15:42:26+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T15:42:31+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T15:42:31+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T15:42:58+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T16:03:56+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-21T16:03:56+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-21T16:03:56+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-21T16:03:57+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-21T16:03:57+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-21T16:03:57+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-21T16:03:57+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-21T16:03:57+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-21T16:03:57+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
+2025-06-21T16:03:57+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-21T16:04:41+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T16:04:58+08:00	error	gorm@v1.30.0/callbacks.go:134	SQL错误: INSERT INTO `product_images` (`created_at`,`updated_at`,`deleted_at`,`product_id`,`image_url`) VALUES 	{"module": "gorm", "elapsed": 0.0789894, "rows": 0, "error": "empty slice found"}
+2025-06-21T16:06:07+08:00	error	gorm@v1.30.0/callbacks.go:134	SQL错误: INSERT INTO `product_images` (`created_at`,`updated_at`,`deleted_at`,`product_id`,`image_url`) VALUES 	{"elapsed": 0.0793318, "rows": 0, "error": "empty slice found", "module": "gorm"}
+2025-06-21T16:09:24+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T16:09:24+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T16:13:00+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T16:13:00+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T16:15:53+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T16:15:54+08:00	info	controllers/uploadController.go:33	接收到文件上传: Default.jpg, 大小: 2621283 字节
+2025-06-21T16:15:54+08:00	info	upload/upload.go:128	文件已上传: uploads\images\2025\06\21\1750493754002640900_WU0O8iMAQS.jpg, 访问路径: /static/images/2025/06/21/1750493754002640900_WU0O8iMAQS.jpg
+2025-06-21T16:15:54+08:00	info	controllers/uploadController.go:52	文件上传成功: Default.jpg -> /static/images/2025/06/21/1750493754002640900_WU0O8iMAQS.jpg
+2025-06-21T16:20:20+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T16:20:21+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T16:20:33+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T16:20:33+08:00	info	controllers/uploadController.go:33	接收到文件上传: Default.jpg, 大小: 2621283 字节
+2025-06-21T16:20:33+08:00	info	upload/upload.go:128	文件已上传: uploads\images\2025\06\21\1750494033301633000_aeeYqi6CYC.jpg, 访问路径: /static/images/2025/06/21/1750494033301633000_aeeYqi6CYC.jpg
+2025-06-21T16:20:33+08:00	info	controllers/uploadController.go:52	文件上传成功: Default.jpg -> /static/images/2025/06/21/1750494033301633000_aeeYqi6CYC.jpg
+2025-06-21T16:22:29+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T16:22:29+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T16:22:29+08:00	info	controllers/uploadController.go:33	接收到文件上传: gorseProclems.png, 大小: 164099 字节
+2025-06-21T16:22:29+08:00	info	controllers/uploadController.go:33	接收到文件上传: Default.jpg, 大小: 2621283 字节
+2025-06-21T16:22:29+08:00	info	upload/upload.go:128	文件已上传: uploads\images\2025\06\21\1750494149304631100_ysuO2y8eow.png, 访问路径: /static/images/2025/06/21/1750494149304631100_ysuO2y8eow.png
+2025-06-21T16:22:29+08:00	info	controllers/uploadController.go:52	文件上传成功: gorseProclems.png -> /static/images/2025/06/21/1750494149304631100_ysuO2y8eow.png
+2025-06-21T16:22:29+08:00	info	upload/upload.go:128	文件已上传: uploads\images\2025\06\21\1750494149313051100_0K2CGSm4GA.jpg, 访问路径: /static/images/2025/06/21/1750494149313051100_0K2CGSm4GA.jpg
+2025-06-21T16:22:29+08:00	info	controllers/uploadController.go:52	文件上传成功: Default.jpg -> /static/images/2025/06/21/1750494149313051100_0K2CGSm4GA.jpg
+2025-06-21T16:23:47+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 1, "error": "websocket: close 1000 (normal): 用户主动断开"}
+2025-06-21T16:23:47+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T16:23:48+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T16:26:16+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T16:26:17+08:00	info	controllers/uploadController.go:33	接收到文件上传: Default.jpg, 大小: 2621283 字节
+2025-06-21T16:26:17+08:00	info	upload/upload.go:128	文件已上传: uploads\images\2025\06\21\1750494377000882700_Eas6qKWeEQ.jpg, 访问路径: /static/images/2025/06/21/1750494377000882700_Eas6qKWeEQ.jpg
+2025-06-21T16:26:17+08:00	info	controllers/uploadController.go:52	文件上传成功: Default.jpg -> /static/images/2025/06/21/1750494377000882700_Eas6qKWeEQ.jpg
+2025-06-21T16:26:35+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T16:26:35+08:00	info	controllers/uploadController.go:33	接收到文件上传: Default.jpg, 大小: 2621283 字节
+2025-06-21T16:26:35+08:00	info	upload/upload.go:128	文件已上传: uploads\images\2025\06\21\1750494395714659100_Su6EAe2iY8.jpg, 访问路径: /static/images/2025/06/21/1750494395714659100_Su6EAe2iY8.jpg
+2025-06-21T16:26:35+08:00	info	controllers/uploadController.go:52	文件上传成功: Default.jpg -> /static/images/2025/06/21/1750494395714659100_Su6EAe2iY8.jpg
+2025-06-21T16:26:52+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T16:26:52+08:00	info	controllers/uploadController.go:33	接收到文件上传: Default.jpg, 大小: 2621283 字节
+2025-06-21T16:26:52+08:00	info	upload/upload.go:128	文件已上传: uploads\images\2025\06\21\1750494412153646600_yOkSMseKey.jpg, 访问路径: /static/images/2025/06/21/1750494412153646600_yOkSMseKey.jpg
+2025-06-21T16:26:52+08:00	info	controllers/uploadController.go:52	文件上传成功: Default.jpg -> /static/images/2025/06/21/1750494412153646600_yOkSMseKey.jpg
+2025-06-21T16:27:11+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T16:27:11+08:00	info	controllers/uploadController.go:33	接收到文件上传: Default.jpg, 大小: 2621283 字节
+2025-06-21T16:27:11+08:00	info	upload/upload.go:128	文件已上传: uploads\images\2025\06\21\1750494431154896200_imyGGUeEwm.jpg, 访问路径: /static/images/2025/06/21/1750494431154896200_imyGGUeEwm.jpg
+2025-06-21T16:27:11+08:00	info	controllers/uploadController.go:52	文件上传成功: Default.jpg -> /static/images/2025/06/21/1750494431154896200_imyGGUeEwm.jpg
+2025-06-21T16:27:27+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T16:27:27+08:00	info	controllers/uploadController.go:33	接收到文件上传: Default.jpg, 大小: 2621283 字节
+2025-06-21T16:27:27+08:00	info	upload/upload.go:128	文件已上传: uploads\images\2025\06\21\1750494447873085700_2scA0kc0AI.jpg, 访问路径: /static/images/2025/06/21/1750494447873085700_2scA0kc0AI.jpg
+2025-06-21T16:27:27+08:00	info	controllers/uploadController.go:52	文件上传成功: Default.jpg -> /static/images/2025/06/21/1750494447873085700_2scA0kc0AI.jpg
+2025-06-21T17:04:32+08:00	warn	gorm@v1.30.0/callbacks.go:134	慢查询 SQL: SELECT * FROM `products` WHERE status = '售卖中' AND `products`.`deleted_at` IS NULL ORDER BY created_at DESC LIMIT 8	{"module": "gorm", "elapsed": 2.2940612, "rows": 8}
+2025-06-21T17:05:02+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:05:02+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:05:20+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:05:21+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:09:19+08:00	warn	rabbitMQ/publisher.go:92	RabbitMQ publisher connection lost. Attempting to reconnect...	{"error": "Exception (501) Reason: \"read tcp 172.16.1.214:56547->47.238.124.43:5672: wsarecv: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.\""}
+2025-06-21T17:09:34+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-21T17:09:39+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-21T17:09:39+08:00	info	rabbitMQ/publisher.go:98	RabbitMQ publisher reconnected successfully.
+2025-06-21T17:12:16+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:12:16+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:12:37+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:12:37+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:13:21+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:13:22+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:13:57+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:13:57+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:13:59+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:14:39+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-21T17:15:02+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-21T17:15:05+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:15:14+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:15:15+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:17:26+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:17:26+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:17:29+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:17:29+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:17:57+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:17:57+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:17:58+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:17:58+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:17:59+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:18:00+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:18:00+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:18:00+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:18:41+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:18:42+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:18:46+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:18:46+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:20:10+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:20:10+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:21:37+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:21:38+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:21:38+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:21:39+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:22:12+08:00	warn	gorm@v1.30.0/callbacks.go:134	慢查询 SQL: SELECT * FROM `products` WHERE user_id = 0 AND `products`.`deleted_at` IS NULL LIMIT 1	{"module": "gorm", "elapsed": 1.1544303, "rows": 1}
+2025-06-21T17:25:56+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:25:57+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:37:48+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:37:48+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:40:17+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:40:18+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:42:08+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:44:16+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:46:30+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:49:17+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:50:15+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:50:16+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:50:32+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:50:32+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:51:17+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:51:18+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:52:40+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:52:41+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T17:53:40+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T17:59:32+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:00:20+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:00:21+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:02:23+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:02:24+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:04:28+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:04:29+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:06:32+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:06:32+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:08:30+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:08:30+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:08:49+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:08:50+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:08:55+08:00	warn	gorm@v1.30.0/callbacks.go:134	慢查询 SQL: SELECT * FROM `product_images` WHERE `product_images`.`product_id` IN (14,13,10,8) AND `product_images`.`deleted_at` IS NULL	{"rows": 4, "module": "gorm", "elapsed": 1.0467911}
+2025-06-21T18:08:55+08:00	warn	gorm@v1.30.0/callbacks.go:134	慢查询 SQL: SELECT * FROM `products` WHERE `products`.`deleted_at` IS NULL ORDER BY created_at DESC LIMIT 5	{"elapsed": 1.2137052, "rows": 5, "module": "gorm"}
+2025-06-21T18:12:28+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:12:29+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:12:49+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:12:50+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:13:18+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:13:18+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:13:58+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:13:58+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:13:59+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:14:00+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:14:00+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:14:01+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:14:20+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:14:21+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:14:51+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:14:51+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:15:54+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:15:55+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:24:57+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:24:57+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:25:25+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:25:26+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:25:31+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:25:32+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:28:41+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:28:42+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:29:14+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:29:15+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T18:32:12+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T18:32:13+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T19:31:11+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T19:31:12+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T19:33:59+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T19:33:59+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T19:35:51+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T19:35:51+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T19:35:55+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T19:36:20+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T19:36:20+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T19:36:20+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 1, "error": "websocket: close 1005 (no status)"}
+2025-06-21T19:36:25+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T19:37:22+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-21T19:37:22+08:00	info	controllers/uploadController.go:33	接收到文件上传: Default.jpg, 大小: 2621283 字节
+2025-06-21T19:37:22+08:00	info	upload/upload.go:128	文件已上传: uploads\images\2025\06\21\1750505842748707300_ssiWEyeg42.jpg, 访问路径: /static/images/2025/06/21/1750505842748707300_ssiWEyeg42.jpg
+2025-06-21T19:37:22+08:00	info	controllers/uploadController.go:52	文件上传成功: Default.jpg -> /static/images/2025/06/21/1750505842748707300_ssiWEyeg42.jpg
+2025-06-21T19:48:15+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T19:48:16+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T20:38:49+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-21T20:38:49+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-21T20:38:49+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-21T20:38:50+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-21T20:38:50+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-21T20:38:50+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-21T20:38:50+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-21T20:38:50+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-21T20:38:50+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
+2025-06-21T20:38:50+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-21T20:39:35+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T20:39:41+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-21T20:39:41+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-21T23:06:12+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-22T03:00:02+08:00	warn	rabbitMQ/publisher.go:92	RabbitMQ publisher connection lost. Attempting to reconnect...	{"error": "Exception (501) Reason: \"write tcp 172.16.1.214:59977->47.238.124.43:5672: wsasend: An existing connection was forcibly closed by the remote host.\""}
+2025-06-22T05:10:33+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-22T05:10:33+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-22T05:10:34+08:00	info	rabbitMQ/publisher.go:98	RabbitMQ publisher reconnected successfully.
+2025-06-22T05:10:34+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-22T07:57:12+08:00	warn	rabbitMQ/publisher.go:92	RabbitMQ publisher connection lost. Attempting to reconnect...	{"error": "Exception (501) Reason: \"read tcp 172.16.1.214:50617->47.238.124.43:5672: i/o timeout\""}
+2025-06-22T07:57:16+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-22T07:57:18+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-22T07:57:18+08:00	info	rabbitMQ/publisher.go:98	RabbitMQ publisher reconnected successfully.
+2025-06-22T07:57:18+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-22T07:57:19+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-22T07:57:22+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-22T08:02:55+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-22T08:02:56+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-22T08:12:49+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-22T08:12:49+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-22T08:12:49+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-22T08:12:50+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-22T08:12:50+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-22T08:12:50+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-22T08:12:50+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-22T08:12:50+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-22T08:12:50+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
+2025-06-22T08:12:50+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-22T08:12:58+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-22T08:17:29+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-22T08:17:29+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-22T08:33:27+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-22T08:33:27+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-22T08:33:27+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-22T08:33:28+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-22T08:33:28+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-22T08:33:28+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-22T08:33:28+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-22T08:33:28+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-22T08:33:28+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
+2025-06-22T08:33:28+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-22T08:33:35+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-22T08:33:36+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-22T08:33:37+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-22T08:42:34+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-22T08:42:35+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-22T08:44:24+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-22T08:44:25+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-22T08:45:51+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-22T08:45:52+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-22T08:48:00+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-22T08:48:00+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-22T08:48:40+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-22T08:48:41+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-22T09:00:52+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-22T09:00:53+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-22T09:00:53+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-22T09:00:55+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-22T09:00:55+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-22T09:00:55+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-22T09:00:55+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-22T09:00:56+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-22T09:00:56+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
+2025-06-22T09:00:56+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-22T09:01:07+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-22T09:01:17+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T09:01:52+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-22T09:01:53+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-22T09:01:58+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-22T09:03:05+08:00	info	controllers/uploadController.go:23	开始处理图片上传请求
+2025-06-22T09:03:05+08:00	info	controllers/uploadController.go:33	接收到文件上传: Default.jpg, 大小: 2621283 字节
+2025-06-22T09:03:05+08:00	info	upload/upload.go:128	文件已上传: uploads\images\2025\06\22\1750554185129011300_iUoE0ccUWU.jpg, 访问路径: /static/images/2025/06/22/1750554185129011300_iUoE0ccUWU.jpg
+2025-06-22T09:03:05+08:00	info	controllers/uploadController.go:52	文件上传成功: Default.jpg -> /static/images/2025/06/22/1750554185129011300_iUoE0ccUWU.jpg
+2025-06-22T09:08:13+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T09:08:29+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T09:18:02+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T09:18:05+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T09:23:22+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T09:23:57+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-22T09:24:25+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-22T09:24:26+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 1}
+2025-06-22T09:24:56+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 1, "error": "websocket: close 1000 (normal): 用户主动断开"}
+2025-06-22T09:24:56+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 1}
+2025-06-22T09:25:10+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T09:43:27+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T09:43:28+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T09:43:46+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T09:43:46+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T09:44:35+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T09:44:35+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:54:19+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-22T10:54:19+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-22T10:54:19+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-22T10:54:20+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-22T10:54:20+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-22T10:54:20+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-22T10:54:20+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-22T10:54:20+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-22T10:54:20+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
+2025-06-22T10:54:20+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.
+2025-06-22T10:54:59+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:55:38+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:55:38+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:56:56+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:56:56+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:57:00+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:00+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:00+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:57:03+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:05+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:05+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:57:08+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:10+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:10+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-22T10:57:10+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:57:13+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:15+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:15+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:57:18+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:18+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:18+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:57:18+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-22T10:57:21+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:21+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:21+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-22T10:57:21+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:57:24+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:25+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:25+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:57:27+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:28+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:28+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-22T10:57:28+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:57:30+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:31+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:31+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:57:31+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-22T10:57:33+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:35+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:35+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:57:35+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-22T10:57:36+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:38+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:38+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-22T10:57:38+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:57:38+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-22T10:57:41+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:43+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:43+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:57:46+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:46+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:46+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-22T10:57:46+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:57:46+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-22T10:57:49+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:51+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:51+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-22T10:57:51+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:57:54+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:56+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:57:56+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:57:59+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:01+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:01+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-22T10:58:01+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:58:06+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:06+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:06+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:58:09+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:09+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:09+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-22T10:58:09+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:58:09+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-22T10:58:12+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:14+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:14+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-22T10:58:14+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:58:19+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:19+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:19+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:58:22+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:24+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1000 (normal): 准备重新连接"}
+2025-06-22T10:58:24+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:58:24+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:24+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:24+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:58:27+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:29+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:29+08:00	warn	websocket/manager.go:186	WebSocket意外关闭	{"用户ID": 2, "error": "websocket: close 1005 (no status)"}
+2025-06-22T10:58:29+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:58:34+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:34+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:34+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:58:37+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:39+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:39+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:58:44+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:44+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:44+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:58:47+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:49+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:49+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:58:54+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:54+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:54+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:58:57+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:59+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:58:59+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:59:04+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:59:04+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:59:04+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T10:59:07+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:59:09+08:00	info	websocket/manager.go:68	WebSocket连接建立	{"用户ID": 2}
+2025-06-22T10:59:09+08:00	info	websocket/manager.go:75	WebSocket连接断开	{"用户ID": 2}
+2025-06-22T11:10:03+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-22T11:10:04+08:00	info	database/database.go:161	数据库连接成功	{"level": "Warn"}
+2025-06-22T11:10:07+08:00	error	gorm@v1.30.0/finisher_api.go:545	SQL错误: SELECT * FROM `	{"rows": -1, "error": "Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '`' at line 1", "module": "gorm", "elapsed": 0.0321705}
+2025-06-22T11:10:07+08:00	error	bootstrap/database.go:57	初始化系统默认账号和商品失败: 检查系统账号失败: Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '`' at line 1
+2025-06-22T11:10:07+08:00	error	bootstrap/database.go:26	数据库迁移失败: 检查系统账号失败: Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '`' at line 1
+2025-06-22T11:10:07+08:00	fatal	cmd/main.go:31	应用初始化失败: 检查系统账号失败: Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '`' at line 1
+2025-06-22T11:11:42+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-22T11:11:42+08:00	info	database/database.go:162	数据库连接成功	{"level": "Warn"}
+2025-06-22T11:11:56+08:00	info	database/database.go:209	系统默认账号(ID=0)创建成功
+2025-06-22T11:11:56+08:00	error	gorm@v1.30.0/callbacks.go:134	SQL错误: INSERT INTO `products` (`created_at`,`updated_at`,`deleted_at`,`title`,`description`,`price`,`category`,`condition`,`user_id`,`status`,`sold_at`) VALUES ('2025-06-22 11:11:56.902','2025-06-22 11:11:56.902',NULL,'系统商品','系统默认商品，用于特殊场景',0,'系统','新品',0,'系统','0000-00-00 00:00:00')	{"module": "gorm", "elapsed": 0.0970334, "rows": 0, "error": "Error 1292 (22007): Incorrect datetime value: '0000-00-00' for column 'sold_at' at row 1"}
+2025-06-22T11:11:57+08:00	error	bootstrap/database.go:57	初始化系统默认账号和商品失败: 创建系统商品失败: Error 1292 (22007): Incorrect datetime value: '0000-00-00' for column 'sold_at' at row 1
+2025-06-22T11:11:57+08:00	error	bootstrap/database.go:26	数据库迁移失败: 创建系统商品失败: Error 1292 (22007): Incorrect datetime value: '0000-00-00' for column 'sold_at' at row 1
+2025-06-22T11:11:57+08:00	fatal	cmd/main.go:31	应用初始化失败: 创建系统商品失败: Error 1292 (22007): Incorrect datetime value: '0000-00-00' for column 'sold_at' at row 1
+2025-06-22T11:14:22+08:00	info	bootstrap/bootstrap.go:43	配置和日志初始化成功
+2025-06-22T11:14:22+08:00	info	database/database.go:162	数据库连接成功	{"level": "Warn"}
+2025-06-22T11:14:35+08:00	info	database/database.go:209	系统默认账号(ID=0)创建成功
+2025-06-22T11:14:35+08:00	info	database/database.go:242	系统默认商品(ID=0)创建成功
+2025-06-22T11:14:35+08:00	info	bootstrap/database.go:61	数据库迁移和系统默认数据初始化成功
+2025-06-22T11:14:35+08:00	info	bootstrap/database.go:30	数据库初始化成功
+2025-06-22T11:14:36+08:00	info	bootstrap/messaging.go:21	WebSocket管理器已启动
+2025-06-22T11:14:36+08:00	info	bootstrap/messaging.go:27	消息系统初始化成功
+2025-06-22T11:14:36+08:00	info	bootstrap/bootstrap.go:68	应用初始化完成
+2025-06-22T11:14:36+08:00	info	rabbitMQ/consumer.go:16	Starting message consumer...
+2025-06-22T11:14:36+08:00	info	rabbitMQ/publisher.go:79	RabbitMQ Publisher connected and exchange declared
+2025-06-22T11:14:36+08:00	info	cmd/main.go:55	服务器启动	{"地址": ":8080"}
+2025-06-22T11:14:36+08:00	info	rabbitMQ/consumer.go:59	Message consumer is waiting for messages.

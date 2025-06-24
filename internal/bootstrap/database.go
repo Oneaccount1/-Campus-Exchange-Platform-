@@ -52,10 +52,10 @@ func AutoMigrateModels() error {
 	}
 
 	// 初始化系统默认账号和商品
-	if err := database.InitSystemDefaults(GetDB()); err != nil {
-		logger.Errorf("初始化系统默认账号和商品失败: %v", err)
-		return err
-	}
+	//if err := database.InitSystemDefaults(GetDB()); err != nil {
+	//	logger.Errorf("初始化系统默认账号和商品失败: %v", err)
+	//	return err
+	//}
 
 	logger.Info("数据库迁移和系统默认数据初始化成功")
 	return nil

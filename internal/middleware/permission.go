@@ -100,7 +100,7 @@ func AuthorizeByRole(role string) gin.HandlerFunc {
 func AuthorizePermission(obj string, act string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// 获取当前用户ID
-		userID, exists := c.Get("user_id")
+		userID, exists := c.Get("id")
 		if !exists {
 			response.HandleError(c, errors.ErrUnauthorized)
 			c.Abort()

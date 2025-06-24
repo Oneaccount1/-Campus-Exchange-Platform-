@@ -200,13 +200,13 @@ func (r *ProductRepositoryImpl) GetLatest(limit uint) ([]*models.Product, int64,
 		Find(&products).Error
 
 	// 如果没有找到有效商品，尝试获取所有状态的最新商品
-	if len(products) == 0 {
-		err = r.db.Preload("ProductImages").
-			Preload("User").
-			Order("created_at DESC").
-			Limit(int(limit)).
-			Find(&products).Error
-	}
+	//if len(products) == 0 {
+	//	err = r.db.Preload("ProductImages").
+	//		Preload("User").
+	//		Order("created_at DESC").
+	//		Limit(int(limit)).
+	//		Find(&products).Error
+	//}
 
 	return products, total, err
 }

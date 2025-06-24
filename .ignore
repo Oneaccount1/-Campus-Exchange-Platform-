@@ -1,5 +1,9 @@
-./.idea
-./*.exe
-./main.exe
-./app.exe
-./cappus_secondHand(1)
+# 忽略所有 .exe 文件（包括子目录）
+*.exe
+
+# 忽略 .idea 文件夹
+.idea/
+
+# 其他需要忽略的文件/目录（可选）
+build/
+*.log

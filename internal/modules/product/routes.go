@@ -33,7 +33,6 @@ func registerProductRoutes(router *gin.RouterGroup, controller *controllers.Prod
 	router.GET("/user", controller.GetUserProducts)
 	router.GET("/solving", controller.ListSolvingProducts)
 	router.GET("/latest", controller.GetLatestProducts)
-
 }
 
 // registerAdminProductRoutes 注册管理员商品相关路由

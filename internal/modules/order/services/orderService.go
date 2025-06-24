@@ -6,6 +6,7 @@ import (
 	"campus/internal/modules/order/repositories"
 	"campus/internal/utils/errors"
 	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -153,7 +154,7 @@ func (s *OrderServiceImpl) GetAdminOrderList(req *api.AdminOrderListRequest) (*a
 
 		// 构建订单项
 		item := api.AdminOrderItem{
-			ID:           fmt.Sprintf("O%d", order.ID),
+			ID:           strconv.Itoa(int(order.ID)),
 			ProductTitle: productTitle,
 			ProductImage: productImage,
 			Buyer:        buyerName,

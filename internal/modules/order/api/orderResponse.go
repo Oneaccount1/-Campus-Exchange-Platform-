@@ -6,25 +6,31 @@ import (
 )
 
 type OrderResponse struct {
-	ID        uint      `json:"id"`
-	BuyerID   uint      `json:"buyer_id"`
-	SellerID  uint      `json:"seller_id"`
-	ProductID uint      `json:"product_id"`
-	Status    string    `json:"status"`
-	Price     float64   `json:"price"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID           uint       `json:"id"`
+	BuyerID      uint       `json:"buyer_id"`
+	SellerID     uint       `json:"seller_id"`
+	ProductID    uint       `json:"product_id"`
+	Status       string     `json:"status"`
+	Price        float64    `json:"price"`
+	PayTime      *time.Time `json:"pay_time,omitempty"`
+	DeliveryTime *time.Time `json:"delivery_time,omitempty"`
+	CompleteTime *time.Time `json:"complete_time,omitempty"`
+	CreatedAt    time.Time  `json:"created_at"`
+	UpdatedAt    time.Time  `json:"updated_at"`
 }
 
 func ConvertToOrderResponse(order *models.Order) *OrderResponse {
 	return &OrderResponse{
-		ID:        order.ID,
-		BuyerID:   order.BuyerID,
-		SellerID:  order.SellerID,
-		ProductID: order.ProductID,
-		Status:    order.Status,
-		CreatedAt: order.CreatedAt,
-		UpdatedAt: order.UpdatedAt,
+		ID:           order.ID,
+		BuyerID:      order.BuyerID,
+		SellerID:     order.SellerID,
+		ProductID:    order.ProductID,
+		Status:       order.Status,
+		PayTime:      order.PayTime,
+		DeliveryTime: order.DeliveryTime,
+		CompleteTime: order.CompleteTime,
+		CreatedAt:    order.CreatedAt,
+		UpdatedAt:    order.UpdatedAt,
 	}
 }
 
@@ -50,16 +56,16 @@ func ConvertToOrderListResponse(orders []*models.Order, total, page, size uint) 
 
 // AdminOrderItem 管理员订单列表项
 type AdminOrderItem struct {
-	ID           string    `json:"id"`
-	ProductTitle string    `json:"productTitle"`
-	ProductImage string    `json:"productImage"`
-	Price        float64   `json:"price"`
-	Buyer        string    `json:"buyer"`
-	Seller       string    `json:"seller"`
-	Status       string    `json:"status"`
-	CreateTime   time.Time `json:"createTime"`
-	PayTime      time.Time `json:"payTime,omitempty"`
-	CompleteTime time.Time `json:"completeTime,omitempty"`
+	ID           string     `json:"id"`
+	ProductTitle string     `json:"productTitle"`
+	ProductImage string     `json:"productImage"`
+	Price        float64    `json:"price"`
+	Buyer        string     `json:"buyer"`
+	Seller       string     `json:"seller"`
+	Status       string     `json:"status"`
+	CreateTime   time.Time  `json:"createTime"`
+	PayTime      *time.Time `json:"payTime,omitempty"`
+	CompleteTime *time.Time `json:"completeTime,omitempty"`
 }
 
 // AdminOrderListResponse 管理员订单列表响应
@@ -92,9 +98,9 @@ type AdminOrderDetailResponse struct {
 	SellerPhone  string         `json:"sellerPhone"`
 	Status       string         `json:"status"`
 	CreateTime   time.Time      `json:"createTime"`
-	PayTime      time.Time      `json:"payTime,omitempty"`
-	DeliveryTime time.Time      `json:"deliveryTime,omitempty"`
-	CompleteTime time.Time      `json:"completeTime,omitempty"`
+	PayTime      *time.Time     `json:"payTime,omitempty"`
+	DeliveryTime *time.Time     `json:"deliveryTime,omitempty"`
+	CompleteTime *time.Time     `json:"completeTime,omitempty"`
 	Remark       string         `json:"remark,omitempty"`
 	Logs         []OrderLogItem `json:"logs"`
 }

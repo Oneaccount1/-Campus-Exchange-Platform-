@@ -34,11 +34,16 @@ func NewOrderService(orderRep repositories.OrderRepository) OrderService {
 }
 
 func (s *OrderServiceImpl) CreateOrder(data *api.CreateOrderRequest) (*api.OrderResponse, error) {
+	// 使用指针类型的time.Time，初始值为nil表示数据库中的NULL
 	order := &models.Order{
-		BuyerID:   data.BuyerID,
-		SellerID:  data.SellerID,
-		ProductID: data.ProductID,
-		Status:    "卖家未处理",
+		BuyerID:      data.BuyerID,
+		SellerID:     data.SellerID,
+		ProductID:    data.ProductID,
+		Status:       "卖家未处理",
+		PayTime:      nil, // 设置为nil表示未支付
+		DeliveryTime: nil, // 设置为nil表示未发货
+		CompleteTime: nil, // 设置为nil表示未完成
+		Remark:       "",
 	}
 
 	if err := s.repository.Create(order); err != nil {
@@ -158,11 +163,11 @@ func (s *OrderServiceImpl) GetAdminOrderList(req *api.AdminOrderListRequest) (*a
 		}
 
 		// 添加支付时间和完成时间（如果有）
-		if !order.PayTime.IsZero() {
+		if order.PayTime != nil {
 			item.PayTime = order.PayTime
 		}
 
-		if !order.CompleteTime.IsZero() {
+		if order.CompleteTime != nil {
 			item.CompleteTime = order.CompleteTime
 		}
 
@@ -190,7 +195,7 @@ func (s *OrderServiceImpl) GetAdminOrderDetail(id uint) (*api.AdminOrderDetailRe
 	response := &api.AdminOrderDetailResponse{
 		ID:        fmt.Sprintf("O%d", order.ID),
 		ProductID: order.ProductID,
-		
+
 		BuyerID:    order.BuyerID,
 		SellerID:   order.SellerID,
 		Status:     order.Status,
@@ -222,15 +227,15 @@ func (s *OrderServiceImpl) GetAdminOrderDetail(id uint) (*api.AdminOrderDetailRe
 	}
 
 	// 填充时间信息
-	if !order.PayTime.IsZero() {
+	if order.PayTime != nil {
 		response.PayTime = order.PayTime
 	}
 
-	if !order.DeliveryTime.IsZero() {
+	if order.DeliveryTime != nil {
 		response.DeliveryTime = order.DeliveryTime
 	}
 
-	if !order.CompleteTime.IsZero() {
+	if order.CompleteTime != nil {
 		response.CompleteTime = order.CompleteTime
 	}
 
@@ -251,10 +256,13 @@ func (s *OrderServiceImpl) GetAdminOrderDetail(id uint) (*api.AdminOrderDetailRe
 // AdminUpdateOrderStatus 管理员更新订单状态
 func (s *OrderServiceImpl) AdminUpdateOrderStatus(id uint, req *api.AdminUpdateOrderStatusRequest) error {
 	// 获取订单
-	order, err := s.repository.GetByID(id)
+	_, err := s.repository.GetByID(id)
 	if err != nil {
 		return errors.NewNotFoundError("订单", err)
 	}
+
+	// 声明时间指针变量
+	var payTime, deliveryTime, completeTime *time.Time
 
 	// 根据状态更新相关时间字段
 	now := time.Now()
@@ -262,17 +270,17 @@ func (s *OrderServiceImpl) AdminUpdateOrderStatus(id uint, req *api.AdminUpdateO
 	case "待付款":
 		// 无需特殊处理
 	case "待发货":
-		order.PayTime = now
+		payTime = &now
 	case "待收货":
-		order.DeliveryTime = now
+		deliveryTime = &now
 	case "已完成":
-		order.CompleteTime = now
+		completeTime = &now
 	case "已取消":
 		// 无需特殊处理
 	}
 
 	// 更新订单状态和时间
-	if err := s.repository.UpdateStatus(id, req.Status, req.Remark); err != nil {
+	if err := s.repository.UpdateStatusWithTimes(id, req.Status, req.Remark, payTime, deliveryTime, completeTime); err != nil {
 		return errors.NewInternalServerError("更新订单状态失败", err)
 	}
 
@@ -298,11 +306,11 @@ func (s *OrderServiceImpl) ExportOrders(req *api.AdminOrderListRequest) ([]byte,
 		// 格式化时间
 		createTime := order.CreateTime.Format("2006-01-02 15:04:05")
 		payTime := ""
-		if !order.PayTime.IsZero() {
+		if order.PayTime != nil {
 			payTime = order.PayTime.Format("2006-01-02 15:04:05")
 		}
 		completeTime := ""
-		if !order.CompleteTime.IsZero() {
+		if order.CompleteTime != nil {
 			completeTime = order.CompleteTime.Format("2006-01-02 15:04:05")
 		}
 

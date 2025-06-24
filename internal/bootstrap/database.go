@@ -47,6 +47,7 @@ func AutoMigrateModels() error {
 		&models.Message{},
 		&models.ProductImage{},
 		&models.Favorite{},
+		&models.OrderLog{},
 	); err != nil {
 		return err
 	}

@@ -5,6 +5,7 @@ import (
 	"campus/internal/modules/product/api"
 	"campus/internal/modules/product/repositories"
 	"campus/internal/utils/errors"
+	"fmt"
 	"strconv"
 	"time"
 )
@@ -26,6 +27,7 @@ type ProductService interface {
 	GetSolvingProducts(page, size uint) (*api.ProductListResponse, error)
 	FilterProducts(filter *api.FilterProductsRequest) (*api.ProductListResponse, error)
 	GetLatestProducts(limit uint) (*api.ProductListResponse, error)
+	UpdateProductStatus(id uint, status string) (*models.Product, error)
 }
 
 type ProductServiceImpl struct {
@@ -201,4 +203,19 @@ func (s *ProductServiceImpl) GetLatestProducts(limit uint) (*api.ProductListResp
 	}
 
 	return api.ConvertToProductListResponse(products, uint(total), 1, limit), nil
+}
+
+// UpdateProductStatus 更新商品状态
+func (s *ProductServiceImpl) UpdateProductStatus(productID uint, status string) (*models.Product, error) {
+	product, err := s.productRep.GetByID(strconv.Itoa(int(productID)))
+	if err != nil {
+		return nil, errors.NewNotFoundError("找不到此商品", err)
+	}
+	fmt.Println(status)
+	product.Status = status
+	//fmt.Println(product)
+	if err := s.productRep.Update(strconv.Itoa(int(productID)), product); err != nil {
+		return nil, errors.NewInternalServerError("更新商品状态失败", err)
+	}
+	return product, nil
 }

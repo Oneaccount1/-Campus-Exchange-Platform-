@@ -51,7 +51,7 @@ func registerAdminProductRoutes(router *gin.RouterGroup, controller *controllers
 	router.DELETE("/:id", middleware.AuthorizePermission("/api/v1/admin/products/:id", "DELETE"), controller.DeleteProduct)
 
 	// 更新商品状态
-	router.PUT("/:id/status", middleware.AuthorizePermission("/api/v1/admin/products/:id/status", "PUT"), controller.UpdateProduct)
+	router.PUT("/:id/status", middleware.AuthorizePermission("/api/v1/admin/products/:id/status", "PUT"), controller.UpdateProductStatus)
 
 	// 批量更新商品状态
 	//router.PUT("/batch-status", middleware.AuthorizePermission("/api/v1/admin/products/batch-status", "PUT"), controller.BatchUpdateStatus)

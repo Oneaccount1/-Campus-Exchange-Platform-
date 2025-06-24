@@ -14,7 +14,7 @@ type Order struct {
 	Seller       User      `gorm:"foreignKey:SellerID" json:"seller"`
 	ProductID    uint      `gorm:"not null;index" json:"product_id"`
 	Product      Product   `gorm:"foreignKey:ProductID" json:"product"`
-	Status       string    `gorm:"size:20;default:pending" json:"status"` // pending, completed, cancelled
+	Status       string    `gorm:"size:20;default:卖家未处理" json:"status"` // pending, completed, cancelled
 	PayTime      time.Time `json:"pay_time"`
 	DeliveryTime time.Time `json:"delivery_time"`
 	CompleteTime time.Time `json:"complete_time"`

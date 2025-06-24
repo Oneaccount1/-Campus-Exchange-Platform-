@@ -191,3 +191,25 @@ func (c *ProductController) GetLatestProducts(ctx *gin.Context) {
 	}
 	response.Success(ctx, productsResponse)
 }
+
+func (c *ProductController) UpdateProductStatus(ctx *gin.Context) {
+	id := ctx.Param("id")
+	var req api.UpdateProductRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		response.HandleError(ctx, errors.NewValidationError("<UNK>", err))
+		return
+	}
+
+	pid, err := strconv.Atoi(id)
+	if err != nil {
+		response.HandleError(ctx, errors.NewValidationError("<UNK>", err))
+		return
+	}
+
+	product, err := c.service.UpdateProductStatus(uint(pid), req.Status)
+	if err != nil {
+		response.HandleError(ctx, err)
+		return
+	}
+	response.Success(ctx, product)
+}

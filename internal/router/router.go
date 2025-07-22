@@ -41,10 +41,13 @@ func registerModuleRoutes(r *gin.Engine, api *gin.RouterGroup) {
 
 	// 消息模块路由
 	Message.RegisterRoutes(r, api, wsManager, config.RabbitMQ.URL)
-	
+
 	// 仪表盘模块路由
 	Dashboard.RegisterRoutes(r, api)
-	
+
 	// 上传模块路由
 	Upload.RegisterRoutes(r, api)
+
+	// // 111
+
 }
